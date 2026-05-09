@@ -1,7 +1,7 @@
 (function () {
   var FALLBACK = {
     meta: { title: "Портфолио — видео", description: "Портфолио видеооператора." },
-    brand: { name: "Имя Фамилия" },
+    brand: { name: "Igor Braun" },
     hero: {
       kicker: "Видеооператор · Москва",
       title: "Съёмка и монтаж под вашу задачу",
