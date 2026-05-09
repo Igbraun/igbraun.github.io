@@ -33,6 +33,6 @@ if errorlevel 1 (
 )
 
 echo.
-echo Готово. Через 1-3 минуты обновится сайт на GitHub Pages.
+echo Готово. Через 1-3 минуты обновится сайт на GitHub Pages ^(https://igbraun.github.io^).
 echo.
 pause
