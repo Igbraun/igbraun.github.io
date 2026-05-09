@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Портфолио видеооператора — съёмка, монтаж, проекты." />
+  <title>Портфолио — видео</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" id="site-logo" href="#">Имя Фамилия</a>
+    <button type="button" class="nav-toggle" aria-label="Меню" aria-expanded="false"></button>
+    <nav class="nav" aria-label="Основное меню">
+      <a href="#about">Обо мне</a>
+      <a href="#video">Видео</a>
+      <a href="#more">Ещё</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="hero-kicker" id="hero-kicker">Видеооператор · Москва</p>
+      <h1 id="hero-title">Съёмка и монтаж под вашу задачу</h1>
+      <p class="hero-lead" id="hero-lead">
+        Загрузка контента…
+      </p>
+      <a class="btn btn-primary" id="hero-cta" href="#contact">Связаться</a>
+    </section>
+
+    <section id="about" class="section">
+      <h2 id="about-title">Обо мне</h2>
+      <div class="prose" id="about-prose"></div>
+    </section>
+
+    <section id="video" class="section section-tight">
+      <h2 id="works-title">Работы</h2>
+      <p class="section-intro" id="works-intro"></p>
+      <div id="video-grid"></div>
+    </section>
+
+    <section id="more" class="section section-alt">
+      <h2 id="more-title">Ещё обо мне</h2>
+      <p class="section-intro" id="more-intro"></p>
+      <ul class="info-list" id="more-list"></ul>
+    </section>
+
+    <section id="contact" class="section">
+      <h2 id="contact-title">Контакты</h2>
+      <div class="contact-block" id="contact-block"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> <span id="footer-name">Имя Фамилия</span></p>
+  </footer>
+
+  <script src="js/site.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
