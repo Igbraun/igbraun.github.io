@@ -99,10 +99,13 @@ a:hover {
   background-color: rgba(8, 12, 28, 0.88);
   background-image: linear-gradient(
     to right,
-    rgba(0, 0, 0, 0.38) 0%,
-    transparent 14%,
-    transparent 86%,
-    rgba(0, 0, 0, 0.38) 100%
+    rgba(8, 12, 28, 0.18) 0%,
+    rgba(8, 12, 28, 0.1) 20%,
+    rgba(8, 12, 28, 0.04) 38%,
+    transparent 50%,
+    rgba(8, 12, 28, 0.04) 62%,
+    rgba(8, 12, 28, 0.1) 80%,
+    rgba(8, 12, 28, 0.18) 100%
   );
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
