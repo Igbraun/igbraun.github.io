@@ -6,6 +6,7 @@
   --accent: #d4a853;
   --accent-soft: rgba(212, 168, 83, 0.15);
   --border: rgba(255, 255, 255, 0.08);
+  --panel: rgba(8, 12, 28, 0.88);
   --radius: 12px;
   --font-display: "Syne", system-ui, sans-serif;
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
@@ -69,7 +70,7 @@ a:hover {
   text-align: center;
   gap: 0;
   padding: 1rem 1.5rem 0.85rem;
-  background: rgba(8, 12, 28, 0.88);
+  background: var(--panel);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
@@ -91,16 +92,27 @@ a:hover {
 }
 
 .nav {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 100%;
   gap: 0.5rem 1.5rem;
+  max-width: 100%;
   margin-top: 0.85rem;
-  padding: 0.85rem 0 0;
-  border-top: 1px solid var(--border);
+  padding: 0.85rem 0.65rem 0;
+}
+
+.nav::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% + 1.25rem);
+  height: 1px;
+  background: var(--border);
 }
 
 .nav a {
@@ -162,14 +174,15 @@ main {
 }
 
 .post-card {
-  background: var(--bg-elevated);
+  background: var(--panel);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
 }
 
 .post-media {
-  background: #0a090c;
+  background: rgba(8, 12, 28, 0.5);
   border-bottom: 1px solid var(--border);
 }
 
