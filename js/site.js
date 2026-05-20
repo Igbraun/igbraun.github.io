@@ -1,28 +1,12 @@
 (function () {
   var FALLBACK = {
-    meta: { title: "Портфолио — видео", description: "Портфолио видеооператора." },
+    meta: { title: "Igor Braun", description: "Портфолио." },
     brand: { name: "Igor Braun" },
-    hero: {
-      kicker: "Видеооператор · Москва",
-      title: "Съёмка и монтаж под вашу задачу",
-      lead: "Заполните файл data/content.json или откройте сайт через локальный сервер.",
-      ctaLabel: "Связаться",
-    },
-    about: {
-      title: "Обо мне",
-      paragraphs: ["Не удалось загрузить content.json. Откройте index.html через локальный сервер или проверьте путь data/content.json."],
-    },
-    works: {
-      title: "Работы",
-      intro: "",
-      videos: [],
-    },
-    more: { title: "Ещё обо мне", intro: "", items: [] },
-    contact: {
-      title: "Контакты",
-      email: "",
-      telegramLabel: "Telegram",
-      telegramUrl: "",
+    feeds: {
+      home: { title: "Избранное", intro: "", posts: [] },
+      photo: { title: "Фото", intro: "", posts: [] },
+      video: { title: "Видео", intro: "", posts: [] },
+      more: { title: "Ещё", intro: "", posts: [] },
     },
   };
 
@@ -33,119 +17,120 @@
     return d.innerHTML;
   }
 
-  function renderVideos(videos) {
-    if (!videos || !videos.length) {
-      return '<p class="section-intro">Добавьте работы в редакторе портфолио.</p>';
+  function safeUrl(url) {
+    var u = (url || "").trim();
+    if (!u) return "";
+    if (/^https?:\/\//i.test(u) || u.indexOf("/") === 0 || u.indexOf("./") === 0) {
+      return u.replace(/"/g, "&quot;").replace(/</g, "&lt;");
     }
-    var html = '<div class="video-grid">';
-    for (var i = 0; i < videos.length; i++) {
-      var v = videos[i];
-      var url = (v.embedUrl || "").trim();
-      html += '<article class="video-card">';
-      html += '<div class="video-frame">';
-      if (url) {
-        html +=
-          '<iframe src="' +
-          String(url).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;") +
-          '" title="' +
-          esc(v.title || "Видео") +
-          '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+    return "";
+  }
+
+  function renderPost(post) {
+    var html = '<article class="post-card">';
+    var img = safeUrl(post.imageUrl);
+    var embed = safeUrl(post.embedUrl);
+    var link = safeUrl(post.link);
+
+    if (embed) {
+      html += '<div class="post-media post-media--video">';
+      html +=
+        '<iframe src="' +
+        embed +
+        '" title="' +
+        esc(post.title || "Видео") +
+        '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+      html += "</div>";
+    } else if (img) {
+      html += '<div class="post-media post-media--image">';
+      if (link) {
+        html += '<a href="' + link + '" target="_blank" rel="noopener"><img src="' + img + '" alt="' + esc(post.title || "") + '" loading="lazy" /></a>';
       } else {
-        html +=
-          '<div class="video-placeholder"><p>Вставьте ссылку embed (YouTube / Vimeo) в редакторе.</p></div>';
+        html += '<img src="' + img + '" alt="' + esc(post.title || "") + '" loading="lazy" />';
       }
       html += "</div>";
-      html += "<h3>" + esc(v.title) + "</h3>";
-      html += "<p>" + esc(v.description) + "</p>";
-      html += "</article>";
     }
-    html += "</div>";
+
+    html += '<div class="post-body">';
+    if (post.date) {
+      html += '<time class="post-date" datetime="' + esc(post.date) + '">' + esc(post.date) + "</time>";
+    }
+    html += '<h2 class="post-title">' + esc(post.title || "Без названия") + "</h2>";
+    if (post.text) {
+      html += '<div class="post-text"><p>' + esc(post.text) + "</p></div>";
+    }
+    if (link && !embed) {
+      html += '<p class="post-link"><a href="' + link + '" target="_blank" rel="noopener">Открыть</a></p>';
+    }
+    html += "</div></article>";
     return html;
   }
 
-  function renderMoreItems(items) {
-    if (!items || !items.length) return "";
-    var html = "";
-    for (var j = 0; j < items.length; j++) {
-      var it = items[j];
-      html += "<li><strong>" + esc(it.heading) + "</strong><span>" + esc(it.text) + "</span></li>";
+  function renderFeed(posts) {
+    if (!posts || !posts.length) {
+      return '<p class="feed-empty">Пока нет постов. Добавьте их в <code>data/content.json</code>.</p>';
     }
-    return html;
+    return posts.map(renderPost).join("");
+  }
+
+  function markActiveNav(page) {
+    var nav = document.querySelector(".nav");
+    if (!nav) return;
+    var links = nav.querySelectorAll("a");
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      var href = a.getAttribute("href") || "";
+      a.classList.remove("is-active");
+      if (page === "photo" && href.indexOf("photo") !== -1) a.classList.add("is-active");
+      if (page === "video" && href.indexOf("video") !== -1) a.classList.add("is-active");
+      if (page === "more" && href.indexOf("more") !== -1) a.classList.add("is-active");
+    }
   }
 
   function apply(data) {
-    document.title = data.meta && data.meta.title ? data.meta.title : FALLBACK.meta.title;
+    var page = document.body.getAttribute("data-page") || "home";
+    var feedKey = page === "home" ? "home" : page;
+    var feedData = (data.feeds && data.feeds[feedKey]) || FALLBACK.feeds[feedKey];
+
+    document.title =
+      page === "home"
+        ? (data.brand && data.brand.name) || "Igor Braun"
+        : (feedData.title || page) + " — " + ((data.brand && data.brand.name) || "Igor Braun");
+
     var md = document.querySelector('meta[name="description"]');
-    if (md && data.meta && data.meta.description) {
-      md.setAttribute("content", data.meta.description);
+    if (md) {
+      var desc = (feedData.intro || data.meta && data.meta.description) || "";
+      if (desc) md.setAttribute("content", desc);
     }
 
     var logo = document.getElementById("site-logo");
-    if (logo && data.brand) logo.textContent = data.brand.name || "";
-
-    if (data.hero) {
-      var k = document.getElementById("hero-kicker");
-      var t = document.getElementById("hero-title");
-      var l = document.getElementById("hero-lead");
-      var cta = document.getElementById("hero-cta");
-      if (k) k.textContent = data.hero.kicker || "";
-      if (t) t.textContent = data.hero.title || "";
-      if (l) l.textContent = data.hero.lead || "";
-      if (cta) cta.textContent = data.hero.ctaLabel || "Связаться";
+    if (logo && data.brand) {
+      logo.textContent = data.brand.name || "Igor Braun";
+      logo.setAttribute("href", "index.html");
     }
 
-    if (data.about) {
-      var ah = document.getElementById("about-title");
-      if (ah) ah.textContent = data.about.title || "Обо мне";
-      var prose = document.getElementById("about-prose");
-      if (prose && data.about.paragraphs) {
-        prose.innerHTML = data.about.paragraphs
-          .map(function (p) {
-            return "<p>" + esc(p) + "</p>";
-          })
-          .join("");
+    markActiveNav(page);
+
+    var pageTitle = document.getElementById("page-title");
+    var pageIntro = document.getElementById("page-intro");
+    var feedEl = document.getElementById("feed");
+
+    if (page === "home") {
+      if (pageTitle) pageTitle.style.display = "none";
+      if (pageIntro) pageIntro.style.display = "none";
+    } else {
+      if (pageTitle) {
+        pageTitle.style.display = "";
+        pageTitle.textContent = feedData.title || "";
+      }
+      if (pageIntro) {
+        pageIntro.style.display = feedData.intro ? "" : "none";
+        pageIntro.textContent = feedData.intro || "";
       }
     }
 
-    if (data.works) {
-      var wt = document.getElementById("works-title");
-      var wi = document.getElementById("works-intro");
-      var grid = document.getElementById("video-grid");
-      if (wt) wt.textContent = data.works.title || "Работы";
-      if (wi) wi.textContent = data.works.intro || "";
-      if (grid) grid.innerHTML = renderVideos(data.works.videos);
-    }
-
-    if (data.more) {
-      var mt = document.getElementById("more-title");
-      var mi = document.getElementById("more-intro");
-      var ml = document.getElementById("more-list");
-      if (mt) mt.textContent = data.more.title || "";
-      if (mi) mi.textContent = data.more.intro || "";
-      if (ml) ml.innerHTML = renderMoreItems(data.more.items);
-    }
-
-    if (data.contact) {
-      var ct = document.getElementById("contact-title");
-      if (ct) ct.textContent = data.contact.title || "Контакты";
-      var block = document.getElementById("contact-block");
-      if (block) {
-        var parts = [];
-        if (data.contact.email) {
-          var em = esc(data.contact.email);
-          parts.push("<p><a href=\"mailto:" + em + "\">" + em + "</a></p>");
-        }
-        if (data.contact.telegramUrl) {
-          parts.push(
-            '<p><a href="' +
-              esc(data.contact.telegramUrl).replace(/"/g, "&quot;") +
-              '" target="_blank" rel="noopener">' +
-              esc(data.contact.telegramLabel || "Telegram") +
-              "</a></p>"
-          );
-        }
-        block.innerHTML = parts.join("") || "<p>Укажите контакты в content.json</p>";
-      }
+    if (feedEl) {
+      feedEl.innerHTML = renderFeed(feedData.posts);
     }
 
     var fn = document.getElementById("footer-name");
