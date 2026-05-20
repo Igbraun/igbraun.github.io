@@ -5,7 +5,9 @@
   },
   "brand": {
     "name": "Igor Braun",
-    "email": "vibroliven@gmail.com"
+    "email": "vibroliven@gmail.com",
+    "instagram": "https://www.instagram.com/igbraun/",
+    "youtube": "https://www.youtube.com/@Igorbraun"
   },
   "feeds": {
     "home": {

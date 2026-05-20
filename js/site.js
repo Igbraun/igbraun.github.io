@@ -1,7 +1,12 @@
 (function () {
   var FALLBACK = {
     meta: { title: "Igor Braun", description: "Портфолио." },
-    brand: { name: "Igor Braun", email: "vibroliven@gmail.com" },
+    brand: {
+      name: "Igor Braun",
+      email: "vibroliven@gmail.com",
+      instagram: "https://www.instagram.com/igbraun/",
+      youtube: "https://www.youtube.com/@Igorbraun",
+    },
     feeds: {
       home: { title: "Избранное", intro: "", posts: [] },
       photo: { title: "Фото", intro: "", posts: [] },
@@ -105,6 +110,8 @@
 
     var logo = document.getElementById("site-logo");
     var headerEmail = document.getElementById("header-email");
+    var headerInstagram = document.getElementById("header-instagram");
+    var headerYoutube = document.getElementById("header-youtube");
     if (data.brand) {
       if (logo) {
         logo.textContent = data.brand.name || "Igor Braun";
@@ -114,6 +121,12 @@
         var em = data.brand.email.trim();
         headerEmail.textContent = em;
         headerEmail.setAttribute("href", "mailto:" + em);
+      }
+      if (headerInstagram && data.brand.instagram) {
+        headerInstagram.setAttribute("href", data.brand.instagram.trim());
+      }
+      if (headerYoutube && data.brand.youtube) {
+        headerYoutube.setAttribute("href", data.brand.youtube.trim());
       }
     }
 
