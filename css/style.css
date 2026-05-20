@@ -5,7 +5,7 @@
   --muted: #9a94a8;
   --accent: #ad3090;
   --accent-soft: rgba(173, 48, 144, 0.15);
-  --nav-link: #3ccd67;
+  --date: #3ccd67;
   --border: rgba(255, 255, 255, 0.08);
   --panel: rgba(8, 12, 28, 0.88);
   --radius: 12px;
@@ -169,20 +169,19 @@ a:hover {
 }
 
 .nav a {
-  color: var(--nav-link);
+  color: var(--muted);
   font-size: 0.95rem;
   text-decoration: none;
   padding: 0.2rem 0;
 }
 
 .nav a:hover {
-  color: #52e07a;
+  color: var(--text);
   text-decoration: none;
 }
 
 .nav a.is-active {
-  color: var(--nav-link);
-  font-weight: 500;
+  color: var(--accent);
 }
 
 main {
@@ -270,7 +269,7 @@ main {
   font-size: 0.8rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--date);
 }
 
 .post-title {
