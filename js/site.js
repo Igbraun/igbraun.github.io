@@ -7,12 +7,7 @@
       instagram: "https://www.instagram.com/igbraun/",
       youtube: "https://www.youtube.com/@Igorbraun",
     },
-    feeds: {
-      home: { title: "Избранное", intro: "", posts: [] },
-      photo: { title: "Фото", intro: "", posts: [] },
-      video: { title: "Видео", intro: "", posts: [] },
-      more: { title: "Ещё", intro: "", posts: [] },
-    },
+    posts: [],
   };
 
   function esc(s) {
@@ -29,6 +24,12 @@
       return u.replace(/"/g, "&quot;").replace(/</g, "&lt;");
     }
     return "";
+  }
+
+  function getPosts(data) {
+    if (data.posts && data.posts.length) return data.posts;
+    if (data.feeds && data.feeds.home && data.feeds.home.posts) return data.feeds.home.posts;
+    return [];
   }
 
   function renderPost(post) {
@@ -78,34 +79,12 @@
     return posts.map(renderPost).join("");
   }
 
-  function markActiveNav(page) {
-    var nav = document.querySelector(".nav");
-    if (!nav) return;
-    var links = nav.querySelectorAll("a");
-    for (var i = 0; i < links.length; i++) {
-      var a = links[i];
-      var href = a.getAttribute("href") || "";
-      a.classList.remove("is-active");
-      if (page === "photo" && href.indexOf("photo") !== -1) a.classList.add("is-active");
-      if (page === "video" && href.indexOf("video") !== -1) a.classList.add("is-active");
-      if (page === "more" && href.indexOf("more") !== -1) a.classList.add("is-active");
-    }
-  }
-
   function apply(data) {
-    var page = document.body.getAttribute("data-page") || "home";
-    var feedKey = page === "home" ? "home" : page;
-    var feedData = (data.feeds && data.feeds[feedKey]) || FALLBACK.feeds[feedKey];
-
-    document.title =
-      page === "home"
-        ? (data.brand && data.brand.name) || "Igor Braun"
-        : (feedData.title || page) + " — " + ((data.brand && data.brand.name) || "Igor Braun");
+    document.title = (data.meta && data.meta.title) || (data.brand && data.brand.name) || "Igor Braun";
 
     var md = document.querySelector('meta[name="description"]');
-    if (md) {
-      var desc = (feedData.intro || data.meta && data.meta.description) || "";
-      if (desc) md.setAttribute("content", desc);
+    if (md && data.meta && data.meta.description) {
+      md.setAttribute("content", data.meta.description);
     }
 
     var logo = document.getElementById("site-logo");
@@ -113,10 +92,7 @@
     var headerInstagram = document.getElementById("header-instagram");
     var headerYoutube = document.getElementById("header-youtube");
     if (data.brand) {
-      if (logo) {
-        logo.textContent = data.brand.name || "Igor Braun";
-        logo.setAttribute("href", "index.html");
-      }
+      if (logo) logo.textContent = data.brand.name || "Igor Braun";
       if (headerEmail && data.brand.email) {
         var em = data.brand.email.trim();
         headerEmail.textContent = em;
@@ -130,30 +106,8 @@
       }
     }
 
-    markActiveNav(page);
-
-    var pageTitle = document.getElementById("page-title");
-    var pageIntro = document.getElementById("page-intro");
     var feedEl = document.getElementById("feed");
-
-    if (page === "home") {
-      if (pageTitle) pageTitle.style.display = "none";
-      if (pageIntro) pageIntro.style.display = "none";
-    } else {
-      if (pageTitle) {
-        pageTitle.style.display = "";
-        pageTitle.textContent = feedData.title || "";
-      }
-      if (pageIntro) {
-        pageIntro.style.display = feedData.intro ? "" : "none";
-        pageIntro.textContent = feedData.intro || "";
-      }
-    }
-
-    if (feedEl) {
-      feedEl.innerHTML = renderFeed(feedData.posts);
-    }
-
+    if (feedEl) feedEl.innerHTML = renderFeed(getPosts(data));
   }
 
   function load() {

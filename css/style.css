@@ -115,17 +115,12 @@ a:hover {
 
 .logo {
   display: block;
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.2rem;
   color: var(--text);
-  text-decoration: none;
   text-align: center;
-}
-
-.logo:hover {
-  color: var(--accent);
-  text-decoration: none;
 }
 
 .header-contacts {
