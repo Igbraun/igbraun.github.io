@@ -4,7 +4,8 @@
     "description": "Портфолио — фото, видео и другие проекты."
   },
   "brand": {
-    "name": "Igor Braun"
+    "name": "Igor Braun",
+    "email": "vibroliven@gmail.com"
   },
   "feeds": {
     "home": {

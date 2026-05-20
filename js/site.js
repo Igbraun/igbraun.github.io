@@ -1,7 +1,7 @@
 (function () {
   var FALLBACK = {
     meta: { title: "Igor Braun", description: "Портфолио." },
-    brand: { name: "Igor Braun" },
+    brand: { name: "Igor Braun", email: "vibroliven@gmail.com" },
     feeds: {
       home: { title: "Избранное", intro: "", posts: [] },
       photo: { title: "Фото", intro: "", posts: [] },
@@ -104,9 +104,17 @@
     }
 
     var logo = document.getElementById("site-logo");
-    if (logo && data.brand) {
-      logo.textContent = data.brand.name || "Igor Braun";
-      logo.setAttribute("href", "index.html");
+    var headerEmail = document.getElementById("header-email");
+    if (data.brand) {
+      if (logo) {
+        logo.textContent = data.brand.name || "Igor Braun";
+        logo.setAttribute("href", "index.html");
+      }
+      if (headerEmail && data.brand.email) {
+        var em = data.brand.email.trim();
+        headerEmail.textContent = em;
+        headerEmail.setAttribute("href", "mailto:" + em);
+      }
     }
 
     markActiveNav(page);
@@ -133,8 +141,6 @@
       feedEl.innerHTML = renderFeed(feedData.posts);
     }
 
-    var fn = document.getElementById("footer-name");
-    if (fn && data.brand) fn.textContent = data.brand.name || "";
   }
 
   function load() {
