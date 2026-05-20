@@ -28,11 +28,25 @@ body {
   font-size: 1rem;
   line-height: 1.6;
   color: var(--text);
-  background: var(--bg);
+  background-color: #0a0e1a;
   background-image:
-    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(212, 168, 83, 0.12), transparent 55%),
-    radial-gradient(ellipse 80% 50% at 100% 50%, rgba(80, 60, 120, 0.08), transparent 45%);
+    linear-gradient(rgba(8, 12, 28, 0.4), rgba(8, 12, 28, 0.4)),
+    url("../images/bg-mobile.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
   min-height: 100vh;
+}
+
+/* Широкий экран — горизонтальная текстура звёздного неба */
+@media (min-width: 768px) {
+  body {
+    background-image:
+      linear-gradient(rgba(8, 12, 28, 0.3), rgba(8, 12, 28, 0.3)),
+      url("../images/bg-desktop.png");
+    background-attachment: fixed;
+  }
 }
 
 a {
@@ -55,7 +69,7 @@ a:hover {
   text-align: center;
   gap: 0;
   padding: 1rem 1.5rem 0.85rem;
-  background: rgba(12, 11, 15, 0.92);
+  background: rgba(8, 12, 28, 0.88);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
