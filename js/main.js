@@ -1,5 +1,5 @@
 (function () {
-  var MAX_SHIFT_RATIO = 0.035;
+  var MAX_SHIFT_RATIO = 0.15;
 
   function prefersReducedMotion() {
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -19,7 +19,7 @@
 
     var maxShift = window.innerHeight * MAX_SHIFT_RATIO;
     var y = Math.round(progress * maxShift);
-    document.documentElement.style.setProperty("--bg-parallax-y", y + "px");
+    document.documentElement.style.setProperty("--bg-parallax-y", -y + "px");
   }
 
   var ticking = false;
