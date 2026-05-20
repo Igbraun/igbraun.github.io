@@ -20,6 +20,11 @@
     var maxShift = window.innerHeight * MAX_SHIFT_RATIO;
     var y = Math.round(progress * maxShift);
     document.documentElement.style.setProperty("--bg-parallax-y", -y + "px");
+    document.documentElement.style.setProperty("--bg-layer-top", -maxShift + "px");
+    document.documentElement.style.setProperty(
+      "--bg-layer-height",
+      window.innerHeight + maxShift * 2 + "px"
+    );
   }
 
   var ticking = false;

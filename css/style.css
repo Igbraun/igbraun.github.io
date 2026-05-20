@@ -25,14 +25,14 @@ html {
   background-color: #0a0e1a;
 }
 
-/* Фон на отдельном слое — не скроллится и не «зумится» вместе с лентой */
+/* Фон: слой выше окна — запас под параллакс вверх (до 15vh), без чёрной полосы */
 html::before {
   content: "";
   position: fixed;
-  top: -4%;
-  right: -2%;
-  bottom: -4%;
-  left: -2%;
+  top: var(--bg-layer-top, -15vh);
+  left: 0;
+  width: 100%;
+  height: var(--bg-layer-height, 130vh);
   z-index: -1;
   pointer-events: none;
   background-color: #0a0e1a;
@@ -62,22 +62,12 @@ body {
   min-height: 100vh;
 }
 
-/* Узкий экран: фон по ширине без лишнего зума */
-@media (max-width: 767px) {
-  html::before {
-    background-size: 100% auto;
-    background-position: center top;
-  }
-}
-
 /* Широкий экран — горизонтальная текстура */
 @media (min-width: 768px) {
   html::before {
     background-image:
       linear-gradient(rgba(8, 12, 28, 0.3), rgba(8, 12, 28, 0.3)),
       url("../images/bg-desktop.png");
-    background-size: cover;
-    background-position: center center;
   }
 }
 
