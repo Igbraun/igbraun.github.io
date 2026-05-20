@@ -5,6 +5,7 @@
   --muted: #9a94a8;
   --accent: #ad3090;
   --accent-soft: rgba(173, 48, 144, 0.15);
+  --nav-link: #3ccd67;
   --border: rgba(255, 255, 255, 0.08);
   --panel: rgba(8, 12, 28, 0.88);
   --radius: 12px;
@@ -168,19 +169,20 @@ a:hover {
 }
 
 .nav a {
-  color: var(--muted);
+  color: var(--nav-link);
   font-size: 0.95rem;
   text-decoration: none;
   padding: 0.2rem 0;
 }
 
 .nav a:hover {
-  color: var(--text);
+  color: #52e07a;
   text-decoration: none;
 }
 
 .nav a.is-active {
-  color: var(--accent);
+  color: var(--nav-link);
+  font-weight: 500;
 }
 
 main {
