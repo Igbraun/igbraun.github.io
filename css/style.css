@@ -50,19 +50,15 @@ body {
   min-height: 100vh;
 }
 
-/* Вертикальный / узкий экран: шапка уезжает при скролле, фон по ширине без лишнего зума */
+/* Узкий экран: фон по ширине без лишнего зума */
 @media (max-width: 767px) {
   html::before {
     background-size: 100% auto;
     background-position: center top;
   }
-
-  .site-header {
-    position: static;
-  }
 }
 
-/* Широкий экран — горизонтальная текстура, шапка липкая */
+/* Широкий экран — горизонтальная текстура */
 @media (min-width: 768px) {
   html::before {
     background-image:
@@ -70,11 +66,6 @@ body {
       url("../images/bg-desktop.png");
     background-size: cover;
     background-position: center center;
-  }
-
-  .site-header {
-    position: sticky;
-    top: 0;
   }
 }
 
