@@ -33,6 +33,108 @@
     return [];
   }
 
+  /** Новые посты первыми (по полю date, формат YYYY-MM-DD) */
+  function sortPostsNewestFirst(posts) {
+    return posts.slice().sort(function (a, b) {
+      var da = (a.date || "").trim();
+      var db = (b.date || "").trim();
+      if (!da && !db) return 0;
+      if (!da) return 1;
+      if (!db) return -1;
+      return db.localeCompare(da);
+    });
+  }
+
+  function useMasonryLayout() {
+    return window.matchMedia("(min-aspect-ratio: 1/1) and (min-width: 720px)").matches;
+  }
+
+  function relayoutMasonry(feedEl) {
+    var cols = feedEl.querySelectorAll(".feed-col");
+    if (cols.length !== 2) return;
+
+    var cards = Array.prototype.slice.call(feedEl.querySelectorAll(".post-card"));
+    cards.sort(function (a, b) {
+      return (+a.getAttribute("data-order") || 0) - (+b.getAttribute("data-order") || 0);
+    });
+
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].remove();
+    }
+
+    for (var j = 0; j < cards.length; j++) {
+      var h0 = cols[0].offsetHeight;
+      var h1 = cols[1].offsetHeight;
+      (h0 <= h1 ? cols[0] : cols[1]).appendChild(cards[j]);
+    }
+  }
+
+  var masonryRelayoutTimer;
+  function queueMasonryRelayout() {
+    var feedEl = document.getElementById("feed");
+    if (!feedEl || !feedEl.classList.contains("feed--masonry")) return;
+    clearTimeout(masonryRelayoutTimer);
+    masonryRelayoutTimer = setTimeout(function () {
+      relayoutMasonry(feedEl);
+    }, 120);
+  }
+
+  function bindMasonryRelayout(feedEl) {
+    if (!feedEl || feedEl._masonryBound) return;
+    feedEl._masonryBound = true;
+
+    feedEl.addEventListener(
+      "load",
+      function (e) {
+        if (e.target.tagName === "IMG") queueMasonryRelayout();
+      },
+      true
+    );
+
+    if (!window._feedMasonryResizeBound) {
+      window._feedMasonryResizeBound = true;
+      window.addEventListener("resize", queueMasonryRelayout, { passive: true });
+    }
+  }
+
+  function mountFeed(feedEl, posts) {
+    var sorted = sortPostsNewestFirst(posts);
+
+    if (!sorted.length) {
+      feedEl.className = "feed";
+      feedEl.innerHTML =
+        '<p class="feed-empty">Пока нет постов. Добавьте их в <code>data/content.json</code>.</p>';
+      return;
+    }
+
+    if (!useMasonryLayout()) {
+      feedEl.className = "feed";
+      feedEl.innerHTML = sorted
+        .map(function (post, i) {
+          return renderPost(post, i + 1);
+        })
+        .join("");
+      return;
+    }
+
+    feedEl.className = "feed feed--masonry";
+    feedEl.innerHTML = '<div class="feed-col"></div><div class="feed-col"></div>';
+    var cols = feedEl.querySelectorAll(".feed-col");
+    var scratch = document.createElement("div");
+
+    for (var i = 0; i < sorted.length; i++) {
+      scratch.innerHTML = renderPost(sorted[i], i + 1);
+      var card = scratch.firstElementChild;
+      if (!card) continue;
+      var h0 = cols[0].offsetHeight;
+      var h1 = cols[1].offsetHeight;
+      (h0 <= h1 ? cols[0] : cols[1]).appendChild(card);
+    }
+
+    bindMasonryRelayout(feedEl);
+    queueMasonryRelayout();
+  }
+
   function resolveGalleryItem(item) {
     if (typeof item === "string") {
       var full = item.trim();
@@ -122,7 +224,8 @@
 
   function renderVideoPost(post, orderNum) {
     var link = safeUrl(post.link);
-    var html = '<article class="post-card post-card--video">';
+    var html =
+      '<article class="post-card post-card--video" data-order="' + (orderNum || "") + '">';
 
     html += '<div class="post-body">';
     html += renderPostDate(post, orderNum);
