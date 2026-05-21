@@ -107,14 +107,25 @@
     return '<div class="video-cell video-cell--inline">' + iframe + "</div>";
   }
 
-  function renderVideoPost(post) {
+  function renderPostDate(post, orderNum) {
+    var suffix = orderNum ? " (" + orderNum + ")" : "";
+    if (post.date) {
+      return (
+        '<time class="post-date" datetime="' + esc(post.date) + '">' + esc(post.date) + suffix + "</time>"
+      );
+    }
+    if (orderNum) {
+      return '<span class="post-date">(' + orderNum + ")</span>";
+    }
+    return "";
+  }
+
+  function renderVideoPost(post, orderNum) {
     var link = safeUrl(post.link);
     var html = '<article class="post-card post-card--video">';
 
     html += '<div class="post-body">';
-    if (post.date) {
-      html += '<time class="post-date" datetime="' + esc(post.date) + '">' + esc(post.date) + "</time>";
-    }
+    html += renderPostDate(post, orderNum);
     html += '<h2 class="post-title">' + esc(post.title || "Без названия") + "</h2>";
     if (post.text) {
       html += '<div class="post-text"><p>' + esc(post.text) + "</p></div>";
@@ -208,9 +219,9 @@
     );
   }
 
-  function renderPost(post) {
+  function renderPost(post, orderNum) {
     if (post.videoGrid && post.videoGrid.length) {
-      return renderVideoPost(post);
+      return renderVideoPost(post, orderNum);
     }
 
     var items = normalizeGallery(post);
@@ -256,9 +267,7 @@
     }
 
     html += '<div class="post-body">';
-    if (post.date) {
-      html += '<time class="post-date" datetime="' + esc(post.date) + '">' + esc(post.date) + "</time>";
-    }
+    html += renderPostDate(post, orderNum);
     html += '<h2 class="post-title">' + esc(post.title || "Без названия") + "</h2>";
     if (audioSrc) {
       html += renderAudioPlayer(audioSrc, post.audioTitle || post.title);
@@ -289,7 +298,11 @@
     if (!posts || !posts.length) {
       return '<p class="feed-empty">Пока нет постов. Добавьте их в <code>data/content.json</code>.</p>';
     }
-    return posts.map(renderPost).join("");
+    return posts
+      .map(function (post, i) {
+        return renderPost(post, i + 1);
+      })
+      .join("");
   }
 
   function apply(data) {
