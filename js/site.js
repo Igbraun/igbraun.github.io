@@ -219,17 +219,26 @@
     queueMasonryRelayout();
   }
 
-  function resolveGalleryItem(item) {
+  function isAnimatedMediaPath(path) {
+    return /\.gif$/i.test(String(path || ""));
+  }
+
+  function resolveGalleryItem(item, post) {
+    var useOriginal = post && post.galleryAnimated;
     if (typeof item === "string") {
       var full = item.trim();
-      var thumb = full.replace(/^(images\/galleries\/[^/]+)\//, "$1/thumbs/");
+      var thumb = useOriginal || isAnimatedMediaPath(full)
+        ? full
+        : full.replace(/^(images\/galleries\/[^/]+)\//, "$1/thumbs/");
       return { full: full, thumb: thumb };
     }
     if (item && item.full) {
-      var out = {
-        full: item.full,
-        thumb: item.thumb || item.full.replace(/^(images\/galleries\/[^/]+)\//, "$1/thumbs/"),
-      };
+      var thumbPath =
+        item.thumb ||
+        (useOriginal || isAnimatedMediaPath(item.full)
+          ? item.full
+          : item.full.replace(/^(images\/galleries\/[^/]+)\//, "$1/thumbs/"));
+      var out = { full: item.full, thumb: thumbPath };
       if (item.thumbPosition) out.thumbPosition = String(item.thumbPosition).trim();
       return out;
     }
@@ -240,7 +249,7 @@
     var raw = post.gallery || [];
     var items = [];
     for (var i = 0; i < raw.length; i++) {
-      var it = resolveGalleryItem(raw[i]);
+      var it = resolveGalleryItem(raw[i], post);
       if (it && safeUrl(it.full)) items.push(it);
     }
     return items;
@@ -338,10 +347,14 @@
     return html;
   }
 
-  function renderGallery(items, columns) {
+  function renderGallery(items, columns, animated) {
     if (!items || !items.length) return "";
     var cols = columns === 4 ? 4 : 5;
-    var html = '<div class="gallery-grid gallery-grid--' + cols + '">';
+    var html =
+      '<div class="gallery-grid gallery-grid--' +
+      cols +
+      (animated ? " gallery-grid--animated" : "") +
+      '">';
     for (var i = 0; i < items.length; i++) {
       var full = safeUrl(items[i].full);
       var thumb = safeUrl(items[i].thumb);
@@ -456,6 +469,7 @@
     var html =
       '<article class="post-card' +
       (gallery ? " post-card--gallery" : "") +
+      (post.galleryAnimated ? " post-card--animated" : "") +
       (audioSrc || hasPlaylist ? " post-card--audio" : "") +
       '" data-order="' +
       (orderNum || "") +
@@ -505,7 +519,7 @@
       if (coverRaw) {
         html += renderCover(coverRaw, coverIndex, post.title);
       }
-      html += renderGallery(items, cols);
+      html += renderGallery(items, cols, post.galleryAnimated);
       html += "</div>";
     }
 
