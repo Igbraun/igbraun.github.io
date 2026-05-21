@@ -32,11 +32,36 @@
     return [];
   }
 
+  function renderGallery(images) {
+    if (!images || !images.length) return "";
+    var html = '<div class="gallery-grid">';
+    for (var i = 0; i < images.length; i++) {
+      var src = safeUrl(images[i]);
+      if (!src) continue;
+      html +=
+        '<button type="button" class="gallery-cell" data-index="' +
+        i +
+        '" data-src="' +
+        src +
+        '" aria-label="Открыть фото ' +
+        (i + 1) +
+        ' из ' +
+        images.length +
+        '">';
+      html += '<img src="' + src + '" alt="" loading="lazy" decoding="async" />';
+      html += "</button>";
+    }
+    html += "</div>";
+    return html;
+  }
+
   function renderPost(post) {
-    var html = '<article class="post-card">';
+    var gallery = post.gallery && post.gallery.length ? post.gallery : null;
     var img = safeUrl(post.imageUrl);
     var embed = safeUrl(post.embedUrl);
     var link = safeUrl(post.link);
+
+    var html = '<article class="post-card' + (gallery ? " post-card--gallery" : "") + '">';
 
     if (embed) {
       html += '<div class="post-media post-media--video">';
@@ -47,10 +72,17 @@
         esc(post.title || "Видео") +
         '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
       html += "</div>";
-    } else if (img) {
+    } else if (img && !gallery) {
       html += '<div class="post-media post-media--image">';
       if (link) {
-        html += '<a href="' + link + '" target="_blank" rel="noopener"><img src="' + img + '" alt="' + esc(post.title || "") + '" loading="lazy" /></a>';
+        html +=
+          '<a href="' +
+          link +
+          '" target="_blank" rel="noopener"><img src="' +
+          img +
+          '" alt="' +
+          esc(post.title || "") +
+          '" loading="lazy" /></a>';
       } else {
         html += '<img src="' + img + '" alt="' + esc(post.title || "") + '" loading="lazy" />';
       }
@@ -65,10 +97,17 @@
     if (post.text) {
       html += '<div class="post-text"><p>' + esc(post.text) + "</p></div>";
     }
-    if (link && !embed) {
-      html += '<p class="post-link"><a href="' + link + '" target="_blank" rel="noopener">Открыть</a></p>';
+    html += "</div>";
+
+    if (gallery) {
+      html += '<div class="post-gallery">' + renderGallery(gallery) + "</div>";
     }
-    html += "</div></article>";
+
+    if (link && !embed && !gallery) {
+      html += '<div class="post-body post-body--link"><p class="post-link"><a href="' + link + '" target="_blank" rel="noopener">Открыть</a></p></div>';
+    }
+
+    html += "</article>";
     return html;
   }
 
@@ -108,6 +147,8 @@
 
     var feedEl = document.getElementById("feed");
     if (feedEl) feedEl.innerHTML = renderFeed(getPosts(data));
+
+    if (window.initLightbox) window.initLightbox();
   }
 
   function load() {

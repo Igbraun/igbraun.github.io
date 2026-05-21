@@ -51,11 +51,100 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", updateParallax, { passive: true });
 
-  /* После подгрузки постов из content.json высота страницы меняется */
   if (window.MutationObserver) {
     var observer = new MutationObserver(function () {
       updateParallax();
     });
     observer.observe(document.body, { childList: true, subtree: true });
+  }
+})();
+
+(function () {
+  var lb, img, counterEl, sources = [],
+    index = 0,
+    bound = false;
+
+  function collectFromGrid(grid) {
+    var cells = grid.querySelectorAll(".gallery-cell");
+    var list = [];
+    for (var i = 0; i < cells.length; i++) {
+      list.push(cells[i].getAttribute("data-src"));
+    }
+    return list;
+  }
+
+  function show() {
+    if (!lb || !img || !sources.length) return;
+    img.src = sources[index];
+    img.alt = "Фото " + (index + 1) + " из " + sources.length;
+    if (counterEl) counterEl.textContent = index + 1 + " / " + sources.length;
+    lb.hidden = false;
+    lb.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function close() {
+    if (!lb) return;
+    lb.hidden = true;
+    lb.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    img.removeAttribute("src");
+  }
+
+  function step(delta) {
+    if (!sources.length) return;
+    index = (index + delta + sources.length) % sources.length;
+    show();
+  }
+
+  function onKey(e) {
+    if (lb.hidden) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") step(-1);
+    if (e.key === "ArrowRight") step(1);
+  }
+
+  function onClick(e) {
+    var cell = e.target.closest(".gallery-cell");
+    if (cell) {
+      var grid = cell.closest(".gallery-grid");
+      if (!grid) return;
+      sources = collectFromGrid(grid);
+      index = parseInt(cell.getAttribute("data-index"), 10) || 0;
+      show();
+      return;
+    }
+
+    if (e.target.closest("[data-lightbox-close]")) {
+      close();
+      return;
+    }
+    if (e.target.closest("[data-lightbox-prev]")) {
+      step(-1);
+      return;
+    }
+    if (e.target.closest("[data-lightbox-next]")) {
+      step(1);
+      return;
+    }
+    if (e.target === lb) close();
+  }
+
+  window.initLightbox = function () {
+    lb = document.getElementById("lightbox");
+    if (!lb) return;
+    img = lb.querySelector(".lightbox__img");
+    counterEl = lb.querySelector(".lightbox__counter");
+    if (!bound) {
+      document.addEventListener("click", onClick);
+      document.addEventListener("keydown", onKey);
+      bound = true;
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", window.initLightbox);
+  } else {
+    window.initLightbox();
   }
 })();
