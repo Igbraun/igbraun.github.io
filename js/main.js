@@ -334,27 +334,9 @@
     return h + ":" + pad(m) + ":" + pad(s);
   }
 
-  function keepScrollPosition(fn) {
-    var sx = window.scrollX;
-    var sy = window.scrollY;
-    fn();
-    requestAnimationFrame(function () {
-      window.scrollTo(sx, sy);
-    });
-  }
-
-  function playWithoutScroll(audio) {
-    var sx = window.scrollX;
-    var sy = window.scrollY;
-    function restore() {
-      window.scrollTo(sx, sy);
-    }
+  function playAudio(audio) {
     var p = audio.play();
-    if (p && typeof p.then === "function") {
-      p.then(restore).catch(restore);
-    } else {
-      restore();
-    }
+    if (p && typeof p.catch === "function") p.catch(function () {});
   }
 
   function playerOrder(root) {
@@ -482,7 +464,7 @@
       }
       if (autoplay) {
         if (activeAudio && activeAudio !== audio) activeAudio.pause();
-        playWithoutScroll(audio);
+        playAudio(audio);
         activeAudio = audio;
       }
     }
@@ -493,7 +475,7 @@
         setActiveTrack(idx);
         if (audio.paused) {
           if (activeAudio && activeAudio !== audio) activeAudio.pause();
-          playWithoutScroll(audio);
+          playAudio(audio);
           activeAudio = audio;
         } else {
           audio.pause();
@@ -507,19 +489,15 @@
       e.preventDefault();
       if (audio.paused) {
         if (!audio.src && tracks.length) {
-          keepScrollPosition(function () {
-            loadTrack(0, true);
-          });
-          playBtn.blur();
+          loadTrack(0, true);
           return;
         }
         if (activeAudio && activeAudio !== audio) activeAudio.pause();
-        playWithoutScroll(audio);
+        playAudio(audio);
         activeAudio = audio;
       } else {
         audio.pause();
       }
-      playBtn.blur();
     });
 
     for (var j = 0; j < tracks.length; j++) {
@@ -568,7 +546,7 @@
         setDuration();
         if (st.playing) {
           if (activeAudio && activeAudio !== audio) activeAudio.pause();
-          playWithoutScroll(audio);
+          playAudio(audio);
           activeAudio = audio;
         } else {
           setPlaying(false);
