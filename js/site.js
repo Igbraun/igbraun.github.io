@@ -46,7 +46,7 @@
   }
 
   function useMasonryLayout() {
-    return window.matchMedia("(min-aspect-ratio: 1/1) and (min-width: 720px)").matches;
+    return window.matchMedia("(min-width: 640px)").matches;
   }
 
   /** Широкий экран: 1-й пост слева, 2-й справа, 3-й слева… — как строки слева направо */

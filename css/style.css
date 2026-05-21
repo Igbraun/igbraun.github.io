@@ -189,8 +189,8 @@ main {
   gap: 2.5rem;
 }
 
-/* Широкий экран — две колонки: (1) слева, (2) справа, (3) слева… — сверху новые */
-@media (min-aspect-ratio: 1/1) and (min-width: 720px) {
+/* Две колонки от 640px (в т.ч. вертикальный монитор): (1) слева, (2) справа… */
+@media (min-width: 640px) {
   .feed--masonry {
     display: flex;
     flex-direction: row;
