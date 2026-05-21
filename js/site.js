@@ -49,56 +49,38 @@
     return window.matchMedia("(min-aspect-ratio: 1/1) and (min-width: 720px)").matches;
   }
 
-  function relayoutMasonry(feedEl) {
-    var cols = feedEl.querySelectorAll(".feed-col");
-    if (cols.length !== 2) return;
-
-    var cards = Array.prototype.slice.call(feedEl.querySelectorAll(".post-card"));
-    cards.sort(function (a, b) {
-      return (+a.getAttribute("data-order") || 0) - (+b.getAttribute("data-order") || 0);
-    });
-
-    for (var i = 0; i < cards.length; i++) {
-      cards[i].remove();
-    }
-
-    for (var j = 0; j < cards.length; j++) {
-      var h0 = cols[0].offsetHeight;
-      var h1 = cols[1].offsetHeight;
-      (h0 <= h1 ? cols[0] : cols[1]).appendChild(cards[j]);
+  /** Широкий экран: 1-й пост слева, 2-й справа, 3-й слева… — как строки слева направо */
+  function mountMasonryColumns(cols, sorted, scratch) {
+    for (var i = 0; i < sorted.length; i++) {
+      scratch.innerHTML = renderPost(sorted[i], i + 1);
+      var card = scratch.firstElementChild;
+      if (!card) continue;
+      cols[i % 2].appendChild(card);
     }
   }
 
-  var masonryRelayoutTimer;
-  function queueMasonryRelayout() {
-    var feedEl = document.getElementById("feed");
-    if (!feedEl || !feedEl.classList.contains("feed--masonry")) return;
-    clearTimeout(masonryRelayoutTimer);
-    masonryRelayoutTimer = setTimeout(function () {
-      relayoutMasonry(feedEl);
-    }, 120);
-  }
-
-  function bindMasonryRelayout(feedEl) {
-    if (!feedEl || feedEl._masonryBound) return;
-    feedEl._masonryBound = true;
-
-    feedEl.addEventListener(
-      "load",
-      function (e) {
-        if (e.target.tagName === "IMG") queueMasonryRelayout();
+  var feedResizeTimer;
+  function bindFeedResize(feedEl) {
+    if (window._feedResizeBound) return;
+    window._feedResizeBound = true;
+    window.addEventListener(
+      "resize",
+      function () {
+        var el = document.getElementById("feed");
+        if (!el || !el._sortedPosts) return;
+        clearTimeout(feedResizeTimer);
+        feedResizeTimer = setTimeout(function () {
+          mountFeed(el, el._sortedPosts);
+        }, 200);
       },
-      true
+      { passive: true }
     );
-
-    if (!window._feedMasonryResizeBound) {
-      window._feedMasonryResizeBound = true;
-      window.addEventListener("resize", queueMasonryRelayout, { passive: true });
-    }
   }
 
   function mountFeed(feedEl, posts) {
     var sorted = sortPostsNewestFirst(posts);
+    feedEl._sortedPosts = sorted;
+    bindFeedResize(feedEl);
 
     if (!sorted.length) {
       feedEl.className = "feed";
@@ -119,20 +101,7 @@
 
     feedEl.className = "feed feed--masonry";
     feedEl.innerHTML = '<div class="feed-col"></div><div class="feed-col"></div>';
-    var cols = feedEl.querySelectorAll(".feed-col");
-    var scratch = document.createElement("div");
-
-    for (var i = 0; i < sorted.length; i++) {
-      scratch.innerHTML = renderPost(sorted[i], i + 1);
-      var card = scratch.firstElementChild;
-      if (!card) continue;
-      var h0 = cols[0].offsetHeight;
-      var h1 = cols[1].offsetHeight;
-      (h0 <= h1 ? cols[0] : cols[1]).appendChild(card);
-    }
-
-    bindMasonryRelayout(feedEl);
-    queueMasonryRelayout();
+    mountMasonryColumns(feedEl.querySelectorAll(".feed-col"), sorted, document.createElement("div"));
   }
 
   function resolveGalleryItem(item) {
@@ -341,6 +310,8 @@
       '<article class="post-card' +
       (gallery ? " post-card--gallery" : "") +
       (audioSrc ? " post-card--audio" : "") +
+      '" data-order="' +
+      (orderNum || "") +
       '">';
 
     if (embed) {
@@ -397,17 +368,6 @@
     return html;
   }
 
-  function renderFeed(posts) {
-    if (!posts || !posts.length) {
-      return '<p class="feed-empty">Пока нет постов. Добавьте их в <code>data/content.json</code>.</p>';
-    }
-    return posts
-      .map(function (post, i) {
-        return renderPost(post, i + 1);
-      })
-      .join("");
-  }
-
   function apply(data) {
     document.title = (data.meta && data.meta.title) || (data.brand && data.brand.name) || "Igor Braun";
 
@@ -437,7 +397,7 @@
 
     var feedEl = document.getElementById("feed");
     if (feedEl) {
-      feedEl.innerHTML = renderFeed(getPosts(data));
+      mountFeed(feedEl, getPosts(data));
     }
 
     if (window.initLightbox) window.initLightbox();
