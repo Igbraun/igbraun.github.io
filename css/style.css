@@ -313,7 +313,7 @@ main {
   aspect-ratio: var(--cell-aspect);
   padding: 0;
   border: none;
-  border-radius: 0;
+  border-radius: var(--radius);
   background: transparent;
   cursor: pointer;
   display: flex;
