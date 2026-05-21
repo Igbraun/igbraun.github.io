@@ -1,0 +1,617 @@
+:root {
+  --bg: #0c0b0f;
+  --bg-elevated: #141218;
+  --text: #e8e6ed;
+  --muted: #9a94a8;
+  --accent: #ad3090;
+  --accent-soft: rgba(173, 48, 144, 0.15);
+  --date: #3ccd67;
+  --border: rgba(255, 255, 255, 0.1);
+  --panel: rgba(8, 12, 28, 0.27);
+  --panel-edge: rgba(255, 255, 255, 0.1);
+  --radius: 12px;
+  --font-display: "Syne", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --max: 1100px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #0a0e1a;
+}
+
+/* Фон: отдельный слой (iOS не размывает backdrop через html::before с z-index: -1) */
+.site-bg {
+  position: fixed;
+  top: var(--bg-layer-top, -15vh);
+  left: 0;
+  width: 100%;
+  height: var(--bg-layer-height, 130vh);
+  z-index: 0;
+  pointer-events: none;
+  background-color: #0a0e1a;
+  background-image:
+    linear-gradient(rgba(8, 12, 28, 0.12), rgba(8, 12, 28, 0.12)),
+    url("../images/bg-mobile.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  transform: translate3d(0, var(--bg-parallax-y, 0px), 0);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-bg {
+    transform: none;
+    will-change: auto;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  min-height: 100vh;
+  background: transparent;
+}
+
+.site-header,
+main,
+.lightbox {
+  position: relative;
+  z-index: 1;
+}
+
+/* Горизонтальный широкий экран — desktop-текстура; вертикальный монитор — mobile */
+@media (min-width: 768px) and (min-aspect-ratio: 1/1) {
+  .site-bg {
+    background-image:
+      linear-gradient(rgba(8, 12, 28, 0.3), rgba(8, 12, 28, 0.3)),
+      url("../images/bg-desktop.png");
+  }
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Шапка: логотип и меню по центру, меню под разделителем — на всех экранах */
+.site-header {
+  position: relative;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+  padding: 1rem 1.5rem 0.85rem;
+  background-color: rgba(8, 12, 28, 0.88);
+  background-image: linear-gradient(
+    to right,
+    rgba(8, 12, 28, 0.18) 0%,
+    rgba(8, 12, 28, 0.1) 20%,
+    rgba(8, 12, 28, 0.04) 38%,
+    transparent 50%,
+    rgba(8, 12, 28, 0.04) 62%,
+    rgba(8, 12, 28, 0.1) 80%,
+    rgba(8, 12, 28, 0.18) 100%
+  );
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 0.35rem;
+}
+
+.logo {
+  display: block;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--text);
+  text-align: center;
+}
+
+.header-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.header-contact {
+  font-size: 0.88rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.header-contact:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.header-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  text-decoration: none;
+  line-height: 0;
+}
+
+.social-link:hover {
+  opacity: 0.85;
+  text-decoration: none;
+}
+
+.social-link svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  fill: currentColor;
+}
+
+main {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 4rem;
+}
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.feed-empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 2rem 0;
+}
+
+.feed-empty code {
+  font-size: 0.9em;
+  color: var(--accent);
+}
+
+.post-card {
+  position: relative;
+  border: 1px solid var(--panel-edge);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+/* Стекло на псевдоэлементе: на iOS backdrop на самой карточке с overflow часто даёт чёрный фон */
+.post-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    145deg,
+    rgba(12, 18, 42, 0.36) 0%,
+    rgba(8, 12, 28, 0.27) 45%,
+    rgba(6, 10, 24, 0.29) 100%
+  );
+  -webkit-backdrop-filter: blur(6px) saturate(1.35);
+  backdrop-filter: blur(6px) saturate(1.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.post-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .post-card::before {
+    background: linear-gradient(
+      145deg,
+      rgba(12, 18, 42, 0.55) 0%,
+      rgba(8, 12, 28, 0.5) 50%,
+      rgba(6, 10, 24, 0.53) 100%
+    );
+  }
+}
+
+.post-media {
+  background: rgba(8, 12, 28, 0.5);
+  border-bottom: 1px solid var(--border);
+}
+
+.post-media--video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+
+.post-media--video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.post-media--image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+.post-body {
+  padding: 1.25rem 1.35rem 1.35rem;
+}
+
+.post-date {
+  display: block;
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--date);
+}
+
+.post-title {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.post-text p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+.post-link {
+  margin: 0.85rem 0 0;
+  font-size: 0.95rem;
+}
+
+.post-card--gallery .post-body {
+  padding-bottom: 1rem;
+}
+
+.post-card--gallery .post-gallery {
+  padding: 0;
+}
+
+.post-gallery {
+  padding: 0 1rem 1.25rem;
+}
+
+.gallery-grid {
+  display: grid;
+  gap: 0;
+  line-height: 0;
+  font-size: 0;
+}
+
+.gallery-grid--5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.gallery-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.post-card--gallery .post-cover {
+  margin: 0;
+}
+
+.post-cover {
+  margin-bottom: 0.85rem;
+}
+
+.post-cover__btn {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  line-height: 0;
+}
+
+.post-cover__btn:hover img {
+  opacity: 0.92;
+}
+
+.post-cover__btn img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+.gallery-cell {
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #000;
+  cursor: pointer;
+  display: block;
+  overflow: hidden;
+  line-height: 0;
+  vertical-align: top;
+}
+
+.gallery-cell:hover img {
+  opacity: 0.92;
+}
+
+.gallery-cell img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  vertical-align: top;
+}
+
+.post-card--video .post-videos {
+  padding: 0;
+}
+
+.post-video-main,
+.video-cell--inline {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  line-height: 0;
+}
+
+.post-video-main iframe,
+.video-cell--inline iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  line-height: 0;
+  font-size: 0;
+}
+
+.video-cell {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.video-cell iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+}
+
+.video-cell:hover iframe {
+  opacity: 0.92;
+}
+
+/* Полноэкранный просмотр галереи */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 1rem 1.5rem;
+  background: rgba(4, 6, 14, 0.94);
+  backdrop-filter: blur(8px);
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.lightbox__stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.lightbox__img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+}
+
+.lightbox__img[hidden],
+.lightbox__video[hidden] {
+  display: none;
+}
+
+.lightbox__video {
+  width: min(960px, 100%);
+  max-height: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 0;
+  background: #000;
+}
+
+.lightbox__controls {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 1rem;
+  padding-bottom: 0.25rem;
+}
+
+.lightbox__controls[hidden] {
+  display: none;
+}
+
+.lightbox__btn {
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(8, 12, 28, 0.85);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.lightbox__btn:hover {
+  background: rgba(20, 26, 48, 0.95);
+  color: var(--accent);
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.6rem;
+}
+
+.lightbox__prev,
+.lightbox__next {
+  width: 3rem;
+  height: 3rem;
+  font-size: 2rem;
+}
+
+.lightbox__counter {
+  font-size: 0.9rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  min-width: 4rem;
+  text-align: center;
+}
+
+/* Горизонтальный экран — стрелки по бокам */
+@media (min-aspect-ratio: 1/1) {
+  .lightbox {
+    padding: 3rem 4rem;
+  }
+
+  .lightbox__inner {
+    flex-direction: row;
+    position: relative;
+    align-items: stretch;
+  }
+
+  .lightbox__stage {
+    padding: 0 3.5rem;
+  }
+
+  .lightbox__controls {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  .lightbox__prev,
+  .lightbox__next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: auto;
+  }
+
+  .lightbox__prev {
+    left: 0;
+  }
+
+  .lightbox__next {
+    right: 0;
+  }
+
+  .lightbox__counter {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+  }
+}
+
