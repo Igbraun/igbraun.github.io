@@ -103,6 +103,42 @@
                       "coverImage":  "images/galleries/interior-4/DSC08080-HDR.jpg",
                       "date":  "2026-04-15",
                       "title":  "Интерьер — объект 4"
+                  },
+                  {
+                      "date":  "2026-05-18",
+                      "title":  "Видео — подборка",
+                      "text":  "Главный ролик и сетка из шести: YouTube и Vimeo.",
+                      "link":  "https://vimeo.com/76979871",
+                      "mainVideo":  {
+                                        "provider":  "vimeo",
+                                        "id":  "76979871"
+                                    },
+                      "videoGrid":  [
+                                        {
+                                            "provider":  "youtube",
+                                            "id":  "LXb3EKWsInQ"
+                                        },
+                                        {
+                                            "provider":  "vimeo",
+                                            "id":  "22439234"
+                                        },
+                                        {
+                                            "provider":  "youtube",
+                                            "id":  "9xwazD5SyVg"
+                                        },
+                                        {
+                                            "provider":  "vimeo",
+                                            "id":  "148751763"
+                                        },
+                                        {
+                                            "provider":  "youtube",
+                                            "id":  "ScMzIvxBSi4"
+                                        },
+                                        {
+                                            "provider":  "vimeo",
+                                            "id":  "357274789"
+                                        }
+                                    ]
                   }
               ],
     "meta":  {

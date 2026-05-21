@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=33" />
+  <link rel="stylesheet" href="css/style.css?v=34" />
 </head>
 <body>
   <header class="site-header">
@@ -34,13 +34,19 @@
 
   <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Просмотр фото">
     <button type="button" class="lightbox__btn lightbox__close" data-lightbox-close aria-label="Закрыть">×</button>
-    <button type="button" class="lightbox__btn lightbox__prev" data-lightbox-prev aria-label="Предыдущее фото">‹</button>
-    <button type="button" class="lightbox__btn lightbox__next" data-lightbox-next aria-label="Следующее фото">›</button>
-    <img class="lightbox__img" alt="" />
-    <span class="lightbox__counter" aria-live="polite"></span>
+    <div class="lightbox__inner">
+      <div class="lightbox__stage">
+        <img class="lightbox__img" alt="" />
+      </div>
+      <div class="lightbox__controls">
+        <button type="button" class="lightbox__btn lightbox__prev" data-lightbox-prev aria-label="Предыдущее фото">‹</button>
+        <span class="lightbox__counter" aria-live="polite"></span>
+        <button type="button" class="lightbox__btn lightbox__next" data-lightbox-next aria-label="Следующее фото">›</button>
+      </div>
+    </div>
   </div>
 
-  <script src="js/site.js?v=28"></script>
-  <script src="js/main.js?v=25"></script>
+  <script src="js/site.js?v=29"></script>
+  <script src="js/main.js?v=26"></script>
 </body>
 </html>

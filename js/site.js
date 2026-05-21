@@ -60,11 +60,64 @@
     return items;
   }
 
-  function findCoverIndex(items, coverFull) {
-    for (var i = 0; i < items.length; i++) {
-      if (items[i].full === coverFull) return i;
+  function videoEmbedSrc(item) {
+    if (!item) return "";
+    var id = "";
+    var provider = "youtube";
+    if (typeof item === "string") {
+      id = item.trim();
+    } else {
+      id = String(item.id || "").trim();
+      provider = String(item.provider || "youtube").toLowerCase();
     }
-    return 0;
+    if (!id) return "";
+    if (provider === "vimeo") return "https://player.vimeo.com/video/" + id;
+    return "https://www.youtube.com/embed/" + id;
+  }
+
+  function renderVideoIframe(item, title) {
+    var src = safeUrl(videoEmbedSrc(item));
+    if (!src) return "";
+    return (
+      '<div class="video-cell"><iframe src="' +
+      src +
+      '" title="' +
+      esc(title || "Видео") +
+      '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe></div>'
+    );
+  }
+
+  function renderVideoPost(post) {
+    var link = safeUrl(post.link);
+    var html = '<article class="post-card post-card--video">';
+
+    html += '<div class="post-body">';
+    if (post.date) {
+      html += '<time class="post-date" datetime="' + esc(post.date) + '">' + esc(post.date) + "</time>";
+    }
+    html += '<h2 class="post-title">' + esc(post.title || "Без названия") + "</h2>";
+    if (post.text) {
+      html += '<div class="post-text"><p>' + esc(post.text) + "</p></div>";
+    }
+    if (link) {
+      html += '<p class="post-link"><a href="' + link + '" target="_blank" rel="noopener">Открыть на Vimeo</a></p>';
+    }
+    html += "</div>";
+
+    html += '<div class="post-videos">';
+    if (post.mainVideo) {
+      html += '<div class="post-video-main">' + renderVideoIframe(post.mainVideo, post.title) + "</div>";
+    }
+    var grid = post.videoGrid || [];
+    if (grid.length) {
+      html += '<div class="video-grid">';
+      for (var i = 0; i < grid.length; i++) {
+        html += renderVideoIframe(grid[i], post.title + " — " + (i + 1));
+      }
+      html += "</div>";
+    }
+    html += "</div></article>";
+    return html;
   }
 
   function renderGallery(items, columns) {
@@ -103,7 +156,7 @@
     if (!coverFull) return "";
     return (
       '<div class="post-cover">' +
-      '<button type="button" class="post-cover__btn gallery-open" data-src="' +
+      '<button type="button" class="post-cover__btn gallery-open gallery-open--solo" data-src="' +
       coverFull +
       '" data-index="' +
       index +
@@ -118,6 +171,10 @@
   }
 
   function renderPost(post) {
+    if (post.videoGrid && post.videoGrid.length) {
+      return renderVideoPost(post);
+    }
+
     var items = normalizeGallery(post);
     var gallery = items.length ? items : null;
     var cols = post.galleryColumns === 4 ? 4 : 5;

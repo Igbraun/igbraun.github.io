@@ -60,7 +60,7 @@
 })();
 
 (function () {
-  var lb, img, counterEl, sources = [],
+  var lb, img, counterEl, controlsEl, sources = [],
     index = 0,
     bound = false;
 
@@ -73,11 +73,16 @@
     return list;
   }
 
+  function setControlsVisible(visible) {
+    if (controlsEl) controlsEl.hidden = !visible;
+  }
+
   function show() {
     if (!lb || !img || !sources.length) return;
     img.src = sources[index];
     img.alt = "Фото " + (index + 1) + " из " + sources.length;
     if (counterEl) counterEl.textContent = index + 1 + " / " + sources.length;
+    setControlsVisible(sources.length > 1);
     lb.hidden = false;
     lb.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -92,7 +97,7 @@
   }
 
   function step(delta) {
-    if (!sources.length) return;
+    if (sources.length <= 1) return;
     index = (index + delta + sources.length) % sources.length;
     show();
   }
@@ -107,6 +112,14 @@
   function onClick(e) {
     var opener = e.target.closest(".gallery-open");
     if (opener) {
+      if (opener.classList.contains("gallery-open--solo")) {
+        var soloSrc = opener.getAttribute("data-src");
+        if (!soloSrc) return;
+        sources = [soloSrc];
+        index = 0;
+        show();
+        return;
+      }
       var block = opener.closest(".post-gallery");
       var grid = block ? block.querySelector(".gallery-grid") : null;
       if (!grid) return;
@@ -136,6 +149,7 @@
     if (!lb) return;
     img = lb.querySelector(".lightbox__img");
     counterEl = lb.querySelector(".lightbox__counter");
+    controlsEl = lb.querySelector(".lightbox__controls");
     if (!bound) {
       document.addEventListener("click", onClick);
       document.addEventListener("keydown", onKey);
