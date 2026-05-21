@@ -189,6 +189,20 @@ main {
   gap: 2.5rem;
 }
 
+/* Горизонтальный экран — два поста в ряд */
+@media (min-aspect-ratio: 1/1) and (min-width: 720px) {
+  .feed {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem 1.5rem;
+    align-items: start;
+  }
+
+  .feed-empty {
+    grid-column: 1 / -1;
+  }
+}
+
 .feed-empty {
   text-align: center;
   color: var(--muted);
@@ -202,10 +216,27 @@ main {
 
 .post-card {
   position: relative;
+  container-type: inline-size;
+  container-name: post;
   border: 1px solid var(--panel-edge);
   border-radius: var(--radius);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   overflow: hidden;
+}
+
+/* Узкая карточка (2 колонки) — меньше столбцов в галерее и видео */
+@container post (max-width: 560px) {
+  .gallery-grid--5 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .gallery-grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .video-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* Стекло на псевдоэлементе: на iOS backdrop на самой карточке с overflow часто даёт чёрный фон */
