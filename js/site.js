@@ -49,18 +49,68 @@
     return window.matchMedia("(min-aspect-ratio: 1/1) and (min-width: 720px)").matches;
   }
 
-  /** Широкий экран: 1-й пост слева, 2-й справа, 3-й слева… — как строки слева направо */
+  /** Колонка, где низ стопки выше = меньшая высота col */
+  function pickMasonryColumn(cols, index) {
+    if (index === 0) return cols[0];
+    if (index === 1) return cols[1];
+    return cols[0].offsetHeight <= cols[1].offsetHeight ? cols[0] : cols[1];
+  }
+
+  function distributeCardsToColumns(cols, cards) {
+    for (var i = 0; i < cards.length; i++) {
+      pickMasonryColumn(cols, i).appendChild(cards[i]);
+    }
+  }
+
+  function relayoutMasonry(feedEl) {
+    var cols = feedEl.querySelectorAll(".feed-col");
+    if (cols.length !== 2) return;
+
+    var cards = Array.prototype.slice.call(feedEl.querySelectorAll(".post-card"));
+    cards.sort(function (a, b) {
+      return (+a.getAttribute("data-order") || 0) - (+b.getAttribute("data-order") || 0);
+    });
+
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].remove();
+    }
+    distributeCardsToColumns(cols, cards);
+  }
+
+  var masonryRelayoutTimer;
+  function queueMasonryRelayout() {
+    var feedEl = document.getElementById("feed");
+    if (!feedEl || !feedEl.classList.contains("feed--masonry")) return;
+    clearTimeout(masonryRelayoutTimer);
+    masonryRelayoutTimer = setTimeout(function () {
+      relayoutMasonry(feedEl);
+    }, 150);
+  }
+
+  function bindMasonryRelayout(feedEl) {
+    if (!feedEl || feedEl._masonryBound) return;
+    feedEl._masonryBound = true;
+
+    feedEl.addEventListener(
+      "load",
+      function (e) {
+        if (e.target.tagName === "IMG") queueMasonryRelayout();
+      },
+      true
+    );
+  }
+
   function mountMasonryColumns(cols, sorted, scratch) {
     for (var i = 0; i < sorted.length; i++) {
       scratch.innerHTML = renderPost(sorted[i], i + 1);
       var card = scratch.firstElementChild;
       if (!card) continue;
-      cols[i % 2].appendChild(card);
+      pickMasonryColumn(cols, i).appendChild(card);
     }
   }
 
   var feedResizeTimer;
-  function bindFeedResize(feedEl) {
+  function bindFeedResize() {
     if (window._feedResizeBound) return;
     window._feedResizeBound = true;
     window.addEventListener(
@@ -80,7 +130,7 @@
   function mountFeed(feedEl, posts) {
     var sorted = sortPostsNewestFirst(posts);
     feedEl._sortedPosts = sorted;
-    bindFeedResize(feedEl);
+    bindFeedResize();
 
     if (!sorted.length) {
       feedEl.className = "feed";
@@ -101,7 +151,10 @@
 
     feedEl.className = "feed feed--masonry";
     feedEl.innerHTML = '<div class="feed-col"></div><div class="feed-col"></div>';
-    mountMasonryColumns(feedEl.querySelectorAll(".feed-col"), sorted, document.createElement("div"));
+    var cols = feedEl.querySelectorAll(".feed-col");
+    mountMasonryColumns(cols, sorted, document.createElement("div"));
+    bindMasonryRelayout(feedEl);
+    queueMasonryRelayout();
   }
 
   function resolveGalleryItem(item) {
