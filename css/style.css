@@ -8,7 +8,7 @@
   --date: #3ccd67;
   --border: rgba(255, 255, 255, 0.1);
   --panel: rgba(255, 255, 255, 0.1);
-  --panel-edge: rgba(255, 255, 255, 0.16);
+  --panel-edge: rgba(255, 255, 255, 0.28);
   --radius: 12px;
   --font-display: "Syne", system-ui, sans-serif;
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
@@ -193,20 +193,36 @@ main {
 }
 
 .post-card {
+  position: relative;
   background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.16) 0%,
-    rgba(255, 255, 255, 0.07) 45%,
-    rgba(220, 230, 255, 0.09) 100%
+    155deg,
+    rgba(255, 255, 255, 0.32) 0%,
+    rgba(255, 255, 255, 0.12) 38%,
+    rgba(230, 238, 255, 0.08) 100%
   );
-  -webkit-backdrop-filter: blur(28px) saturate(1.4);
-  backdrop-filter: blur(28px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.55);
+  backdrop-filter: blur(12px) saturate(1.55);
   border: 1px solid var(--panel-edge);
   border-radius: var(--radius);
   box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    0 4px 20px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 0 0 48px rgba(255, 255, 255, 0.06);
   overflow: hidden;
+}
+
+.post-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.38) 0%,
+    rgba(255, 255, 255, 0.08) 28%,
+    transparent 52%
+  );
 }
 
 .post-media {
