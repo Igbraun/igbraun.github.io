@@ -308,6 +308,17 @@
     return html;
   }
 
+  function renderAudioBar() {
+    return (
+      '<div class="post-audio__bar">' +
+      '<button type="button" class="post-audio__play" data-audio-play aria-label="Воспроизвести">▶</button>' +
+      '<span class="post-audio__time post-audio__time--current" data-audio-current>0:00:00</span>' +
+      '<input type="range" class="post-audio__seek" data-audio-seek min="0" max="1000" value="0" step="1" aria-label="Позиция воспроизведения" />' +
+      '<span class="post-audio__time post-audio__time--total" data-audio-total>0:00:00</span>' +
+      "</div>"
+    );
+  }
+
   function renderAudioPlayer(src, title) {
     if (!src) return "";
     return (
@@ -317,13 +328,32 @@
       '" preload="metadata" title="' +
       esc(title || "Аудио") +
       '"></audio>' +
-      '<div class="post-audio__bar">' +
-      '<button type="button" class="post-audio__play" data-audio-play aria-label="Воспроизвести">▶</button>' +
-      '<span class="post-audio__time post-audio__time--current" data-audio-current>0:00:00</span>' +
-      '<input type="range" class="post-audio__seek" data-audio-seek min="0" max="1000" value="0" step="1" aria-label="Позиция воспроизведения" />' +
-      '<span class="post-audio__time post-audio__time--total" data-audio-total>0:00:00</span>' +
-      "</div></div>"
+      renderAudioBar() +
+      "</div>"
     );
+  }
+
+  function renderPlaylistPlayer(tracks) {
+    if (!tracks || !tracks.length) return "";
+    var html = '<div class="post-audio post-audio--playlist" data-audio-player>';
+    html += '<p class="post-audio__now" data-audio-now></p>';
+    html += '<audio preload="metadata"></audio>';
+    html += renderAudioBar();
+    html += '<ol class="post-audio__tracks">';
+    for (var i = 0; i < tracks.length; i++) {
+      var src = safeUrl(tracks[i].src);
+      if (!src) continue;
+      html +=
+        '<li><button type="button" class="post-audio__track" data-audio-src="' +
+        src +
+        '" data-audio-index="' +
+        i +
+        '">' +
+        esc(tracks[i].title || "Трек " + (i + 1)) +
+        "</button></li>";
+    }
+    html += "</ol></div>";
+    return html;
   }
 
   function renderCover(coverFull, index, title) {
@@ -358,11 +388,12 @@
     var embed = safeUrl(post.embedUrl);
     var link = safeUrl(post.link);
     var audioSrc = safeUrl(post.audio);
+    var hasPlaylist = post.playlist && post.playlist.length;
 
     var html =
       '<article class="post-card' +
       (gallery ? " post-card--gallery" : "") +
-      (audioSrc ? " post-card--audio" : "") +
+      (audioSrc || hasPlaylist ? " post-card--audio" : "") +
       '" data-order="' +
       (orderNum || "") +
       '">';
@@ -396,7 +427,9 @@
     html += '<div class="post-body">';
     html += renderPostDate(post, orderNum);
     html += '<h2 class="post-title">' + esc(post.title || "Без названия") + "</h2>";
-    if (audioSrc) {
+    if (hasPlaylist) {
+      html += renderPlaylistPlayer(post.playlist);
+    } else if (audioSrc) {
       html += renderAudioPlayer(audioSrc, post.audioTitle || post.title);
     }
     if (post.text) {
