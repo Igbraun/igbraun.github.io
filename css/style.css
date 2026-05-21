@@ -189,17 +189,28 @@ main {
   gap: 2.5rem;
 }
 
-/* Горизонтальный экран — два поста в ряд */
+/* Широкий экран — «кладка»: карточки заполняют пустоту под короткими постами */
 @media (min-aspect-ratio: 1/1) and (min-width: 720px) {
   .feed {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.75rem 1.5rem;
-    align-items: start;
+    display: block;
+    column-count: 2;
+    column-gap: 1.5rem;
+  }
+
+  .feed > .post-card {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    display: inline-block;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1.75rem;
   }
 
   .feed-empty {
-    grid-column: 1 / -1;
+    column-span: all;
+    display: block;
+    margin-bottom: 1.75rem;
   }
 }
 
