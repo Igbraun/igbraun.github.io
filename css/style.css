@@ -348,11 +348,21 @@ main {
 .post-audio__bar {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.5rem;
+  width: 100%;
   padding: 0.65rem 0.75rem;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+}
+
+.post-audio__timeline {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
 }
 
 .post-audio__play {
@@ -385,12 +395,23 @@ main {
   font-size: 0.78rem;
   font-variant-numeric: tabular-nums;
   color: var(--muted);
-  min-width: 4.5rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.post-audio__time--current {
+  min-width: 3.35rem;
+}
+
+.post-audio__time--total {
+  min-width: 3.35rem;
+  text-align: right;
 }
 
 .post-audio__seek {
-  flex: 1;
-  min-width: 0;
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 2rem;
   height: 4px;
   margin: 0;
   accent-color: var(--accent);
@@ -427,6 +448,8 @@ main {
   font-size: 0.86rem;
   text-align: left;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   transition: background 0.12s, color 0.12s;
 }
 

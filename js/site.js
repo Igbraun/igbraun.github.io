@@ -109,28 +109,82 @@
     }
   }
 
-  var feedResizeTimer;
-  function bindFeedResize() {
-    if (window._feedResizeBound) return;
-    window._feedResizeBound = true;
-    window.addEventListener(
-      "resize",
-      function () {
-        var el = document.getElementById("feed");
-        if (!el || !el._sortedPosts) return;
-        clearTimeout(feedResizeTimer);
-        feedResizeTimer = setTimeout(function () {
-          mountFeed(el, el._sortedPosts);
-        }, 200);
-      },
-      { passive: true }
-    );
+  function getExistingPostCards(feedEl) {
+    var nodes = feedEl.querySelectorAll(".post-card");
+    if (!nodes.length) return null;
+    return Array.prototype.slice.call(nodes);
+  }
+
+  function sortPostCards(cards) {
+    cards.sort(function (a, b) {
+      return (+a.getAttribute("data-order") || 0) - (+b.getAttribute("data-order") || 0);
+    });
+    return cards;
+  }
+
+  /** Переставляет карточки без пересоздания DOM — плеер не прерывается. */
+  function relayoutExistingFeed(feedEl, cards) {
+    sortPostCards(cards);
+    for (var i = 0; i < cards.length; i++) {
+      if (cards[i].parentNode) cards[i].parentNode.removeChild(cards[i]);
+    }
+
+    if (!useMasonryLayout()) {
+      feedEl.className = "feed";
+      feedEl.replaceChildren();
+      for (var j = 0; j < cards.length; j++) {
+        feedEl.appendChild(cards[j]);
+      }
+      return;
+    }
+
+    feedEl.className = "feed feed--masonry";
+    feedEl.replaceChildren();
+    var col0 = document.createElement("div");
+    col0.className = "feed-col";
+    var col1 = document.createElement("div");
+    col1.className = "feed-col";
+    feedEl.appendChild(col0);
+    feedEl.appendChild(col1);
+    var cols = feedEl.querySelectorAll(".feed-col");
+    for (var k = 0; k < cards.length; k++) {
+      pickMasonryColumn(cols, k).appendChild(cards[k]);
+    }
+    queueMasonryRelayout();
+  }
+
+  function stashAudioBeforeRemount() {
+    if (window.captureAudioPlayback) {
+      window._pendingAudioRestore = window.captureAudioPlayback();
+    }
+  }
+
+  var feedLayoutMq = window.matchMedia("(min-aspect-ratio: 1/1) and (min-width: 720px)");
+  var feedLayoutMode = null;
+
+  function getFeedLayoutMode() {
+    return useMasonryLayout() ? "masonry" : "single";
+  }
+
+  /** Только смена 1↔2 колонок. resize при скролле на телефоне ломал плеер. */
+  function bindFeedLayoutChange() {
+    if (window._feedLayoutBound) return;
+    window._feedLayoutBound = true;
+    feedLayoutMode = getFeedLayoutMode();
+    feedLayoutMq.addEventListener("change", function () {
+      var el = document.getElementById("feed");
+      if (!el || !el._sortedPosts) return;
+      var mode = getFeedLayoutMode();
+      if (mode === feedLayoutMode) return;
+      feedLayoutMode = mode;
+      mountFeed(el, el._sortedPosts);
+    });
   }
 
   function mountFeed(feedEl, posts) {
     var sorted = sortPostsNewestFirst(posts);
     feedEl._sortedPosts = sorted;
-    bindFeedResize();
+    bindFeedLayoutChange();
 
     if (!sorted.length) {
       feedEl.className = "feed";
@@ -138,6 +192,14 @@
         '<p class="feed-empty">Пока нет постов. Добавьте их в <code>data/content.json</code>.</p>';
       return;
     }
+
+    var existing = getExistingPostCards(feedEl);
+    if (existing && existing.length === sorted.length) {
+      relayoutExistingFeed(feedEl, existing);
+      return;
+    }
+
+    stashAudioBeforeRemount();
 
     if (!useMasonryLayout()) {
       feedEl.className = "feed";
@@ -312,10 +374,11 @@
     return (
       '<div class="post-audio__bar">' +
       '<button type="button" class="post-audio__play" data-audio-play aria-label="Воспроизвести">▶</button>' +
+      '<div class="post-audio__timeline">' +
       '<span class="post-audio__time post-audio__time--current" data-audio-current>0:00:00</span>' +
       '<input type="range" class="post-audio__seek" data-audio-seek min="0" max="1000" value="0" step="1" aria-label="Позиция воспроизведения" />' +
       '<span class="post-audio__time post-audio__time--total" data-audio-total>0:00:00</span>' +
-      "</div>"
+      "</div></div>"
     );
   }
 
