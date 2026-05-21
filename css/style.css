@@ -337,6 +337,7 @@ main {
   margin: 0;
   color: var(--muted);
   font-size: 0.98rem;
+  white-space: pre-line;
 }
 
 .post-card--audio .post-text {
