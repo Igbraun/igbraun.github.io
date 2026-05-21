@@ -20,7 +20,8 @@
   function safeUrl(url) {
     var u = (url || "").trim();
     if (!u) return "";
-    if (/^https?:\/\//i.test(u) || u.indexOf("/") === 0 || u.indexOf("./") === 0) {
+    if (/^(javascript|data):/i.test(u)) return "";
+    if (/^https?:\/\//i.test(u) || u.indexOf("://") === -1) {
       return u.replace(/"/g, "&quot;").replace(/</g, "&lt;");
     }
     return "";
@@ -155,7 +156,10 @@
     return fetch("data/content.json", { cache: "no-store" })
       .then(function (r) {
         if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.json();
+        return r.text();
+      })
+      .then(function (text) {
+        return JSON.parse(text.replace(/^\uFEFF/, ""));
       })
       .catch(function () {
         return FALLBACK;
