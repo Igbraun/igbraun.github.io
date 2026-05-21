@@ -172,6 +172,24 @@
     return html;
   }
 
+  function renderAudioPlayer(src, title) {
+    if (!src) return "";
+    return (
+      '<div class="post-audio" data-audio-player>' +
+      '<audio src="' +
+      src +
+      '" preload="metadata" title="' +
+      esc(title || "Аудио") +
+      '"></audio>' +
+      '<div class="post-audio__bar">' +
+      '<button type="button" class="post-audio__play" data-audio-play aria-label="Воспроизвести">▶</button>' +
+      '<span class="post-audio__time post-audio__time--current" data-audio-current>0:00:00</span>' +
+      '<input type="range" class="post-audio__seek" data-audio-seek min="0" max="1000" value="0" step="1" aria-label="Позиция воспроизведения" />' +
+      '<span class="post-audio__time post-audio__time--total" data-audio-total>0:00:00</span>' +
+      "</div></div>"
+    );
+  }
+
   function renderCover(coverFull, index, title) {
     if (!coverFull) return "";
     return (
@@ -203,8 +221,13 @@
     var img = safeUrl(post.imageUrl);
     var embed = safeUrl(post.embedUrl);
     var link = safeUrl(post.link);
+    var audioSrc = safeUrl(post.audio);
 
-    var html = '<article class="post-card' + (gallery ? " post-card--gallery" : "") + '">';
+    var html =
+      '<article class="post-card' +
+      (gallery ? " post-card--gallery" : "") +
+      (audioSrc ? " post-card--audio" : "") +
+      '">';
 
     if (embed) {
       html += '<div class="post-media post-media--video">';
@@ -237,6 +260,9 @@
       html += '<time class="post-date" datetime="' + esc(post.date) + '">' + esc(post.date) + "</time>";
     }
     html += '<h2 class="post-title">' + esc(post.title || "Без названия") + "</h2>";
+    if (audioSrc) {
+      html += renderAudioPlayer(audioSrc, post.audioTitle || post.title);
+    }
     if (post.text) {
       html += '<div class="post-text"><p>' + esc(post.text) + "</p></div>";
     }
@@ -299,6 +325,7 @@
     }
 
     if (window.initLightbox) window.initLightbox();
+    if (window.initAudioPlayers) window.initAudioPlayers();
   }
 
   function load() {

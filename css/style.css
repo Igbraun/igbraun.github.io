@@ -339,6 +339,70 @@ main {
   font-size: 0.98rem;
 }
 
+.post-card--audio .post-text {
+  margin-top: 1rem;
+}
+
+.post-audio {
+  margin-top: 0.85rem;
+}
+
+.post-audio audio {
+  display: none;
+}
+
+.post-audio__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.post-audio__play {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--panel-edge);
+  border-radius: 999px;
+  background: rgba(8, 12, 28, 0.6);
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.post-audio__play:hover {
+  background: rgba(20, 26, 48, 0.85);
+  color: var(--accent);
+}
+
+.post-audio__play.is-playing {
+  color: var(--accent);
+}
+
+.post-audio__time {
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  min-width: 4.5rem;
+}
+
+.post-audio__seek {
+  flex: 1;
+  min-width: 0;
+  height: 4px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
 .post-link {
   margin: 0.85rem 0 0;
   font-size: 0.95rem;

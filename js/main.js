@@ -211,3 +211,102 @@
     window.initLightbox();
   }
 })();
+
+(function () {
+  var activeAudio = null;
+
+  function formatTime(sec) {
+    if (!isFinite(sec) || sec < 0) sec = 0;
+    var h = Math.floor(sec / 3600);
+    var m = Math.floor((sec % 3600) / 60);
+    var s = Math.floor(sec % 60);
+    var pad = function (n) {
+      return n < 10 ? "0" + n : String(n);
+    };
+    return h + ":" + pad(m) + ":" + pad(s);
+  }
+
+  function bindPlayer(root) {
+    var audio = root.querySelector("audio");
+    var playBtn = root.querySelector("[data-audio-play]");
+    var seek = root.querySelector("[data-audio-seek]");
+    var currentEl = root.querySelector("[data-audio-current]");
+    var totalEl = root.querySelector("[data-audio-total]");
+    if (!audio || !playBtn || !seek) return;
+
+    function setPlaying(playing) {
+      playBtn.classList.toggle("is-playing", playing);
+      playBtn.setAttribute("aria-label", playing ? "Пауза" : "Воспроизвести");
+      playBtn.textContent = playing ? "❚❚" : "▶";
+    }
+
+    function updateProgress() {
+      var dur = audio.duration;
+      if (!isFinite(dur) || dur <= 0) return;
+      if (currentEl) currentEl.textContent = formatTime(audio.currentTime);
+      if (!seek.matches(":active")) {
+        seek.value = String(Math.round((audio.currentTime / dur) * 1000));
+      }
+    }
+
+    function setDuration() {
+      var dur = audio.duration;
+      if (!isFinite(dur)) return;
+      if (totalEl) totalEl.textContent = formatTime(dur);
+      seek.max = "1000";
+    }
+
+    playBtn.addEventListener("click", function () {
+      if (audio.paused) {
+        if (activeAudio && activeAudio !== audio) {
+          activeAudio.pause();
+        }
+        audio.play();
+        activeAudio = audio;
+      } else {
+        audio.pause();
+      }
+    });
+
+    audio.addEventListener("play", function () {
+      setPlaying(true);
+      activeAudio = audio;
+    });
+    audio.addEventListener("pause", function () {
+      setPlaying(false);
+    });
+    audio.addEventListener("ended", function () {
+      setPlaying(false);
+      seek.value = "0";
+      if (currentEl) currentEl.textContent = formatTime(0);
+    });
+    audio.addEventListener("timeupdate", updateProgress);
+    audio.addEventListener("loadedmetadata", setDuration);
+    audio.addEventListener("durationchange", setDuration);
+
+    seek.addEventListener("input", function () {
+      var dur = audio.duration;
+      if (!isFinite(dur) || dur <= 0) return;
+      var t = (parseInt(seek.value, 10) / 1000) * dur;
+      audio.currentTime = t;
+      if (currentEl) currentEl.textContent = formatTime(t);
+    });
+
+    setPlaying(false);
+    if (totalEl) totalEl.textContent = formatTime(0);
+    if (currentEl) currentEl.textContent = formatTime(0);
+  }
+
+  window.initAudioPlayers = function () {
+    var players = document.querySelectorAll("[data-audio-player]");
+    for (var i = 0; i < players.length; i++) {
+      bindPlayer(players[i]);
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", window.initAudioPlayers);
+  } else {
+    window.initAudioPlayers();
+  }
+})();
