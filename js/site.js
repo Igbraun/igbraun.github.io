@@ -181,6 +181,66 @@
     return posts.map(renderPost).join("");
   }
 
+  /** Высота ячейки = пропорции самой широкой горизонтальной фото в посте */
+  function fitGalleryCellAspects(root) {
+    var blocks = (root || document).querySelectorAll(".post-gallery");
+    for (var b = 0; b < blocks.length; b++) {
+      fitOneGalleryAspect(blocks[b]);
+    }
+  }
+
+  function fitOneGalleryAspect(postGallery) {
+    var grid = postGallery.querySelector(".gallery-grid");
+    if (!grid) return;
+
+    var imgs = grid.querySelectorAll(".gallery-cell img");
+    if (!imgs.length) return;
+
+    var bestW = 0;
+    var bestAspect = 1.5;
+    var pending = 0;
+
+    function finalize() {
+      grid.style.setProperty("--cell-aspect", String(bestAspect));
+    }
+
+    function measure(img) {
+      var w = img.naturalWidth;
+      var h = img.naturalHeight;
+      if (w > h && w > bestW) {
+        bestW = w;
+        bestAspect = w / h;
+      }
+    }
+
+    function onReady(img) {
+      measure(img);
+      pending--;
+      if (pending <= 0) finalize();
+    }
+
+    for (var i = 0; i < imgs.length; i++) {
+      var img = imgs[i];
+      if (img.complete && img.naturalWidth) {
+        measure(img);
+      } else {
+        pending++;
+        img.addEventListener("load", function () {
+          onReady(img);
+        });
+        img.addEventListener(
+          "error",
+          function () {
+            onReady(img);
+          },
+          { once: true }
+        );
+      }
+    }
+
+    if (pending <= 0) finalize();
+  }
+
   function apply(data) {
     document.title = (data.meta && data.meta.title) || (data.brand && data.brand.name) || "Igor Braun";
 
@@ -209,7 +269,10 @@
     }
 
     var feedEl = document.getElementById("feed");
-    if (feedEl) feedEl.innerHTML = renderFeed(getPosts(data));
+    if (feedEl) {
+      feedEl.innerHTML = renderFeed(getPosts(data));
+      fitGalleryCellAspects(feedEl);
+    }
 
     if (window.initLightbox) window.initLightbox();
   }

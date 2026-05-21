@@ -267,6 +267,7 @@ main {
 .gallery-grid {
   display: grid;
   gap: 0.45rem;
+  --cell-aspect: 1.5;
 }
 
 .gallery-grid--5 {
@@ -307,39 +308,32 @@ main {
 
 .gallery-cell {
   margin: 0;
-  padding: 0.3rem;
+  width: 100%;
+  height: auto;
+  aspect-ratio: var(--cell-aspect);
+  padding: 0;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(8, 12, 28, 0.45);
   cursor: pointer;
-  height: 7rem;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: border-color 0.15s, background 0.15s;
+  transition: border-color 0.15s;
 }
 
 .gallery-cell:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(0, 0, 0, 0.55);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .gallery-cell img {
   display: block;
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+  object-position: center;
   pointer-events: none;
-}
-
-@media (max-width: 600px) {
-  .gallery-cell {
-    height: 5rem;
-    padding: 0.2rem;
-  }
 }
 
 /* Полноэкранный просмотр галереи */
