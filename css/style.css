@@ -312,19 +312,18 @@ main {
   height: auto;
   aspect-ratio: var(--cell-aspect);
   padding: 0;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: rgba(8, 12, 28, 0.45);
+  border: none;
+  border-radius: 0;
+  background: transparent;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: border-color 0.15s;
 }
 
 .gallery-cell:hover {
-  border-color: rgba(255, 255, 255, 0.22);
+  opacity: 0.92;
 }
 
 .gallery-cell img {
