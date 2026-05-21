@@ -198,7 +198,8 @@
 
     var bestW = 0;
     var bestAspect = 1.5;
-    var pending = 0;
+    var total = imgs.length;
+    var done = 0;
 
     function finalize() {
       grid.style.setProperty("--cell-aspect", String(bestAspect));
@@ -215,19 +216,22 @@
 
     function onReady(img) {
       measure(img);
-      pending--;
-      if (pending <= 0) finalize();
+      done++;
+      if (done >= total) finalize();
     }
 
     for (var i = 0; i < imgs.length; i++) {
       var img = imgs[i];
       if (img.complete && img.naturalWidth) {
-        measure(img);
+        onReady(img);
       } else {
-        pending++;
-        img.addEventListener("load", function () {
-          onReady(img);
-        });
+        img.addEventListener(
+          "load",
+          function () {
+            onReady(img);
+          },
+          { once: true }
+        );
         img.addEventListener(
           "error",
           function () {
@@ -237,8 +241,6 @@
         );
       }
     }
-
-    if (pending <= 0) finalize();
   }
 
   function apply(data) {
