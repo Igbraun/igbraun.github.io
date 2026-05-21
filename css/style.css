@@ -189,8 +189,8 @@ main {
   gap: 2.5rem;
 }
 
-/* Две колонки от 640px (в т.ч. вертикальный монитор): (1) слева, (2) справа… */
-@media (min-width: 640px) {
+/* Две колонки: квадратный или горизонтальный экран (не узкий портрет) */
+@media (min-aspect-ratio: 1/1) and (min-width: 720px) {
   .feed--masonry {
     display: flex;
     flex-direction: row;
