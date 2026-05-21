@@ -332,6 +332,7 @@ main {
   height: 100%;
   object-fit: contain;
   object-position: center;
+  border-radius: var(--radius);
   pointer-events: none;
 }
 
