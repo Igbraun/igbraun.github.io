@@ -105,12 +105,13 @@
   }
 
   function onClick(e) {
-    var cell = e.target.closest(".gallery-cell");
-    if (cell) {
-      var grid = cell.closest(".gallery-grid");
+    var opener = e.target.closest(".gallery-open");
+    if (opener) {
+      var block = opener.closest(".post-gallery");
+      var grid = block ? block.querySelector(".gallery-grid") : null;
       if (!grid) return;
       sources = collectFromGrid(grid);
-      index = parseInt(cell.getAttribute("data-index"), 10) || 0;
+      index = parseInt(opener.getAttribute("data-index"), 10) || 0;
       show();
       return;
     }

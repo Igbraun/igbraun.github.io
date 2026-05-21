@@ -33,31 +33,88 @@
     return [];
   }
 
-  function renderGallery(images) {
-    if (!images || !images.length) return "";
-    var html = '<div class="gallery-grid">';
-    for (var i = 0; i < images.length; i++) {
-      var src = safeUrl(images[i]);
-      if (!src) continue;
+  function resolveGalleryItem(item) {
+    if (typeof item === "string") {
+      var full = item.trim();
+      var thumb = full.replace(/^(images\/galleries\/[^/]+)\//, "$1/thumbs/");
+      return { full: full, thumb: thumb };
+    }
+    if (item && item.full) {
+      return {
+        full: item.full,
+        thumb: item.thumb || item.full.replace(/^(images\/galleries\/[^/]+)\//, "$1/thumbs/"),
+      };
+    }
+    return null;
+  }
+
+  function normalizeGallery(post) {
+    var raw = post.gallery || [];
+    var items = [];
+    for (var i = 0; i < raw.length; i++) {
+      var it = resolveGalleryItem(raw[i]);
+      if (it && safeUrl(it.full)) items.push(it);
+    }
+    return items;
+  }
+
+  function findCoverIndex(items, coverFull) {
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].full === coverFull) return i;
+    }
+    return 0;
+  }
+
+  function renderGallery(items, columns) {
+    if (!items || !items.length) return "";
+    var cols = columns === 4 ? 4 : 5;
+    var html = '<div class="gallery-grid gallery-grid--' + cols + '">';
+    for (var i = 0; i < items.length; i++) {
+      var full = safeUrl(items[i].full);
+      var thumb = safeUrl(items[i].thumb);
+      if (!full) continue;
+      if (!thumb) thumb = full;
       html +=
-        '<button type="button" class="gallery-cell" data-index="' +
+        '<button type="button" class="gallery-cell gallery-open" data-index="' +
         i +
         '" data-src="' +
-        src +
+        full +
         '" aria-label="Открыть фото ' +
         (i + 1) +
-        ' из ' +
-        images.length +
+        " из " +
+        items.length +
         '">';
-      html += '<img src="' + src + '" alt="" loading="lazy" decoding="async" />';
+      html += '<img src="' + thumb + '" alt="" loading="lazy" decoding="async" />';
       html += "</button>";
     }
     html += "</div>";
     return html;
   }
 
+  function renderCover(coverFull, index, title) {
+    if (!coverFull) return "";
+    return (
+      '<div class="post-cover">' +
+      '<button type="button" class="post-cover__btn gallery-open" data-src="' +
+      coverFull +
+      '" data-index="' +
+      index +
+      '" aria-label="Открыть главное фото">' +
+      '<img src="' +
+      coverFull +
+      '" alt="' +
+      esc(title || "") +
+      '" loading="eager" decoding="async" />' +
+      "</button></div>"
+    );
+  }
+
   function renderPost(post) {
-    var gallery = post.gallery && post.gallery.length ? post.gallery : null;
+    var items = normalizeGallery(post);
+    var gallery = items.length ? items : null;
+    var cols = post.galleryColumns === 4 ? 4 : 5;
+    var coverRaw = safeUrl(post.coverImage);
+    var coverIndex = coverRaw && gallery ? findCoverIndex(items, coverRaw) : 0;
     var img = safeUrl(post.imageUrl);
     var embed = safeUrl(post.embedUrl);
     var link = safeUrl(post.link);
@@ -101,7 +158,12 @@
     html += "</div>";
 
     if (gallery) {
-      html += '<div class="post-gallery">' + renderGallery(gallery) + "</div>";
+      html += '<div class="post-gallery">';
+      if (coverRaw) {
+        html += renderCover(coverRaw, coverIndex, post.title);
+      }
+      html += renderGallery(items, cols);
+      html += "</div>";
     }
 
     if (link && !embed && !gallery) {
