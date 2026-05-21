@@ -623,21 +623,61 @@ main {
 }
 
 .lightbox__stage {
+  position: relative;
   flex: 1;
   min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+
+.lightbox__stage.is-dragging {
+  cursor: grabbing;
+  touch-action: none;
+}
+
+.lightbox__loader {
+  position: absolute;
+  z-index: 3;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: lightbox-spin 0.75s linear infinite;
+  pointer-events: none;
+}
+
+.lightbox__loader[hidden] {
+  display: none;
+}
+
+@keyframes lightbox-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.lightbox__stage.is-loading .lightbox__img {
+  opacity: 0.25;
+  transition: opacity 0.15s;
 }
 
 .lightbox__img {
+  position: relative;
+  z-index: 1;
   max-width: 100%;
   max-height: 100%;
   width: auto;
   height: auto;
   object-fit: contain;
   user-select: none;
+  -webkit-user-drag: none;
+  transition: opacity 0.15s;
 }
 
 .lightbox__img[hidden],

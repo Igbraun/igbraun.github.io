@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=48" />
+  <link rel="stylesheet" href="css/style.css?v=49" />
 </head>
 <body>
   <div class="site-bg" aria-hidden="true"></div>
@@ -36,8 +36,9 @@
   <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Просмотр">
     <button type="button" class="lightbox__btn lightbox__close" data-lightbox-close aria-label="Закрыть">×</button>
     <div class="lightbox__inner">
-      <div class="lightbox__stage">
-        <img class="lightbox__img" alt="" />
+      <div class="lightbox__stage" data-lightbox-stage>
+        <div class="lightbox__loader" data-lightbox-loader hidden aria-hidden="true"></div>
+        <img class="lightbox__img" alt="" draggable="false" />
         <iframe class="lightbox__video" title="Видео" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen hidden></iframe>
       </div>
       <div class="lightbox__controls">
@@ -49,6 +50,6 @@
   </div>
 
   <script src="js/site.js?v=39"></script>
-  <script src="js/main.js?v=30"></script>
+  <script src="js/main.js?v=31"></script>
 </body>
 </html>

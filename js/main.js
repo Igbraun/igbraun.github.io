@@ -63,12 +63,18 @@
   var lb,
     img,
     video,
+    stage,
+    loader,
     counterEl,
     controlsEl,
     sources = [],
     index = 0,
     mode = "image",
-    bound = false;
+    bound = false,
+    imageLoadId = 0,
+    drag = { active: false, x: 0, y: 0, pointerId: null };
+
+  var SWIPE_MIN = 48;
 
   function collectFromGrid(grid, selector, attr) {
     var cells = grid.querySelectorAll(selector);
@@ -82,10 +88,21 @@
   function setMode(nextMode) {
     mode = nextMode === "video" ? "video" : "image";
     if (lb) lb.setAttribute("data-mode", mode);
+    if (stage) {
+      stage.style.cursor = mode === "image" && sources.length > 1 ? "grab" : "default";
+    }
   }
 
   function setControlsVisible(visible) {
     if (controlsEl) controlsEl.hidden = !visible;
+  }
+
+  function setImageLoading(loading) {
+    if (loader) {
+      loader.hidden = !loading;
+      loader.setAttribute("aria-hidden", loading ? "false" : "true");
+    }
+    if (stage) stage.classList.toggle("is-loading", loading);
   }
 
   function clearVideo() {
@@ -94,30 +111,72 @@
     video.removeAttribute("src");
   }
 
-  function show() {
-    if (!lb || !sources.length) return;
-    if (mode === "video") {
-      if (!video) return;
-      if (img) img.hidden = true;
-      video.hidden = false;
-      video.src = sources[index];
-      if (counterEl) counterEl.textContent = index + 1 + " / " + sources.length;
-    } else {
-      if (!img) return;
-      clearVideo();
-      img.hidden = false;
-      img.src = sources[index];
-      img.alt = "Фото " + (index + 1) + " из " + sources.length;
-      if (counterEl) counterEl.textContent = index + 1 + " / " + sources.length;
+  function updateCounter() {
+    if (counterEl) counterEl.textContent = index + 1 + " / " + sources.length;
+  }
+
+  function showVideo() {
+    if (!video) return;
+    setImageLoading(false);
+    if (img) img.hidden = true;
+    video.hidden = false;
+    video.src = sources[index];
+    updateCounter();
+  }
+
+  function showImage() {
+    if (!img) return;
+    clearVideo();
+    img.hidden = false;
+    if (video) video.hidden = true;
+
+    var src = sources[index];
+    updateCounter();
+
+    if (img.src === src) {
+      setImageLoading(false);
+      return;
     }
+
+    var loadId = ++imageLoadId;
+    setImageLoading(true);
+
+    var pre = new Image();
+    pre.onload = function () {
+      if (loadId !== imageLoadId) return;
+      img.src = src;
+      img.alt = "Фото " + (index + 1) + " из " + sources.length;
+      setImageLoading(false);
+    };
+    pre.onerror = function () {
+      if (loadId !== imageLoadId) return;
+      setImageLoading(false);
+    };
+    pre.src = src;
+  }
+
+  function openLightbox() {
+    if (!lb) return;
     setControlsVisible(sources.length > 1);
     lb.hidden = false;
     lb.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
   }
 
+  function show() {
+    if (!lb || !sources.length) return;
+    if (mode === "video") {
+      showVideo();
+    } else {
+      showImage();
+    }
+    openLightbox();
+  }
+
   function close() {
     if (!lb) return;
+    imageLoadId++;
+    setImageLoading(false);
     lb.hidden = true;
     lb.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
@@ -127,19 +186,65 @@
     }
     clearVideo();
     setMode("image");
+    drag.active = false;
+    if (stage) stage.classList.remove("is-dragging");
   }
 
   function step(delta) {
-    if (sources.length <= 1) return;
+    if (sources.length <= 1 || mode !== "image") return;
     index = (index + delta + sources.length) % sources.length;
-    show();
+    showImage();
+    openLightbox();
   }
 
   function onKey(e) {
     if (lb.hidden) return;
     if (e.key === "Escape") close();
+    if (mode !== "image") return;
     if (e.key === "ArrowLeft") step(-1);
     if (e.key === "ArrowRight") step(1);
+  }
+
+  function bindSwipe() {
+    if (!stage || stage._swipeBound) return;
+    stage._swipeBound = true;
+
+    stage.addEventListener("pointerdown", function (e) {
+      if (lb.hidden || mode !== "image" || sources.length < 2) return;
+      if (e.button !== 0) return;
+      if (e.target.closest(".lightbox__btn")) return;
+      drag.active = true;
+      drag.x = e.clientX;
+      drag.y = e.clientY;
+      drag.pointerId = e.pointerId;
+      stage.classList.add("is-dragging");
+      if (stage.setPointerCapture) {
+        try {
+          stage.setPointerCapture(e.pointerId);
+        } catch (err) {}
+      }
+    });
+
+    stage.addEventListener("pointerup", function (e) {
+      if (!drag.active) return;
+      drag.active = false;
+      stage.classList.remove("is-dragging");
+      if (stage.releasePointerCapture) {
+        try {
+          stage.releasePointerCapture(e.pointerId);
+        } catch (err) {}
+      }
+      var dx = e.clientX - drag.x;
+      var dy = e.clientY - drag.y;
+      if (Math.abs(dx) >= SWIPE_MIN && Math.abs(dx) > Math.abs(dy) * 1.15) {
+        step(dx < 0 ? 1 : -1);
+      }
+    });
+
+    stage.addEventListener("pointercancel", function () {
+      drag.active = false;
+      stage.classList.remove("is-dragging");
+    });
   }
 
   function onClick(e) {
@@ -194,10 +299,13 @@
   window.initLightbox = function () {
     lb = document.getElementById("lightbox");
     if (!lb) return;
+    stage = lb.querySelector("[data-lightbox-stage]");
     img = lb.querySelector(".lightbox__img");
     video = lb.querySelector(".lightbox__video");
+    loader = lb.querySelector("[data-lightbox-loader]");
     counterEl = lb.querySelector(".lightbox__counter");
     controlsEl = lb.querySelector(".lightbox__controls");
+    bindSwipe();
     if (!bound) {
       document.addEventListener("click", onClick);
       document.addEventListener("keydown", onKey);
