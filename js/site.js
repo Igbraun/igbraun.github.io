@@ -60,6 +60,13 @@
     return items;
   }
 
+  function findCoverIndex(items, coverFull) {
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].full === coverFull) return i;
+    }
+    return 0;
+  }
+
   function videoEmbedSrc(item) {
     if (!item) return "";
     var id = "";
