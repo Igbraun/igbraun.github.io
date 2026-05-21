@@ -7,7 +7,7 @@
   --accent-soft: rgba(173, 48, 144, 0.15);
   --date: #3ccd67;
   --border: rgba(255, 255, 255, 0.08);
-  --panel: rgba(8, 12, 28, 0.88);
+  --panel: rgba(8, 12, 28, 0.22);
   --radius: 12px;
   --font-display: "Syne", system-ui, sans-serif;
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
@@ -193,7 +193,8 @@ main {
 
 .post-card {
   background: var(--panel);
-  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
@@ -260,14 +261,19 @@ main {
   padding-bottom: 1rem;
 }
 
+.post-card--gallery .post-gallery {
+  padding: 0;
+}
+
 .post-gallery {
   padding: 0 1rem 1.25rem;
 }
 
 .gallery-grid {
   display: grid;
-  gap: 0.45rem;
-  --cell-aspect: 1.5;
+  gap: 0;
+  line-height: 0;
+  font-size: 0;
 }
 
 .gallery-grid--5 {
@@ -276,6 +282,10 @@ main {
 
 .gallery-grid--4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.post-card--gallery .post-cover {
+  margin: 0;
 }
 
 .post-cover {
@@ -287,38 +297,41 @@ main {
   width: 100%;
   margin: 0;
   padding: 0;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: rgba(0, 0, 0, 0.35);
+  border: none;
+  border-radius: 0;
+  background: transparent;
   cursor: pointer;
   overflow: hidden;
+  aspect-ratio: 4 / 3;
+  line-height: 0;
 }
 
-.post-cover__btn:hover {
-  border-color: rgba(255, 255, 255, 0.2);
+.post-cover__btn:hover img {
+  opacity: 0.92;
 }
 
 .post-cover__btn img {
   display: block;
   width: 100%;
-  height: auto;
-  vertical-align: middle;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   pointer-events: none;
 }
 
 .gallery-cell {
   margin: 0;
-  width: 100%;
-  height: auto;
-  aspect-ratio: var(--cell-aspect);
   padding: 0;
   border: none;
-  background: transparent;
+  border-radius: 0;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #000;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
+  display: block;
+  overflow: hidden;
+  line-height: 0;
+  vertical-align: top;
 }
 
 .gallery-cell:hover img {
@@ -327,12 +340,12 @@ main {
 
 .gallery-cell img {
   display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: var(--radius);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   pointer-events: none;
+  vertical-align: top;
 }
 
 /* Полноэкранный просмотр галереи */
