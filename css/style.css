@@ -37,7 +37,7 @@ html::before {
   pointer-events: none;
   background-color: #0a0e1a;
   background-image:
-    linear-gradient(rgba(8, 12, 28, 0.4), rgba(8, 12, 28, 0.4)),
+    linear-gradient(rgba(8, 12, 28, 0.12), rgba(8, 12, 28, 0.12)),
     url("../images/bg-mobile.png");
   background-repeat: no-repeat;
   background-position: center center;
@@ -62,8 +62,8 @@ body {
   min-height: 100vh;
 }
 
-/* Широкий экран — горизонтальная текстура */
-@media (min-width: 768px) {
+/* Горизонтальный широкий экран — desktop-текстура; вертикальный монитор — mobile */
+@media (min-width: 768px) and (min-aspect-ratio: 1/1) {
   html::before {
     background-image:
       linear-gradient(rgba(8, 12, 28, 0.3), rgba(8, 12, 28, 0.3)),
@@ -352,7 +352,8 @@ main {
   padding: 0;
 }
 
-.post-video-main {
+.post-video-main,
+.video-cell--inline {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -360,7 +361,8 @@ main {
   line-height: 0;
 }
 
-.post-video-main iframe {
+.post-video-main iframe,
+.video-cell--inline iframe {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -378,10 +380,16 @@ main {
 
 .video-cell {
   position: relative;
+  display: block;
   width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
   aspect-ratio: 16 / 9;
   background: #000;
   overflow: hidden;
+  cursor: pointer;
+  line-height: 0;
 }
 
 .video-cell iframe {
@@ -390,6 +398,11 @@ main {
   width: 100%;
   height: 100%;
   border: 0;
+  pointer-events: none;
+}
+
+.video-cell:hover iframe {
+  opacity: 0.92;
 }
 
 /* Полноэкранный просмотр галереи */
@@ -437,6 +450,20 @@ main {
   height: auto;
   object-fit: contain;
   user-select: none;
+}
+
+.lightbox__img[hidden],
+.lightbox__video[hidden] {
+  display: none;
+}
+
+.lightbox__video {
+  width: min(960px, 100%);
+  max-height: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 0;
+  background: #000;
 }
 
 .lightbox__controls {

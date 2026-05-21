@@ -60,28 +60,56 @@
 })();
 
 (function () {
-  var lb, img, counterEl, controlsEl, sources = [],
+  var lb,
+    img,
+    video,
+    counterEl,
+    controlsEl,
+    sources = [],
     index = 0,
+    mode = "image",
     bound = false;
 
-  function collectFromGrid(grid) {
-    var cells = grid.querySelectorAll(".gallery-cell");
+  function collectFromGrid(grid, selector, attr) {
+    var cells = grid.querySelectorAll(selector);
     var list = [];
     for (var i = 0; i < cells.length; i++) {
-      list.push(cells[i].getAttribute("data-src"));
+      list.push(cells[i].getAttribute(attr));
     }
     return list;
+  }
+
+  function setMode(nextMode) {
+    mode = nextMode === "video" ? "video" : "image";
+    if (lb) lb.setAttribute("data-mode", mode);
   }
 
   function setControlsVisible(visible) {
     if (controlsEl) controlsEl.hidden = !visible;
   }
 
+  function clearVideo() {
+    if (!video) return;
+    video.hidden = true;
+    video.removeAttribute("src");
+  }
+
   function show() {
-    if (!lb || !img || !sources.length) return;
-    img.src = sources[index];
-    img.alt = "Фото " + (index + 1) + " из " + sources.length;
-    if (counterEl) counterEl.textContent = index + 1 + " / " + sources.length;
+    if (!lb || !sources.length) return;
+    if (mode === "video") {
+      if (!video) return;
+      if (img) img.hidden = true;
+      video.hidden = false;
+      video.src = sources[index];
+      if (counterEl) counterEl.textContent = index + 1 + " / " + sources.length;
+    } else {
+      if (!img) return;
+      clearVideo();
+      img.hidden = false;
+      img.src = sources[index];
+      img.alt = "Фото " + (index + 1) + " из " + sources.length;
+      if (counterEl) counterEl.textContent = index + 1 + " / " + sources.length;
+    }
     setControlsVisible(sources.length > 1);
     lb.hidden = false;
     lb.setAttribute("aria-hidden", "false");
@@ -93,7 +121,12 @@
     lb.hidden = true;
     lb.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
-    img.removeAttribute("src");
+    if (img) {
+      img.hidden = false;
+      img.removeAttribute("src");
+    }
+    clearVideo();
+    setMode("image");
   }
 
   function step(delta) {
@@ -110,6 +143,18 @@
   }
 
   function onClick(e) {
+    var videoOpener = e.target.closest(".video-open");
+    if (videoOpener) {
+      var videosBlock = videoOpener.closest(".post-videos");
+      var videoGrid = videosBlock ? videosBlock.querySelector(".video-grid") : null;
+      if (!videoGrid) return;
+      sources = collectFromGrid(videoGrid, ".video-open", "data-src");
+      index = parseInt(videoOpener.getAttribute("data-index"), 10) || 0;
+      setMode("video");
+      show();
+      return;
+    }
+
     var opener = e.target.closest(".gallery-open");
     if (opener) {
       if (opener.classList.contains("gallery-open--solo")) {
@@ -117,14 +162,16 @@
         if (!soloSrc) return;
         sources = [soloSrc];
         index = 0;
+        setMode("image");
         show();
         return;
       }
       var block = opener.closest(".post-gallery");
       var grid = block ? block.querySelector(".gallery-grid") : null;
       if (!grid) return;
-      sources = collectFromGrid(grid);
+      sources = collectFromGrid(grid, ".gallery-cell", "data-src");
       index = parseInt(opener.getAttribute("data-index"), 10) || 0;
+      setMode("image");
       show();
       return;
     }
@@ -148,6 +195,7 @@
     lb = document.getElementById("lightbox");
     if (!lb) return;
     img = lb.querySelector(".lightbox__img");
+    video = lb.querySelector(".lightbox__video");
     counterEl = lb.querySelector(".lightbox__counter");
     controlsEl = lb.querySelector(".lightbox__controls");
     if (!bound) {

@@ -82,16 +82,29 @@
     return "https://www.youtube.com/embed/" + id;
   }
 
-  function renderVideoIframe(item, title) {
+  function renderVideoIframe(item, title, inGrid, gridIndex) {
     var src = safeUrl(videoEmbedSrc(item));
     if (!src) return "";
-    return (
-      '<div class="video-cell"><iframe src="' +
+    var iframe =
+      '<iframe src="' +
       src +
       '" title="' +
       esc(title || "Видео") +
-      '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe></div>'
-    );
+      '" loading="lazy" tabindex="-1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+    if (inGrid) {
+      return (
+        '<button type="button" class="video-cell video-open" data-index="' +
+        gridIndex +
+        '" data-src="' +
+        src +
+        '" aria-label="Открыть видео ' +
+        (gridIndex + 1) +
+        '">' +
+        iframe +
+        "</button>"
+      );
+    }
+    return '<div class="video-cell video-cell--inline">' + iframe + "</div>";
   }
 
   function renderVideoPost(post) {
@@ -113,13 +126,13 @@
 
     html += '<div class="post-videos">';
     if (post.mainVideo) {
-      html += '<div class="post-video-main">' + renderVideoIframe(post.mainVideo, post.title) + "</div>";
+      html += '<div class="post-video-main">' + renderVideoIframe(post.mainVideo, post.title, false) + "</div>";
     }
     var grid = post.videoGrid || [];
     if (grid.length) {
       html += '<div class="video-grid">';
       for (var i = 0; i < grid.length; i++) {
-        html += renderVideoIframe(grid[i], post.title + " — " + (i + 1));
+        html += renderVideoIframe(grid[i], post.title + " — " + (i + 1), true, i);
       }
       html += "</div>";
     }
