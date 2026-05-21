@@ -7,6 +7,20 @@
   },
   "posts": [
     {
+      "date": "2026-05-25",
+      "title": "Гифки — подборка",
+      "text": "Пост только из анимации: сверху главный кадр, ниже — сетка в четыре столбца. Клик открывает в полный экран.",
+      "galleryColumns": 4,
+      "coverImage": "images/galleries/gifs/01-couple-beach.jpg",
+      "gallery": [
+        "images/galleries/gifs/01-couple-beach.jpg",
+        "images/galleries/gifs/02-tiger.jpg",
+        "images/galleries/gifs/03-sunset-wave.jpg",
+        "images/galleries/gifs/04-cat.jpg",
+        "images/galleries/gifs/05-kiss.jpg"
+      ]
+    },
+    {
       "date": "2026-05-01",
       "title": "Интерьер и дом на продажу",
       "gallery": [
