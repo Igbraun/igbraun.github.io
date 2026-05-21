@@ -230,7 +230,20 @@
       var thumb = useOriginal || isAnimatedMediaPath(full)
         ? full
         : full.replace(/^(images\/galleries\/[^/]+)\//, "$1/thumbs/");
-      return { full: full, thumb: thumb };
+      return { kind: "image", full: full, thumb: thumb };
+    }
+    if (item && item.type === "video") {
+      var vid = {
+        provider: String(item.provider || "youtube").toLowerCase(),
+        id: String(item.id || "").trim(),
+      };
+      if (!vid.id) return null;
+      return {
+        kind: "video",
+        full: videoEmbedSrc(vid),
+        thumb: item.thumb || "",
+        video: vid,
+      };
     }
     if (item && item.full) {
       var thumbPath =
@@ -238,11 +251,17 @@
         (useOriginal || isAnimatedMediaPath(item.full)
           ? item.full
           : item.full.replace(/^(images\/galleries\/[^/]+)\//, "$1/thumbs/"));
-      var out = { full: item.full, thumb: thumbPath };
+      var out = { kind: "image", full: item.full, thumb: thumbPath };
       if (item.thumbPosition) out.thumbPosition = String(item.thumbPosition).trim();
       return out;
     }
     return null;
+  }
+
+  function galleryColumnCount(post) {
+    var n = parseInt(post.galleryColumns, 10);
+    if (n >= 2 && n <= 5) return n;
+    return 4;
   }
 
   function normalizeGallery(post) {
@@ -250,7 +269,12 @@
     var items = [];
     for (var i = 0; i < raw.length; i++) {
       var it = resolveGalleryItem(raw[i], post);
-      if (it && safeUrl(it.full)) items.push(it);
+      if (!it) continue;
+      if (it.kind === "video") {
+        if (safeUrl(it.full) && safeUrl(it.thumb)) items.push(it);
+      } else if (safeUrl(it.full)) {
+        items.push(it);
+      }
     }
     return items;
   }
@@ -303,7 +327,9 @@
   }
 
   function renderPostDate(post, orderNum) {
-    var suffix = orderNum ? " (" + orderNum + ")" : "";
+    var displayOrder =
+      post.order != null && post.order !== "" ? String(post.order) : orderNum ? String(orderNum) : "";
+    var suffix = displayOrder ? " (" + displayOrder + ")" : "";
     if (post.date) {
       return (
         '<time class="post-date" datetime="' + esc(post.date) + '">' + esc(post.date) + suffix + "</time>"
@@ -349,16 +375,37 @@
 
   function renderGallery(items, columns, animated) {
     if (!items || !items.length) return "";
-    var cols = columns === 4 ? 4 : 5;
+    var cols = columns;
+    if (cols < 2 || cols > 5) cols = 4;
     var html =
       '<div class="gallery-grid gallery-grid--' +
       cols +
       (animated ? " gallery-grid--animated" : "") +
       '">';
     for (var i = 0; i < items.length; i++) {
-      var full = safeUrl(items[i].full);
-      var thumb = safeUrl(items[i].thumb);
+      var it = items[i];
+      var full = safeUrl(it.full);
       if (!full) continue;
+      if (it.kind === "video") {
+        var poster = safeUrl(it.thumb);
+        if (!poster) continue;
+        html +=
+          '<button type="button" class="gallery-cell gallery-cell--video video-open" data-index="' +
+          i +
+          '" data-src="' +
+          full +
+          '" aria-label="Открыть видео ' +
+          (i + 1) +
+          " из " +
+          items.length +
+          '">' +
+          '<img src="' +
+          poster +
+          '" alt="" loading="lazy" decoding="async" />' +
+          '<span class="gallery-cell__play" aria-hidden="true"></span></button>';
+        continue;
+      }
+      var thumb = safeUrl(it.thumb);
       if (!thumb) thumb = full;
       html +=
         '<button type="button" class="gallery-cell gallery-open" data-index="' +
@@ -370,7 +417,7 @@
         " из " +
         items.length +
         '">';
-      var pos = items[i].thumbPosition || "center";
+      var pos = it.thumbPosition || "center";
       html +=
         '<img src="' +
         thumb +
@@ -457,7 +504,7 @@
 
     var items = normalizeGallery(post);
     var gallery = items.length ? items : null;
-    var cols = post.galleryColumns === 4 ? 4 : 5;
+    var cols = galleryColumnCount(post);
     var coverRaw = safeUrl(post.coverImage);
     var coverIndex = coverRaw && gallery ? findCoverIndex(items, coverRaw) : 0;
     var img = safeUrl(post.imageUrl);

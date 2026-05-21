@@ -250,8 +250,13 @@
   function onClick(e) {
     var videoOpener = e.target.closest(".video-open");
     if (videoOpener) {
+      var videoGrid = null;
       var videosBlock = videoOpener.closest(".post-videos");
-      var videoGrid = videosBlock ? videosBlock.querySelector(".video-grid") : null;
+      if (videosBlock) videoGrid = videosBlock.querySelector(".video-grid");
+      if (!videoGrid) {
+        var galleryBlock = videoOpener.closest(".post-gallery");
+        if (galleryBlock) videoGrid = galleryBlock.querySelector(".gallery-grid");
+      }
       if (!videoGrid) return;
       sources = collectFromGrid(videoGrid, ".video-open", "data-src");
       index = parseInt(videoOpener.getAttribute("data-index"), 10) || 0;
