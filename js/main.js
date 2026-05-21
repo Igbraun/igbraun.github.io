@@ -226,6 +226,29 @@
     return h + ":" + pad(m) + ":" + pad(s);
   }
 
+  function keepScrollPosition(fn) {
+    var sx = window.scrollX;
+    var sy = window.scrollY;
+    fn();
+    requestAnimationFrame(function () {
+      window.scrollTo(sx, sy);
+    });
+  }
+
+  function playWithoutScroll(audio) {
+    var sx = window.scrollX;
+    var sy = window.scrollY;
+    function restore() {
+      window.scrollTo(sx, sy);
+    }
+    var p = audio.play();
+    if (p && typeof p.then === "function") {
+      p.then(restore).catch(restore);
+    } else {
+      restore();
+    }
+  }
+
   function bindPlayer(root) {
     var audio = root.querySelector("audio");
     var playBtn = root.querySelector("[data-audio-play]");
@@ -285,33 +308,43 @@
       audio.load();
       if (autoplay) {
         if (activeAudio && activeAudio !== audio) activeAudio.pause();
-        audio.play();
+        playWithoutScroll(audio);
         activeAudio = audio;
       }
     }
 
-    playBtn.addEventListener("click", function () {
+    playBtn.addEventListener("click", function (e) {
+      e.preventDefault();
       if (audio.paused) {
         if (!audio.src && tracks.length) {
-          loadTrack(0, true);
+          keepScrollPosition(function () {
+            loadTrack(0, true);
+          });
+          playBtn.blur();
           return;
         }
         if (activeAudio && activeAudio !== audio) activeAudio.pause();
-        audio.play();
+        playWithoutScroll(audio);
         activeAudio = audio;
       } else {
         audio.pause();
       }
+      playBtn.blur();
     });
 
     for (var j = 0; j < tracks.length; j++) {
       (function (btn, idx) {
-        btn.addEventListener("click", function () {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
           if (idx === currentIndex && !audio.paused) {
             audio.pause();
+            btn.blur();
             return;
           }
-          loadTrack(idx, true);
+          keepScrollPosition(function () {
+            loadTrack(idx, true);
+          });
+          btn.blur();
         });
       })(tracks[j], j);
     }
