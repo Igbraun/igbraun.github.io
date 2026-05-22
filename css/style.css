@@ -332,6 +332,31 @@ main {
   white-space: pre-line;
 }
 
+.post-text--rich p {
+  white-space: normal;
+}
+
+.post-text--rich p + p {
+  margin-top: 0.75rem;
+}
+
+.post-text a,
+.post-text--rich a {
+  color: var(--accent, #e879d8);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.post-text a:hover,
+.post-text--rich a:hover {
+  opacity: 0.88;
+}
+
+.post-text-gap {
+  height: 0;
+  margin: 0.75rem 0;
+}
+
 .post-card--audio .post-text {
   margin-top: 1rem;
 }

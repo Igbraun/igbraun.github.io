@@ -452,7 +452,7 @@
     html += renderPostDate(post, orderNum);
     html += '<h2 class="post-title">' + esc(post.title || "Без названия") + "</h2>";
     if (post.text) {
-      html += '<div class="post-text"><p>' + esc(post.text) + "</p></div>";
+      html += PostTextFormat.render(post.text, esc);
     }
     if (link) {
       html += '<p class="post-link"><a href="' + link + '" target="_blank" rel="noopener">Открыть на Vimeo</a></p>';
@@ -775,7 +775,7 @@
       html += renderAudioPlayer(audioSrc, post.audioTitle || post.title);
     }
     if (post.text) {
-      html += '<div class="post-text"><p>' + esc(post.text) + "</p></div>";
+      html += PostTextFormat.render(post.text, esc);
     }
     html += "</div>";
 
