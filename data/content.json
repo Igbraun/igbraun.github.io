@@ -926,11 +926,15 @@
       ]
     },
     {
-      "title": "Без названия",
+      "title": "fdasfdasfasdfdsafd",
       "date": "",
-      "showFeedLabel": false,
-      "feedLabel": "",
+      "showFeedLabel": true,
+      "feedLabel": "fadsfasdfasd",
       "sections": [
+        {
+          "type": "text",
+          "text": "fasdfsadfasdfdsa"
+        },
         {
           "type": "gallery",
           "galleryColumns": 4,
