@@ -515,14 +515,19 @@
     var poster = mediaBust(safeUrl(coverVideo.thumb || post.coverImage), post);
     if (!embed || !poster) return "";
     return (
-      '<div class="post-cover">' +
-      '<button type="button" class="post-cover__btn gallery-cell--video video-open" data-src="' +
-      embed +
-      '" data-index="0" aria-label="Открыть видео">' +
-      '<img src="' +
+      '<div class="post-cover post-cover--inline-video" data-cover-video>' +
+      '<div class="post-cover__frame">' +
+      '<img class="post-cover__poster" src="' +
       poster +
       '" alt="" loading="eager" decoding="async" />' +
-      '<span class="gallery-cell__play" aria-hidden="true"></span></button></div>'
+      '<button type="button" class="post-cover__play-btn" data-cover-video-play aria-label="Воспроизвести видео">' +
+      '<span class="gallery-cell__play" aria-hidden="true"></span></button>' +
+      '<iframe class="post-cover__iframe" data-embed="' +
+      embed +
+      '" title="' +
+      esc(post.title || "Видео") +
+      '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen hidden></iframe>' +
+      "</div></div>"
     );
   }
 
