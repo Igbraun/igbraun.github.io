@@ -361,6 +361,22 @@ main {
   margin: 0.75rem 0;
 }
 
+.post-card--sections .post-body--head {
+  margin-bottom: 0.25rem;
+}
+
+.post-section {
+  margin-top: 0.85rem;
+}
+
+.post-section--media .post-cover {
+  margin-top: 0;
+}
+
+.post-section--gallery .post-gallery {
+  margin-top: 0;
+}
+
 .post-card--audio .post-text {
   margin-top: 1rem;
 }

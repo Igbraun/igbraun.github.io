@@ -714,7 +714,124 @@
     );
   }
 
+  function renderMediaSection(sec, post) {
+    if (sec.coverVideo && sec.coverVideo.id) {
+      return (
+        '<div class="post-section post-section--media">' +
+        renderCoverVideo(sec.coverVideo, post) +
+        "</div>"
+      );
+    }
+    if (sec.coverImage) {
+      return (
+        '<div class="post-section post-section--media">' +
+        renderCover(sec.coverImage, 0, post.title, post) +
+        "</div>"
+      );
+    }
+    return "";
+  }
+
+  function renderGallerySection(sec, post) {
+    var fake = {
+      title: post.title,
+      coverImage: sec.coverImage,
+      coverVideo: sec.coverVideo,
+      gallery: sec.gallery || [],
+      galleryColumns: sec.galleryColumns,
+      galleryAnimated: sec.galleryAnimated,
+      galleryCellAspectW: sec.galleryCellAspectW,
+      galleryCellAspectH: sec.galleryCellAspectH,
+      mediaStamp: sec.mediaStamp,
+    };
+    var items = normalizeGallery(fake);
+    if (!items.length && !sec.coverImage && !(sec.coverVideo && sec.coverVideo.id)) {
+      return "";
+    }
+    var cols = galleryColumnCount(fake);
+    var coverRaw = safeUrl(fake.coverImage);
+    var coverIndex = coverRaw && items.length ? findCoverIndex(items, coverRaw) : 0;
+    var html = '<div class="post-section post-section--gallery"><div class="post-gallery">';
+    if (fake.coverVideo && fake.coverVideo.id) {
+      html += renderCoverVideo(fake.coverVideo, fake);
+    } else if (coverRaw) {
+      html += renderCover(coverRaw, coverIndex, post.title, post);
+    }
+    html += renderGallery(items, cols, fake.galleryAnimated, fake);
+    html += "</div></div>";
+    return html;
+  }
+
+  function renderPostSections(post, orderNum) {
+    var sections = post.sections || [];
+    var hasPlaylist = false;
+    var hasAudio = false;
+    for (var s = 0; s < sections.length; s++) {
+      if (sections[s].type === "playlist") hasPlaylist = true;
+      if (sections[s].type === "audio") hasAudio = true;
+    }
+
+    var html =
+      '<article class="post-card post-card--sections' +
+      (hasPlaylist || hasAudio ? " post-card--audio" : "") +
+      '" data-order="' +
+      (orderNum || "") +
+      '">';
+
+    html += '<div class="post-body post-body--head">';
+    html += renderPostDate(post, orderNum);
+    html += '<h2 class="post-title">' + esc(post.title || "Без названия") + "</h2>";
+    html += "</div>";
+
+    for (var i = 0; i < sections.length; i++) {
+      var sec = sections[i];
+      if (sec.type === "text" && sec.text) {
+        html += '<div class="post-section post-section--text">';
+        html += PostTextFormat.render(sec.text, esc);
+        html += "</div>";
+      } else if (sec.type === "media") {
+        html += renderMediaSection(sec, post);
+      } else if (sec.type === "gallery") {
+        html += renderGallerySection(sec, post);
+      } else if (sec.type === "audio" && sec.audio) {
+        html +=
+          '<div class="post-section post-section--audio">' +
+          renderAudioPlayer(sec.audio, sec.audioTitle || post.title) +
+          "</div>";
+      } else if (sec.type === "playlist" && sec.playlist && sec.playlist.length) {
+        html +=
+          '<div class="post-section post-section--playlist">' +
+          renderPlaylistPlayer(sec.playlist) +
+          "</div>";
+      }
+    }
+
+    html += "</article>";
+    return html;
+  }
+
   function renderPost(post, orderNum) {
+    if (post.sections && post.sections.length) {
+      for (var vi = 0; vi < post.sections.length; vi++) {
+        if (post.sections[vi].type === "videoPost") {
+          var vp = post.sections[vi];
+          return renderVideoPost(
+            {
+              title: post.title,
+              date: post.date,
+              order: post.order,
+              text: post.sections[vi - 1] && post.sections[vi - 1].type === "text" ? post.sections[vi - 1].text : "",
+              mainVideo: vp.mainVideo,
+              videoGrid: vp.videoGrid,
+              link: vp.link,
+            },
+            orderNum
+          );
+        }
+      }
+      return renderPostSections(post, orderNum);
+    }
+
     if (post.videoGrid && post.videoGrid.length) {
       return renderVideoPost(post, orderNum);
     }
