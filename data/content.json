@@ -15,7 +15,7 @@
       "date": "2026-05-25",
       "galleryColumns": 3,
       "galleryAnimated": true,
-      "mediaStamp": "1779452308121",
+      "mediaStamp": "1779453127600",
       "galleryCellAspectW": 4,
       "galleryCellAspectH": 3,
       "coverVideo": {
@@ -75,6 +75,16 @@
           "aspectH": 16,
           "videoWidth": 240,
           "videoHeight": 426
+        },
+        {
+          "type": "video",
+          "provider": "vimeo",
+          "id": "1194679041",
+          "thumb": "",
+          "aspectW": 16,
+          "aspectH": 9,
+          "videoWidth": 426,
+          "videoHeight": 240
         },
         {
           "type": "video",
