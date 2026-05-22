@@ -584,10 +584,6 @@ main {
   line-height: 0;
 }
 
-.post-cover--inline-video:not(.post-cover--bare) .post-cover__frame {
-  aspect-ratio: 16 / 9;
-}
-
 .post-cover--bare .post-cover__frame {
   max-width: 100%;
 }

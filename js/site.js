@@ -571,7 +571,7 @@
     if (!coverVideo || !coverVideo.id) return "";
     var embedItem = { provider: coverVideo.provider, id: coverVideo.id };
     var embed = safeUrl(
-      videoEmbedSrc(embedItem, { responsive: !!(coverVideo.bare && coverVideoIsPortrait(coverVideo)) })
+      videoEmbedSrc(embedItem, { responsive: coverVideoIsPortrait(coverVideo) })
     );
     if (!embed) return "";
     var title = esc(post.title || "Видео");
@@ -603,7 +603,11 @@
     if (!poster) return "";
     return (
       '<div class="post-cover post-cover--inline-video" data-cover-video>' +
-      '<div class="post-cover__frame">' +
+      '<div class="post-cover__frame' +
+      portraitClass +
+      '" style="' +
+      frameStyle +
+      '">' +
       '<img class="post-cover__poster" src="' +
       poster +
       '" alt="" loading="eager" decoding="async" />' +
