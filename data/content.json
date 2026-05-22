@@ -1,0 +1,74 @@
+{
+  "brand": {
+    "name": "Igor Braun",
+    "email": "vibroliven@gmail.com",
+    "instagram": "https://www.instagram.com/igbraun/",
+    "youtube": "https://www.youtube.com/@Igorbraun"
+  },
+  "meta": {
+    "title": "Igor Braun",
+    "description": "Портфолио — Igor Braun"
+  },
+  "posts": [
+    {
+      "title": "Квартира №4",
+      "date": "",
+      "showFeedLabel": true,
+      "feedLabel": "Зима 2026",
+      "order": "1",
+      "sections": [
+        {
+          "type": "text",
+          "text": "<p>Ровные интерьерные фото - первый шаг к успешной продаже недвижимости =).</p><p>Цены демократичные (пока...👹)</p>"
+        },
+        {
+          "type": "gallery",
+          "galleryColumns": 3,
+          "gallery": [
+            {
+              "full": "images/galleries/post-квартирка-4/cell-1.jpg",
+              "thumb": "images/galleries/post-квартирка-4/thumbs/cell-1.jpg"
+            },
+            {
+              "full": "images/galleries/post-квартирка-4/cell-2.jpg",
+              "thumb": "images/galleries/post-квартирка-4/thumbs/cell-2.jpg"
+            },
+            {
+              "full": "images/galleries/post-квартирка-4/cell-4.jpg",
+              "thumb": "images/galleries/post-квартирка-4/thumbs/cell-4.jpg"
+            },
+            {
+              "full": "images/galleries/post-квартирка-4/cell-5.jpg",
+              "thumb": "images/galleries/post-квартирка-4/thumbs/cell-5.jpg"
+            },
+            {
+              "full": "images/galleries/post-квартирка-4/cell-7.jpg",
+              "thumb": "images/galleries/post-квартирка-4/thumbs/cell-7.jpg"
+            },
+            {
+              "full": "images/galleries/post-квартирка-4/cell-9.jpg",
+              "thumb": "images/galleries/post-квартирка-4/thumbs/cell-9.jpg"
+            },
+            {
+              "full": "images/galleries/post-квартирка-4/cell-10.jpg",
+              "thumb": "images/galleries/post-квартирка-4/thumbs/cell-10.jpg"
+            },
+            {
+              "full": "images/galleries/post-квартирка-4/cell-11.jpg",
+              "thumb": "images/galleries/post-квартирка-4/thumbs/cell-11.jpg"
+            },
+            {
+              "full": "images/galleries/post-квартирка-4/cell-12.jpg",
+              "thumb": "images/galleries/post-квартирка-4/thumbs/cell-12.jpg"
+            }
+          ],
+          "galleryAnimated": true,
+          "mediaStamp": "1779474592891",
+          "galleryCellAspectW": 4,
+          "galleryCellAspectH": 3,
+          "coverImage": "images/galleries/post-квартирка-4/cover.jpg"
+        }
+      ]
+    }
+  ]
+}
