@@ -71,14 +71,18 @@
     }
   }
 
-  /** Встроенное видео без постера — при переносе карточки iframe перезагружается */
+  /** Встроенные iframe (обложка или ячейки без постера) — masonry не двигает карточки */
   function feedHasBareCoverVideo(feedEl) {
-    return !!(feedEl && feedEl.querySelector(".post-cover--bare"));
+    return !!(
+      feedEl &&
+      (feedEl.querySelector(".post-cover--bare") ||
+        feedEl.querySelector(".gallery-cell--inline-video"))
+    );
   }
 
   function wireBareCoverIframes(root) {
     var nodes = (root || document).querySelectorAll(
-      ".post-cover--bare .post-cover__iframe[data-embed]"
+      ".post-cover--bare .post-cover__iframe[data-embed], .gallery-cell--inline-video iframe[data-embed]"
     );
     for (var i = 0; i < nodes.length; i++) {
       var iframe = nodes[i];
@@ -491,18 +495,22 @@
         if (!full) continue;
         var aspectAttrs = galleryVideoAspectAttrs(it);
         if (!poster) {
+          var inlineStyle = "";
+          if (it.aspectW > 0 && it.aspectH > 0) {
+            inlineStyle = ' style="aspect-ratio:' + it.aspectW + " / " + it.aspectH + ';"';
+          }
           html +=
-            '<button type="button" class="gallery-cell gallery-cell--video gallery-cell--video-noposter video-open" data-index="' +
-            i +
-            '" data-src="' +
+            '<div class="gallery-cell gallery-cell--video gallery-cell--inline-video"' +
+            inlineStyle +
+            ">" +
+            '<iframe data-embed="' +
             full +
-            '"' +
-            aspectAttrs +
-            ' aria-label="Открыть видео ' +
+            '" title="' +
+            esc(post.title || "Видео") +
+            " — " +
             (i + 1) +
-            " из " +
-            items.length +
-            '"><span class="gallery-cell__play" aria-hidden="true"></span></button>';
+            '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>' +
+            "</div>";
           continue;
         }
         html +=
