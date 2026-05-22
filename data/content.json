@@ -872,7 +872,7 @@
         },
         {
           "type": "gallery",
-          "galleryColumns": 4,
+          "galleryColumns": 2,
           "gallery": [
             {
               "type": "video",
