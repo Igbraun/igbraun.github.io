@@ -13,9 +13,11 @@
     {
       "title": "Гифки — подборкаmiiojio",
       "date": "2026-05-25",
-      "galleryColumns": 2,
+      "galleryColumns": 3,
       "galleryAnimated": true,
       "mediaStamp": "1779451290859",
+      "galleryCellAspectW": 4,
+      "galleryCellAspectH": 3,
       "coverVideo": {
         "type": "video",
         "provider": "vimeo",
@@ -150,6 +152,8 @@
       "title": "Интерьер и дом на продажу",
       "date": "2026-05-01",
       "galleryColumns": 5,
+      "galleryCellAspectW": 4,
+      "galleryCellAspectH": 3,
       "gallery": [
         {
           "full": "images/galleries/interior-1/int-1.jpg",
@@ -382,6 +386,8 @@
       "title": "Интерьер — объект 4",
       "date": "2026-04-15",
       "galleryColumns": 4,
+      "galleryCellAspectW": 4,
+      "galleryCellAspectH": 3,
       "coverImage": "images/galleries/interior-4/DSC08080-HDR.jpg",
       "gallery": [
         {
@@ -491,6 +497,8 @@
       "title": "Интерьер — объект 3",
       "date": "2026-03-18",
       "galleryColumns": 4,
+      "galleryCellAspectW": 4,
+      "galleryCellAspectH": 3,
       "coverImage": "images/galleries/interior-3/DSC08348-HDR.jpg",
       "gallery": [
         {
@@ -628,6 +636,8 @@
       "title": "Интерьер — объект 2",
       "date": "2026-03-12",
       "galleryColumns": 4,
+      "galleryCellAspectW": 4,
+      "galleryCellAspectH": 3,
       "coverImage": "images/galleries/interior-2/DSC08249-HDR.jpg",
       "gallery": [
         {
