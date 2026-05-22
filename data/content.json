@@ -15,7 +15,7 @@
       "date": "2026-05-25",
       "galleryColumns": 3,
       "galleryAnimated": true,
-      "mediaStamp": "1779451290859",
+      "mediaStamp": "1779452308121",
       "galleryCellAspectW": 4,
       "galleryCellAspectH": 3,
       "coverVideo": {
@@ -56,7 +56,36 @@
           "full": "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-4.jpg",
           "thumb": "images/galleries/2026-05-25-гифки-подборкаmiiojio/thumbs/cell-4.jpg"
         },
-        "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-5.gif"
+        "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-5.gif",
+        {
+          "full": "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-6.jpg",
+          "thumb": "images/galleries/2026-05-25-гифки-подборкаmiiojio/thumbs/cell-6.jpg"
+        },
+        {
+          "full": "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-7.jpg",
+          "thumb": "images/galleries/2026-05-25-гифки-подборкаmiiojio/thumbs/cell-7.jpg"
+        },
+        "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-8.gif",
+        {
+          "type": "video",
+          "provider": "vimeo",
+          "id": "1194684715",
+          "thumb": "",
+          "aspectW": 9,
+          "aspectH": 16,
+          "videoWidth": 240,
+          "videoHeight": 426
+        },
+        {
+          "type": "video",
+          "provider": "vimeo",
+          "id": "1194679041",
+          "thumb": "",
+          "aspectW": 16,
+          "aspectH": 9,
+          "videoWidth": 426,
+          "videoHeight": 240
+        }
       ],
       "text": "Пост только из а;lkjhgjbikopl[ет в полный экран."
     },
