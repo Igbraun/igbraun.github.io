@@ -27,6 +27,15 @@
     return "";
   }
 
+  /** Сброс кэша после замены файла по тому же пути (cover.jpg и т.д.) */
+  function mediaBust(url, post) {
+    if (!url) return url;
+    var stamp = post && (post.mediaStamp || post.date);
+    if (!stamp) return url;
+    var sep = url.indexOf("?") >= 0 ? "&" : "?";
+    return url + sep + "v=" + encodeURIComponent(String(stamp));
+  }
+
   function getPosts(data) {
     if (data.posts && data.posts.length) return data.posts;
     if (data.feeds && data.feeds.home && data.feeds.home.posts) return data.feeds.home.posts;
@@ -373,7 +382,7 @@
     return html;
   }
 
-  function renderGallery(items, columns, animated) {
+  function renderGallery(items, columns, animated, post) {
     if (!items || !items.length) return "";
     var cols = columns;
     if (cols < 2 || cols > 5) cols = 4;
@@ -387,8 +396,9 @@
       var full = safeUrl(it.full);
       if (!full) continue;
       if (it.kind === "video") {
-        var poster = safeUrl(it.thumb);
+        var poster = mediaBust(safeUrl(it.thumb), post);
         if (!poster) continue;
+        full = mediaBust(full, post);
         html +=
           '<button type="button" class="gallery-cell gallery-cell--video video-open" data-index="' +
           i +
@@ -405,8 +415,9 @@
           '<span class="gallery-cell__play" aria-hidden="true"></span></button>';
         continue;
       }
-      var thumb = safeUrl(it.thumb);
-      if (!thumb) thumb = full;
+      var thumb = mediaBust(safeUrl(it.thumb), post);
+      if (!thumb) thumb = mediaBust(full, post);
+      else full = mediaBust(full, post);
       html +=
         '<button type="button" class="gallery-cell gallery-open" data-index="' +
         i +
@@ -479,17 +490,18 @@
     return html;
   }
 
-  function renderCover(coverFull, index, title) {
+  function renderCover(coverFull, index, title, post) {
     if (!coverFull) return "";
+    var src = mediaBust(coverFull, post);
     return (
       '<div class="post-cover">' +
       '<button type="button" class="post-cover__btn gallery-open gallery-open--solo" data-src="' +
-      coverFull +
+      src +
       '" data-index="' +
       index +
       '" aria-label="Открыть главное фото">' +
       '<img src="' +
-      coverFull +
+      src +
       '" alt="' +
       esc(title || "") +
       '" loading="eager" decoding="async" />' +
@@ -532,18 +544,19 @@
         '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
       html += "</div>";
     } else if (img && !gallery) {
+      var imgSrc = mediaBust(img, post);
       html += '<div class="post-media post-media--image">';
       if (link) {
         html +=
           '<a href="' +
           link +
           '" target="_blank" rel="noopener"><img src="' +
-          img +
+          imgSrc +
           '" alt="' +
           esc(post.title || "") +
           '" loading="lazy" /></a>';
       } else {
-        html += '<img src="' + img + '" alt="' + esc(post.title || "") + '" loading="lazy" />';
+        html += '<img src="' + imgSrc + '" alt="' + esc(post.title || "") + '" loading="lazy" />';
       }
       html += "</div>";
     }
@@ -564,9 +577,9 @@
     if (gallery) {
       html += '<div class="post-gallery">';
       if (coverRaw) {
-        html += renderCover(coverRaw, coverIndex, post.title);
+        html += renderCover(coverRaw, coverIndex, post.title, post);
       }
-      html += renderGallery(items, cols, post.galleryAnimated);
+      html += renderGallery(items, cols, post.galleryAnimated, post);
       html += "</div>";
     }
 
