@@ -506,6 +506,17 @@ main {
   position: relative;
 }
 
+.gallery-cell--video-noposter {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 6rem;
+  background: #0a0a0c;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
 .gallery-cell--video:hover img {
   opacity: 0.72;
 }

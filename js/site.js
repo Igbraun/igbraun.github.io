@@ -455,8 +455,21 @@
       if (!full) continue;
       if (it.kind === "video") {
         var poster = mediaBust(safeUrl(it.thumb), post);
-        if (!poster) continue;
         full = mediaBust(full, post);
+        if (!full) continue;
+        if (!poster) {
+          html +=
+            '<button type="button" class="gallery-cell gallery-cell--video gallery-cell--video-noposter video-open" data-index="' +
+            i +
+            '" data-src="' +
+            full +
+            '" aria-label="Открыть видео ' +
+            (i + 1) +
+            " из " +
+            items.length +
+            '"><span class="gallery-cell__play" aria-hidden="true"></span></button>';
+          continue;
+        }
         html +=
           '<button type="button" class="gallery-cell gallery-cell--video video-open" data-index="' +
           i +

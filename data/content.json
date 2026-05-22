@@ -15,7 +15,7 @@
       "date": "2026-05-25",
       "galleryColumns": 2,
       "galleryAnimated": true,
-      "mediaStamp": "1779448615987",
+      "mediaStamp": "1779449819389",
       "coverVideo": {
         "type": "video",
         "provider": "vimeo",
@@ -28,10 +28,20 @@
       },
       "coverImage": "images/galleries/2026-05-25-гифки-подборкаmiiojio/thumbs/cover-poster.jpg",
       "gallery": [
-        "images/galleries/gifs/love-you-couple.gif",
-        "images/galleries/gifs/tiger.gif",
-        "images/galleries/gifs/59a7278c2684cb7be25f423014d237a5.gif",
-        "images/galleries/gifs/edgar-rachelhardy.gif",
+        {
+          "type": "video",
+          "provider": "vimeo",
+          "id": "1194684715",
+          "thumb": "images/galleries/2026-05-25-гифки-подборкаmiiojio/thumbs/cell-1-poster.jpg"
+        },
+        {
+          "type": "video",
+          "provider": "vimeo",
+          "id": "1194679041",
+          "thumb": ""
+        },
+        "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-3.jpg",
+        "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-4.jpg",
         "images/galleries/gifs/sending-hugs.gif"
       ],
       "text": "Пост только из а;lkjhgjbikopl[ет в полный экран."
