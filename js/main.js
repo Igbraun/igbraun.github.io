@@ -257,6 +257,15 @@
         var galleryBlock = videoOpener.closest(".post-gallery");
         if (galleryBlock) videoGrid = galleryBlock.querySelector(".gallery-grid");
       }
+      if (!videoGrid && videoOpener.closest(".post-cover")) {
+        var soloVideo = videoOpener.getAttribute("data-src");
+        if (!soloVideo) return;
+        sources = [soloVideo];
+        index = 0;
+        setMode("video");
+        show();
+        return;
+      }
       if (!videoGrid) return;
       sources = collectFromGrid(videoGrid, ".video-open", "data-src");
       index = parseInt(videoOpener.getAttribute("data-index"), 10) || 0;

@@ -509,6 +509,23 @@
     );
   }
 
+  function renderCoverVideo(coverVideo, post) {
+    if (!coverVideo || !coverVideo.id) return "";
+    var embed = safeUrl(videoEmbedSrc({ provider: coverVideo.provider, id: coverVideo.id }));
+    var poster = mediaBust(safeUrl(coverVideo.thumb || post.coverImage), post);
+    if (!embed || !poster) return "";
+    return (
+      '<div class="post-cover">' +
+      '<button type="button" class="post-cover__btn gallery-cell--video video-open" data-src="' +
+      embed +
+      '" data-index="0" aria-label="Открыть видео">' +
+      '<img src="' +
+      poster +
+      '" alt="" loading="eager" decoding="async" />' +
+      '<span class="gallery-cell__play" aria-hidden="true"></span></button></div>'
+    );
+  }
+
   function renderPost(post, orderNum) {
     if (post.videoGrid && post.videoGrid.length) {
       return renderVideoPost(post, orderNum);
@@ -576,7 +593,9 @@
 
     if (gallery) {
       html += '<div class="post-gallery">';
-      if (coverRaw) {
+      if (post.coverVideo && post.coverVideo.id) {
+        html += renderCoverVideo(post.coverVideo, post);
+      } else if (coverRaw) {
         html += renderCover(coverRaw, coverIndex, post.title, post);
       }
       html += renderGallery(items, cols, post.galleryAnimated, post);

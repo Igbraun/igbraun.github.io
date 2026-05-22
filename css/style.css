@@ -567,6 +567,10 @@ main {
   pointer-events: none;
 }
 
+.post-cover__btn.gallery-cell--video {
+  position: relative;
+}
+
 .gallery-cell {
   margin: 0;
   padding: 0;

@@ -15,8 +15,14 @@
       "date": "2026-05-25",
       "galleryColumns": 2,
       "galleryAnimated": true,
-      "mediaStamp": "1779445333885",
-      "coverImage": "images/galleries/2026-05-25-гифки-подборкаmiiojio/cover.jpg",
+      "mediaStamp": "1779445758011",
+      "coverVideo": {
+        "type": "video",
+        "provider": "vimeo",
+        "id": "1194679041",
+        "thumb": "images/galleries/2026-05-25-гифки-подборкаmiiojio/thumbs/cover-poster.jpg"
+      },
+      "coverImage": "images/galleries/2026-05-25-гифки-подборкаmiiojio/thumbs/cover-poster.jpg",
       "gallery": [
         "images/galleries/gifs/love-you-couple.gif",
         "images/galleries/gifs/tiger.gif",
