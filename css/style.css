@@ -579,10 +579,23 @@ main {
 .post-cover--inline-video .post-cover__frame {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
   background: #000;
   overflow: hidden;
   line-height: 0;
+}
+
+.post-cover--inline-video:not(.post-cover--bare) .post-cover__frame {
+  aspect-ratio: 16 / 9;
+}
+
+.post-cover--bare .post-cover__frame {
+  max-width: 100%;
+}
+
+.post-cover__frame--portrait {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .post-cover__poster {

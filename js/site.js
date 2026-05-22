@@ -332,7 +332,7 @@
     return 0;
   }
 
-  function videoEmbedSrc(item) {
+  function videoEmbedSrc(item, opts) {
     if (!item) return "";
     var id = "";
     var provider = "youtube";
@@ -343,8 +343,29 @@
       provider = String(item.provider || "youtube").toLowerCase();
     }
     if (!id) return "";
-    if (provider === "vimeo") return "https://player.vimeo.com/video/" + id;
+    if (provider === "vimeo") {
+      var v = "https://player.vimeo.com/video/" + id + "?badge=0&autopause=0";
+      if (opts && opts.responsive) v += "&responsive=1";
+      return v;
+    }
     return "https://www.youtube.com/embed/" + id;
+  }
+
+  function coverVideoAspectPair(coverVideo) {
+    var aw = parseInt(coverVideo && coverVideo.aspectW, 10);
+    var ah = parseInt(coverVideo && coverVideo.aspectH, 10);
+    if (aw > 0 && ah > 0) return { w: aw, h: ah };
+    return { w: 16, h: 9 };
+  }
+
+  function coverVideoFrameStyle(coverVideo) {
+    var p = coverVideoAspectPair(coverVideo);
+    return "aspect-ratio:" + p.w + " / " + p.h + ";";
+  }
+
+  function coverVideoIsPortrait(coverVideo) {
+    var p = coverVideoAspectPair(coverVideo);
+    return p.h > p.w;
   }
 
   function renderVideoIframe(item, title, inGrid, gridIndex) {
@@ -548,16 +569,25 @@
 
   function renderCoverVideo(coverVideo, post) {
     if (!coverVideo || !coverVideo.id) return "";
-    var embed = safeUrl(videoEmbedSrc({ provider: coverVideo.provider, id: coverVideo.id }));
+    var embedItem = { provider: coverVideo.provider, id: coverVideo.id };
+    var embed = safeUrl(
+      videoEmbedSrc(embedItem, { responsive: !!(coverVideo.bare && coverVideoIsPortrait(coverVideo)) })
+    );
     if (!embed) return "";
     var title = esc(post.title || "Видео");
     var iframeAllow =
       "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen";
+    var frameStyle = coverVideoFrameStyle(coverVideo);
+    var portraitClass = coverVideoIsPortrait(coverVideo) ? " post-cover__frame--portrait" : "";
 
     if (coverVideo.bare) {
       return (
         '<div class="post-cover post-cover--inline-video post-cover--bare">' +
-        '<div class="post-cover__frame">' +
+        '<div class="post-cover__frame' +
+        portraitClass +
+        '" style="' +
+        frameStyle +
+        '">' +
         '<iframe class="post-cover__iframe" data-embed="' +
         embed +
         '" title="' +

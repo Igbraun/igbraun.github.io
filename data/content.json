@@ -21,7 +21,9 @@
         "provider": "vimeo",
         "id": "1194684715",
         "thumb": "",
-        "bare": true
+        "bare": true,
+        "aspectW": 9,
+        "aspectH": 16
       },
       "gallery": [
         "images/galleries/gifs/love-you-couple.gif",
