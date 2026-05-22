@@ -15,7 +15,7 @@
       "date": "2026-05-25",
       "galleryColumns": 2,
       "galleryAnimated": true,
-      "mediaStamp": "1779449819389",
+      "mediaStamp": "1779451168871",
       "coverVideo": {
         "type": "video",
         "provider": "vimeo",
@@ -46,9 +46,18 @@
           "aspectW": 9,
           "aspectH": 16
         },
-        "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-3.jpg",
-        "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-4.jpg",
-        "images/galleries/gifs/sending-hugs.gif"
+        {
+          "full": "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-3.jpg",
+          "thumb": "images/galleries/2026-05-25-гифки-подборкаmiiojio/thumbs/cell-3.jpg"
+        },
+        {
+          "full": "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-4.jpg",
+          "thumb": "images/galleries/2026-05-25-гифки-подборкаmiiojio/thumbs/cell-4.jpg"
+        },
+        {
+          "full": "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-5.gif",
+          "thumb": "images/galleries/2026-05-25-гифки-подборкаmiiojio/thumbs/cell-5.jpg"
+        }
       ],
       "text": "Пост только из а;lkjhgjbikopl[ет в полный экран."
     },
@@ -145,62 +154,230 @@
       "date": "2026-05-01",
       "galleryColumns": 5,
       "gallery": [
-        "images/galleries/interior-1/int-1.jpg",
-        "images/galleries/interior-1/int-2.jpg",
-        "images/galleries/interior-1/int-3.jpg",
-        "images/galleries/interior-1/int-4.jpg",
-        "images/galleries/interior-1/int-5.jpg",
-        "images/galleries/interior-1/int-6.jpg",
-        "images/galleries/interior-1/int-7.jpg",
-        "images/galleries/interior-1/int-8.jpg",
-        "images/galleries/interior-1/int-9.jpg",
-        "images/galleries/interior-1/int-10.jpg",
-        "images/galleries/interior-1/int-11.jpg",
-        "images/galleries/interior-1/int-12.jpg",
-        "images/galleries/interior-1/int-13.jpg",
-        "images/galleries/interior-1/int-14.jpg",
-        "images/galleries/interior-1/int-15.jpg",
-        "images/galleries/interior-1/int-16.jpg",
-        "images/galleries/interior-1/int-17.jpg",
-        "images/galleries/interior-1/int-18.jpg",
-        "images/galleries/interior-1/int-19.jpg",
-        "images/galleries/interior-1/int-20.jpg",
-        "images/galleries/interior-1/int-21.jpg",
-        "images/galleries/interior-1/int-22.jpg",
-        "images/galleries/interior-1/int-24.jpg",
-        "images/galleries/interior-1/int-25.jpg",
-        "images/galleries/interior-1/int-26.jpg",
-        "images/galleries/interior-1/int-27.jpg",
-        "images/galleries/interior-1/int-28.jpg",
-        "images/galleries/interior-1/int-29.jpg",
-        "images/galleries/interior-1/int-30.jpg",
-        "images/galleries/interior-1/int-31.jpg",
-        "images/galleries/interior-1/int-32.jpg",
-        "images/galleries/interior-1/int-33.jpg",
-        "images/galleries/interior-1/int-34.jpg",
-        "images/galleries/interior-1/int-35.jpg",
-        "images/galleries/interior-1/int-36.jpg",
-        "images/galleries/interior-1/int-37.jpg",
-        "images/galleries/interior-1/int-38.jpg",
-        "images/galleries/interior-1/int-39.jpg",
-        "images/galleries/interior-1/int-40.jpg",
-        "images/galleries/interior-1/int-41.jpg",
-        "images/galleries/interior-1/int-42.jpg",
-        "images/galleries/interior-1/int-43.jpg",
-        "images/galleries/interior-1/int-44.jpg",
-        "images/galleries/interior-1/int-45.jpg",
-        "images/galleries/interior-1/int-46.jpg",
-        "images/galleries/interior-1/int-47.jpg",
-        "images/galleries/interior-1/int-48.jpg",
-        "images/galleries/interior-1/int-49.jpg",
-        "images/galleries/interior-1/int-50.jpg",
-        "images/galleries/interior-1/int-51.jpg",
-        "images/galleries/interior-1/int-52.jpg",
-        "images/galleries/interior-1/int-53.jpg",
-        "images/galleries/interior-1/int-54.jpg",
-        "images/galleries/interior-1/int-55.jpg",
-        "images/galleries/interior-1/int-56.jpg",
-        "images/galleries/interior-1/int-57.jpg"
+        {
+          "full": "images/galleries/interior-1/int-1.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-1.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-2.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-2.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-3.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-3.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-4.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-4.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-5.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-5.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-6.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-6.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-7.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-7.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-8.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-8.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-9.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-9.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-10.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-10.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-11.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-11.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-12.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-12.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-13.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-13.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-14.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-14.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-15.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-15.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-16.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-16.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-17.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-17.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-18.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-18.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-19.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-19.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-20.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-20.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-21.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-21.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-22.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-22.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-24.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-24.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-25.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-25.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-26.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-26.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-27.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-27.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-28.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-28.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-29.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-29.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-30.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-30.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-31.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-31.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-32.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-32.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-33.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-33.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-34.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-34.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-35.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-35.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-36.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-36.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-37.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-37.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-38.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-38.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-39.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-39.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-40.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-40.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-41.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-41.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-42.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-42.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-43.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-43.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-44.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-44.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-45.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-45.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-46.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-46.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-47.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-47.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-48.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-48.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-49.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-49.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-50.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-50.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-51.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-51.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-52.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-52.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-53.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-53.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-54.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-54.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-55.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-55.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-56.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-56.jpg"
+        },
+        {
+          "full": "images/galleries/interior-1/int-57.jpg",
+          "thumb": "images/galleries/interior-1/thumbs/int-57.jpg"
+        }
       ],
       "text": "Съёмка дома и интерьера для продажи: свет, композиция, акцент на пространстве и деталях."
     },
@@ -210,31 +387,106 @@
       "galleryColumns": 4,
       "coverImage": "images/galleries/interior-4/DSC08080-HDR.jpg",
       "gallery": [
-        "images/galleries/interior-4/DSC08012.jpg",
-        "images/galleries/interior-4/DSC08019-HDR.jpg",
-        "images/galleries/interior-4/DSC08026-HDR.jpg",
-        "images/galleries/interior-4/DSC08034-HDR.jpg",
-        "images/galleries/interior-4/DSC08042-HDR.jpg",
-        "images/galleries/interior-4/DSC08048-HDR.jpg",
-        "images/galleries/interior-4/DSC08055-HDR.jpg",
-        "images/galleries/interior-4/DSC08059-HDR.jpg",
-        "images/galleries/interior-4/DSC08075-HDR.jpg",
-        "images/galleries/interior-4/DSC08080-HDR.jpg",
-        "images/galleries/interior-4/DSC08083-HDR.jpg",
-        "images/galleries/interior-4/DSC08086-HDR.jpg",
-        "images/galleries/interior-4/DSC08091-HDR.jpg",
-        "images/galleries/interior-4/DSC08100-HDR.jpg",
-        "images/galleries/interior-4/DSC08103-HDR.jpg",
-        "images/galleries/interior-4/DSC08108-HDR.jpg",
-        "images/galleries/interior-4/DSC08117-HDR.jpg",
-        "images/galleries/interior-4/DSC08119-HDR.jpg",
-        "images/galleries/interior-4/DSC08124-HDR.jpg",
-        "images/galleries/interior-4/DSC08125-HDR.jpg",
-        "images/galleries/interior-4/DSC08131-HDR.jpg",
-        "images/galleries/interior-4/DSC08139-HDR.jpg",
-        "images/galleries/interior-4/DSC08142-HDR.jpg",
-        "images/galleries/interior-4/DSC08149-HDR.jpg",
-        "images/galleries/interior-4/DSC08154-HDR.jpg"
+        {
+          "full": "images/galleries/interior-4/DSC08012.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08012.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08019-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08019-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08026-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08026-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08034-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08034-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08042-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08042-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08048-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08048-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08055-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08055-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08059-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08059-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08075-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08075-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08080-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08080-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08083-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08083-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08086-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08086-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08091-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08091-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08100-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08100-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08103-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08103-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08108-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08108-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08117-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08117-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08119-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08119-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08124-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08124-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08125-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08125-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08131-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08131-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08139-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08139-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08142-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08142-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08149-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08149-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-4/DSC08154-HDR.jpg",
+          "thumb": "images/galleries/interior-4/thumbs/DSC08154-HDR.jpg"
+        }
       ],
       "text": "Съёмка интерьера для продажи. Сверху — лучший кадр альбома, ниже — вся серия."
     },
@@ -244,38 +496,134 @@
       "galleryColumns": 4,
       "coverImage": "images/galleries/interior-3/DSC08348-HDR.jpg",
       "gallery": [
-        "images/galleries/interior-3/Collage.jpg",
-        "images/galleries/interior-3/DSC08276-HDR.jpg",
-        "images/galleries/interior-3/DSC08277.jpg",
-        "images/galleries/interior-3/DSC08282-HDR.jpg",
-        "images/galleries/interior-3/DSC08283-HDR.jpg",
-        "images/galleries/interior-3/DSC08291-HDR.jpg",
-        "images/galleries/interior-3/DSC08294-HDR.jpg",
-        "images/galleries/interior-3/DSC08303-HDR.jpg",
-        "images/galleries/interior-3/DSC08307-HDR.jpg",
-        "images/galleries/interior-3/DSC08315-HDR.jpg",
-        "images/galleries/interior-3/DSC08316-HDR.jpg",
-        "images/galleries/interior-3/DSC08327-HDR.jpg",
-        "images/galleries/interior-3/DSC08333-HDR.jpg",
-        "images/galleries/interior-3/DSC08339-HDR.jpg",
-        "images/galleries/interior-3/DSC08348-HDR.jpg",
-        "images/galleries/interior-3/DSC08351-HDR.jpg",
-        "images/galleries/interior-3/DSC08355-HDR.jpg",
-        "images/galleries/interior-3/DSC08361-HDR.jpg",
-        "images/galleries/interior-3/DSC08363.jpg",
-        "images/galleries/interior-3/DSC08366-HDR.jpg",
-        "images/galleries/interior-3/DSC08370-HDR.jpg",
-        "images/galleries/interior-3/DSC08375-HDR.jpg",
-        "images/galleries/interior-3/DSC08377.jpg",
-        "images/galleries/interior-3/DSC08384-HDR.jpg",
-        "images/galleries/interior-3/DSC08389-HDR.jpg",
-        "images/galleries/interior-3/DSC08390.jpg",
-        "images/galleries/interior-3/DSC08391.jpg",
-        "images/galleries/interior-3/DSC08392.jpg",
-        "images/galleries/interior-3/DSC08394.jpg",
-        "images/galleries/interior-3/DSC08397.jpg",
-        "images/galleries/interior-3/DSC08399.jpg",
-        "images/galleries/interior-3/DSC08400.jpg"
+        {
+          "full": "images/galleries/interior-3/Collage.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/Collage.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08276-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08276-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08277.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08277.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08282-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08282-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08283-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08283-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08291-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08291-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08294-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08294-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08303-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08303-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08307-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08307-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08315-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08315-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08316-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08316-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08327-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08327-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08333-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08333-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08339-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08339-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08348-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08348-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08351-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08351-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08355-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08355-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08361-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08361-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08363.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08363.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08366-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08366-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08370-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08370-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08375-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08375-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08377.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08377.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08384-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08384-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08389-HDR.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08389-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08390.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08390.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08391.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08391.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08392.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08392.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08394.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08394.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08397.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08397.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08399.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08399.jpg"
+        },
+        {
+          "full": "images/galleries/interior-3/DSC08400.jpg",
+          "thumb": "images/galleries/interior-3/thumbs/DSC08400.jpg"
+        }
       ],
       "text": "Съёмка интерьера, серия из альбома Interior 3. Сверху — обложка, сетка 4×N с лёгкими превью."
     },
@@ -285,18 +633,54 @@
       "galleryColumns": 4,
       "coverImage": "images/galleries/interior-2/DSC08249-HDR.jpg",
       "gallery": [
-        "images/galleries/interior-2/DSC08199-HDR.jpg",
-        "images/galleries/interior-2/DSC08208-HDR.jpg",
-        "images/galleries/interior-2/DSC08224-HDR.jpg",
-        "images/galleries/interior-2/DSC08225-HDR.jpg",
-        "images/galleries/interior-2/DSC08230-HDR.jpg",
-        "images/galleries/interior-2/DSC08237-HDR.jpg",
-        "images/galleries/interior-2/DSC08243-HDR.jpg",
-        "images/galleries/interior-2/DSC08246-HDR.jpg",
-        "images/galleries/interior-2/DSC08249-HDR.jpg",
-        "images/galleries/interior-2/DSC08253-HDR.jpg",
-        "images/galleries/interior-2/DSC08262-HDR.jpg",
-        "images/galleries/interior-2/DSC08266-HDR.jpg"
+        {
+          "full": "images/galleries/interior-2/DSC08199-HDR.jpg",
+          "thumb": "images/galleries/interior-2/thumbs/DSC08199-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-2/DSC08208-HDR.jpg",
+          "thumb": "images/galleries/interior-2/thumbs/DSC08208-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-2/DSC08224-HDR.jpg",
+          "thumb": "images/galleries/interior-2/thumbs/DSC08224-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-2/DSC08225-HDR.jpg",
+          "thumb": "images/galleries/interior-2/thumbs/DSC08225-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-2/DSC08230-HDR.jpg",
+          "thumb": "images/galleries/interior-2/thumbs/DSC08230-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-2/DSC08237-HDR.jpg",
+          "thumb": "images/galleries/interior-2/thumbs/DSC08237-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-2/DSC08243-HDR.jpg",
+          "thumb": "images/galleries/interior-2/thumbs/DSC08243-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-2/DSC08246-HDR.jpg",
+          "thumb": "images/galleries/interior-2/thumbs/DSC08246-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-2/DSC08249-HDR.jpg",
+          "thumb": "images/galleries/interior-2/thumbs/DSC08249-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-2/DSC08253-HDR.jpg",
+          "thumb": "images/galleries/interior-2/thumbs/DSC08253-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-2/DSC08262-HDR.jpg",
+          "thumb": "images/galleries/interior-2/thumbs/DSC08262-HDR.jpg"
+        },
+        {
+          "full": "images/galleries/interior-2/DSC08266-HDR.jpg",
+          "thumb": "images/galleries/interior-2/thumbs/DSC08266-HDR.jpg"
+        }
       ],
       "text": "Компактная серия из Interior 2: двенадцать кадров, сетка в четыре столбца."
     }

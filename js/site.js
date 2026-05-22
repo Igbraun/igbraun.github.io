@@ -301,12 +301,15 @@
       };
     }
     if (item && item.full) {
-      var thumbPath =
-        item.thumb ||
-        (useOriginal || isAnimatedMediaPath(item.full)
-          ? item.full
-          : item.full.replace(/^(images\/galleries\/[^/]+)\//, "$1/thumbs/"));
-      var out = { kind: "image", full: item.full, thumb: thumbPath };
+      var isGifItem = isAnimatedMediaPath(item.full);
+      var thumbPath = item.thumb;
+      if (!thumbPath) {
+        thumbPath =
+          useOriginal || isGifItem
+            ? item.full
+            : item.full.replace(/^(images\/galleries\/[^/]+)\//, "$1/thumbs/");
+      }
+      var out = { kind: isGifItem ? "gif" : "image", full: item.full, thumb: thumbPath };
       if (item.thumbPosition) out.thumbPosition = String(item.thumbPosition).trim();
       return out;
     }
@@ -586,18 +589,28 @@
     return html;
   }
 
+  function galleryThumbFromFull(fullPath) {
+    if (!fullPath || /\/thumbs\//i.test(fullPath)) return fullPath || "";
+    var m = String(fullPath).match(/^(images\/galleries\/[^/]+)\/(.+)$/);
+    if (!m) return fullPath;
+    var base = m[2].replace(/\.[^.]+$/, "");
+    return m[1] + "/thumbs/" + base + ".jpg";
+  }
+
   function renderCover(coverFull, index, title, post) {
     if (!coverFull) return "";
-    var src = mediaBust(coverFull, post);
+    var fullSrc = mediaBust(coverFull, post);
+    var thumbPath = galleryThumbFromFull(coverFull);
+    var thumbSrc = thumbPath !== coverFull ? mediaBust(thumbPath, post) : fullSrc;
     return (
       '<div class="post-cover">' +
       '<button type="button" class="post-cover__btn gallery-open gallery-open--solo" data-src="' +
-      src +
+      fullSrc +
       '" data-index="' +
       index +
       '" aria-label="Открыть главное фото">' +
       '<img src="' +
-      src +
+      thumbSrc +
       '" alt="' +
       esc(title || "") +
       '" loading="eager" decoding="async" />' +
