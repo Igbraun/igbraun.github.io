@@ -352,6 +352,10 @@ main {
   opacity: 0.88;
 }
 
+.post-text--rich a.post-text__file-link {
+  font-weight: 500;
+}
+
 .post-text-gap {
   height: 0;
   margin: 0.75rem 0;

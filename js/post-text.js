@@ -1,8 +1,19 @@
 /** Безопасный вывод текста поста со ссылками (редактор → content.json) */
 (function (global) {
-  function normalizeLinkUrl(url) {
-    var u = (url || "").trim();
+  function isFileAttachmentPath(href) {
+    var p = String(href || "")
+      .trim()
+      .replace(/^\/+/, "")
+      .replace(/\\/g, "/");
+    if (!p || /\.\./.test(p)) return false;
+    return /^downloads\//i.test(p) || /^files\//i.test(p);
+  }
+
+  function normalizeTextLinkHref(href) {
+    var u = (href || "").trim();
     if (!u) return "";
+    var rel = u.replace(/^\/+/, "").replace(/\\/g, "/");
+    if (isFileAttachmentPath(rel)) return rel;
     if (!/^https?:\/\//i.test(u)) u = "https://" + u;
     try {
       var parsed = new URL(u);
@@ -11,6 +22,18 @@
     } catch (e) {
       return "";
     }
+  }
+
+  function normalizeLinkUrl(url) {
+    return normalizeTextLinkHref(url);
+  }
+
+  function attachmentDownloadName(href) {
+    var p = href.split("/").pop() || "download";
+    try {
+      p = decodeURIComponent(p);
+    } catch (e) {}
+    return p;
   }
 
   function attrUrl(url) {
@@ -35,17 +58,24 @@
       return;
     }
     if (tag === "a") {
-      var href = normalizeLinkUrl(node.getAttribute("href") || "");
+      var href = normalizeTextLinkHref(node.getAttribute("href") || "");
       if (!href) {
         for (var c = node.firstChild; c; c = c.nextSibling) appendSafe(parent, c);
         return;
       }
       var a = document.createElement("a");
       a.setAttribute("href", href);
-      a.setAttribute("target", "_blank");
-      a.setAttribute("rel", "noopener noreferrer");
+      if (isFileAttachmentPath(href)) {
+        a.setAttribute("download", attachmentDownloadName(href));
+        a.className = "post-text__file-link";
+      } else {
+        a.setAttribute("target", "_blank");
+        a.setAttribute("rel", "noopener noreferrer");
+      }
       for (var j = node.firstChild; j; j = j.nextSibling) appendSafe(a, j);
-      if (!a.textContent.trim()) a.textContent = href;
+      if (!a.textContent.trim()) {
+        a.textContent = isFileAttachmentPath(href) ? attachmentDownloadName(href) : href;
+      }
       parent.appendChild(a);
       return;
     }
