@@ -22,9 +22,20 @@
     if (!u) return "";
     if (/^(javascript|data):/i.test(u)) return "";
     if (/^https?:\/\//i.test(u) || u.indexOf("://") === -1) {
-      return u.replace(/"/g, "&quot;").replace(/</g, "&lt;");
+      return u;
     }
     return "";
+  }
+
+  /** URL в HTML-атрибутах (иначе & в query Vimeo ломает src) */
+  function attrUrl(url) {
+    var u = safeUrl(url);
+    if (!u) return "";
+    return u
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
   }
 
   /** Сброс кэша после замены файла по тому же пути (cover.jpg и т.д.) */
@@ -86,12 +97,20 @@
     );
     for (var i = 0; i < nodes.length; i++) {
       var iframe = nodes[i];
-      if (iframe.dataset.wired === "1") continue;
       var embed = iframe.getAttribute("data-embed");
       if (!embed) continue;
+      if (!iframe.src || iframe.src === "about:blank" || iframe.dataset.wired !== "1") {
+        iframe.src = embed;
+      }
       iframe.dataset.wired = "1";
-      iframe.src = embed;
     }
+  }
+
+  function scheduleWireVideoIframes(root) {
+    wireBareCoverIframes(root);
+    requestAnimationFrame(function () {
+      wireBareCoverIframes(root);
+    });
   }
 
   function relayoutMasonry(feedEl) {
@@ -168,7 +187,7 @@
       for (var j = 0; j < cards.length; j++) {
         feedEl.appendChild(cards[j]);
       }
-      wireBareCoverIframes(feedEl);
+      scheduleWireVideoIframes(feedEl);
       return;
     }
 
@@ -177,7 +196,7 @@
       feedEl.classList.contains("feed--masonry") &&
       feedEl.querySelectorAll(".feed-col").length === 2
     ) {
-      wireBareCoverIframes(feedEl);
+      scheduleWireVideoIframes(feedEl);
       return;
     }
 
@@ -193,7 +212,7 @@
     for (var k = 0; k < cards.length; k++) {
       pickMasonryColumn(cols, k).appendChild(cards[k]);
     }
-    wireBareCoverIframes(feedEl);
+    scheduleWireVideoIframes(feedEl);
     if (!feedHasBareCoverVideo(feedEl)) {
       queueMasonryRelayout();
     }
@@ -263,7 +282,7 @@
     var cols = feedEl.querySelectorAll(".feed-col");
     mountMasonryColumns(cols, sorted, document.createElement("div"));
     bindMasonryRelayout(feedEl);
-    wireBareCoverIframes(feedEl);
+    scheduleWireVideoIframes(feedEl);
     if (!feedHasBareCoverVideo(feedEl)) {
       queueMasonryRelayout();
     }
@@ -297,7 +316,7 @@
       var portrait = aw > 0 && ah > 0 && ah > aw;
       return {
         kind: "video",
-        full: videoEmbedSrc(vid, { responsive: portrait }),
+        full: videoEmbedSrc(vid, { responsive: portrait || vid.provider === "vimeo" }),
         thumb: item.thumb || "",
         video: vid,
         aspectW: aw > 0 ? aw : null,
@@ -389,7 +408,7 @@
     if (!src) return "";
     var iframe =
       '<iframe src="' +
-      src +
+      attrUrl(src) +
       '" title="' +
       esc(title || "Видео") +
       '" loading="lazy" tabindex="-1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>';
@@ -398,7 +417,7 @@
         '<button type="button" class="video-cell video-open" data-index="' +
         gridIndex +
         '" data-src="' +
-        src +
+        attrUrl(src) +
         '" aria-label="Открыть видео ' +
         (gridIndex + 1) +
         '">' +
@@ -499,17 +518,20 @@
           if (it.aspectW > 0 && it.aspectH > 0) {
             inlineStyle = ' style="aspect-ratio:' + it.aspectW + " / " + it.aspectH + ';"';
           }
+          var embedAttr = attrUrl(full);
           html +=
             '<div class="gallery-cell gallery-cell--video gallery-cell--inline-video"' +
             inlineStyle +
             ">" +
-            '<iframe data-embed="' +
-            full +
+            '<iframe src="' +
+            embedAttr +
+            '" data-embed="' +
+            embedAttr +
             '" title="' +
             esc(post.title || "Видео") +
             " — " +
             (i + 1) +
-            '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>' +
+            '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>' +
             "</div>";
           continue;
         }
@@ -517,7 +539,7 @@
           '<button type="button" class="gallery-cell gallery-cell--video video-open" data-index="' +
           i +
           '" data-src="' +
-          full +
+          attrUrl(full) +
           '"' +
           aspectAttrs +
           ' aria-label="Открыть видео ' +
@@ -657,12 +679,12 @@
         frameStyle +
         '">' +
         '<iframe class="post-cover__iframe" data-embed="' +
-        embed +
+        attrUrl(embed) +
         '" title="' +
         title +
         '" allow="' +
         iframeAllow +
-        '" allowfullscreen></iframe>' +
+        '" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>' +
         "</div></div>"
       );
     }
@@ -682,12 +704,12 @@
       '<button type="button" class="post-cover__play-btn" data-cover-video-play aria-label="Воспроизвести видео">' +
       '<span class="gallery-cell__play" aria-hidden="true"></span></button>' +
       '<iframe class="post-cover__iframe" data-embed="' +
-      embed +
+      attrUrl(embed) +
       '" title="' +
       title +
       '" allow="' +
       iframeAllow +
-      '" allowfullscreen hidden></iframe>' +
+      '" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" hidden></iframe>' +
       "</div></div>"
     );
   }
