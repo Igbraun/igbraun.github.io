@@ -361,19 +361,50 @@ main {
   margin: 0.75rem 0;
 }
 
+/* Посты с sections: текст с отступами, галерея и обложка — на всю ширину карточки */
 .post-card--sections .post-body--head {
-  margin-bottom: 0.25rem;
+  padding: 1.25rem 1.35rem 0.65rem;
+  margin-bottom: 0;
 }
 
-.post-section {
-  margin-top: 0.85rem;
-}
-
-.post-section--media .post-cover {
+.post-card--sections .post-section--text,
+.post-card--sections .post-section--audio,
+.post-card--sections .post-section--playlist {
+  padding: 0 1.35rem;
   margin-top: 0;
 }
 
-.post-section--gallery .post-gallery {
+.post-card--sections .post-section--text + .post-section--text,
+.post-card--sections .post-section--text + .post-section--media,
+.post-card--sections .post-section--text + .post-section--gallery,
+.post-card--sections .post-section--media + .post-section--text,
+.post-card--sections .post-section--gallery + .post-section--text {
+  padding-top: 0.75rem;
+}
+
+.post-card--sections .post-section:last-child.post-section--text,
+.post-card--sections .post-section:last-child.post-section--audio,
+.post-card--sections .post-section:last-child.post-section--playlist {
+  padding-bottom: 1.35rem;
+}
+
+.post-card--sections .post-section--gallery,
+.post-card--sections .post-section--media {
+  padding: 0;
+  margin-top: 0;
+}
+
+.post-card--sections .post-gallery {
+  padding: 0;
+}
+
+.post-card--sections .post-section--media .post-cover,
+.post-card--sections .post-section--gallery .post-cover {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.post-section {
   margin-top: 0;
 }
 
