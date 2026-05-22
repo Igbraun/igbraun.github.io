@@ -142,13 +142,23 @@
     if (counterEl) counterEl.textContent = index + 1 + " / " + sources.length;
   }
 
+  function isEmbedVideoUrl(url) {
+    return /^https?:\/\//i.test(String(url || "").trim());
+  }
+
   function showVideo() {
     if (!video) return;
+    var src = sources[index];
+    if (!isEmbedVideoUrl(src)) {
+      setImageLoading(false);
+      close();
+      return;
+    }
     setImageLoading(false);
     if (img) img.hidden = true;
     video.hidden = false;
     applyLightboxVideoAspect(videoAspects[index]);
-    video.src = sources[index];
+    video.src = embedPlayUrl(src);
     updateCounter();
   }
 
@@ -315,16 +325,26 @@
         if (galleryBlock) videoGrid = galleryBlock.querySelector(".gallery-grid");
       }
       if (!videoGrid) return;
+      var videoCells = videoGrid.querySelectorAll(".video-open");
       var collected = collectVideosFromGrid(videoGrid);
       sources = collected.srcs;
       videoAspects = collected.aspects;
-      index = parseInt(videoOpener.getAttribute("data-index"), 10) || 0;
+      index = 0;
+      for (var vi = 0; vi < videoCells.length; vi++) {
+        if (videoCells[vi] === videoOpener) {
+          index = vi;
+          break;
+        }
+      }
       setMode("video");
       show();
       return;
     }
 
     var opener = e.target.closest(".gallery-open");
+    if (opener && opener.closest(".gallery-cell--video")) {
+      return;
+    }
     if (opener) {
       if (opener.classList.contains("gallery-open--solo")) {
         var soloSrc = opener.getAttribute("data-src");
@@ -338,8 +358,15 @@
       var block = opener.closest(".post-gallery");
       var grid = block ? block.querySelector(".gallery-grid") : null;
       if (!grid) return;
-      sources = collectFromGrid(grid, ".gallery-cell", "data-src");
-      index = parseInt(opener.getAttribute("data-index"), 10) || 0;
+      var imageCells = grid.querySelectorAll(".gallery-cell.gallery-open");
+      sources = collectFromGrid(grid, ".gallery-cell.gallery-open", "data-src");
+      index = 0;
+      for (var ii = 0; ii < imageCells.length; ii++) {
+        if (imageCells[ii] === opener) {
+          index = ii;
+          break;
+        }
+      }
       setMode("image");
       show();
       return;
