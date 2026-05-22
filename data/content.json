@@ -859,6 +859,47 @@
           "coverImage": "images/galleries/interior-2/DSC08249-HDR.jpg"
         }
       ]
+    },
+    {
+      "title": "Без названия",
+      "date": "",
+      "showFeedLabel": true,
+      "feedLabel": "nbvb nm,",
+      "sections": [
+        {
+          "type": "text",
+          "text": "Dva video"
+        },
+        {
+          "type": "gallery",
+          "galleryColumns": 4,
+          "gallery": [
+            {
+              "type": "video",
+              "provider": "vimeo",
+              "id": "1194684715",
+              "thumb": "",
+              "aspectW": 9,
+              "aspectH": 16,
+              "videoWidth": 240,
+              "videoHeight": 426
+            },
+            {
+              "type": "video",
+              "provider": "vimeo",
+              "id": "1194684715",
+              "thumb": "",
+              "aspectW": 9,
+              "aspectH": 16,
+              "videoWidth": 240,
+              "videoHeight": 426
+            }
+          ],
+          "mediaStamp": "1779461175147",
+          "galleryCellAspectW": 4,
+          "galleryCellAspectH": 3
+        }
+      ]
     }
   ]
 }
