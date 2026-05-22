@@ -329,7 +329,7 @@
       var it = resolveGalleryItem(raw[i], post);
       if (!it) continue;
       if (it.kind === "video") {
-        if (safeUrl(it.full) && safeUrl(it.thumb)) items.push(it);
+        if (safeUrl(it.full)) items.push(it);
       } else if (safeUrl(it.full)) {
         items.push(it);
       }
@@ -463,6 +463,13 @@
     );
   }
 
+  function galleryGridAspectStyle(post) {
+    var w = parseInt(post && post.galleryCellAspectW, 10);
+    var h = parseInt(post && post.galleryCellAspectH, 10);
+    if (!(w > 0 && h > 0)) return "";
+    return ' style="--gallery-cell-ar:' + w + " / " + h + ';"';
+  }
+
   function renderGallery(items, columns, animated, post) {
     if (!items || !items.length) return "";
     var cols = columns;
@@ -471,7 +478,9 @@
       '<div class="gallery-grid gallery-grid--' +
       cols +
       (animated ? " gallery-grid--animated" : "") +
-      '">';
+      '"' +
+      galleryGridAspectStyle(post) +
+      ">";
     for (var i = 0; i < items.length; i++) {
       var it = items[i];
       var full = safeUrl(it.full);

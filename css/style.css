@@ -480,6 +480,7 @@ main {
 }
 
 .gallery-grid {
+  --gallery-cell-ar: 4 / 3;
   display: grid;
   gap: 0;
   line-height: 0;
@@ -509,7 +510,7 @@ main {
 .gallery-cell--video-noposter {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: var(--gallery-cell-ar, 4 / 3);
   min-height: 6rem;
   background: #0a0a0c;
   border: none;
@@ -657,7 +658,7 @@ main {
   border: none;
   border-radius: 0;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: var(--gallery-cell-ar, 4 / 3);
   background: #000;
   cursor: pointer;
   display: block;
