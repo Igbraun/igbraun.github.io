@@ -53,9 +53,16 @@
     return [];
   }
 
-  /** Новые посты первыми (по полю date, формат YYYY-MM-DD) */
-  function sortPostsNewestFirst(posts) {
+  /** Порядок в ленте: меньший № выше; без № — по дате (новее выше) */
+  function sortPostsByFeedOrder(posts) {
     return posts.slice().sort(function (a, b) {
+      var oa = parseInt(a.order, 10);
+      var ob = parseInt(b.order, 10);
+      var ha = !isNaN(oa) && String(a.order).trim() !== "";
+      var hb = !isNaN(ob) && String(b.order).trim() !== "";
+      if (ha && hb && oa !== ob) return oa - ob;
+      if (ha && !hb) return -1;
+      if (!ha && hb) return 1;
       var da = (a.date || "").trim();
       var db = (b.date || "").trim();
       if (!da && !db) return 0;
@@ -63,6 +70,20 @@
       if (!db) return -1;
       return db.localeCompare(da);
     });
+  }
+
+  function legacyFeedLabel(post) {
+    if (post.feedLabel != null) return String(post.feedLabel).trim();
+    var parts = [];
+    if ((post.date || "").trim()) parts.push(String(post.date).trim());
+    if (post.order != null && post.order !== "") parts.push(String(post.order));
+    return parts.join(" · ").trim();
+  }
+
+  function shouldShowFeedLabel(post) {
+    if (post.showFeedLabel === true) return true;
+    if (post.showFeedLabel === false) return false;
+    return !!legacyFeedLabel(post);
   }
 
   function useMasonryLayout() {
@@ -247,7 +268,7 @@
   }
 
   function mountFeed(feedEl, posts) {
-    var sorted = sortPostsNewestFirst(posts);
+    var sorted = sortPostsByFeedOrder(posts);
     feedEl._sortedPosts = sorted;
     bindFeedLayoutChange();
 
@@ -428,19 +449,12 @@
     return '<div class="video-cell video-cell--inline">' + iframe + "</div>";
   }
 
-  function renderPostDate(post, orderNum) {
-    var displayOrder =
-      post.order != null && post.order !== "" ? String(post.order) : orderNum ? String(orderNum) : "";
-    var suffix = displayOrder ? " (" + displayOrder + ")" : "";
-    if (post.date) {
-      return (
-        '<time class="post-date" datetime="' + esc(post.date) + '">' + esc(post.date) + suffix + "</time>"
-      );
-    }
-    if (orderNum) {
-      return '<span class="post-date">(' + orderNum + ")</span>";
-    }
-    return "";
+  function renderFeedLabel(post) {
+    if (!shouldShowFeedLabel(post)) return "";
+    var label =
+      post.feedLabel != null ? String(post.feedLabel).trim() : legacyFeedLabel(post);
+    if (!label) return "";
+    return '<span class="post-date">' + esc(label) + "</span>";
   }
 
   function renderVideoPost(post, orderNum) {
@@ -449,7 +463,7 @@
       '<article class="post-card post-card--video" data-order="' + (orderNum || "") + '">';
 
     html += '<div class="post-body">';
-    html += renderPostDate(post, orderNum);
+    html += renderFeedLabel(post);
     html += '<h2 class="post-title">' + esc(post.title || "Без названия") + "</h2>";
     if (post.text) {
       html += PostTextFormat.render(post.text, esc);
@@ -779,7 +793,7 @@
       '">';
 
     html += '<div class="post-body post-body--head">';
-    html += renderPostDate(post, orderNum);
+    html += renderFeedLabel(post);
     html += '<h2 class="post-title">' + esc(post.title || "Без названия") + "</h2>";
     html += "</div>";
 
@@ -884,7 +898,7 @@
     }
 
     html += '<div class="post-body">';
-    html += renderPostDate(post, orderNum);
+    html += renderFeedLabel(post);
     html += '<h2 class="post-title">' + esc(post.title || "Без названия") + "</h2>";
     if (hasPlaylist) {
       html += renderPlaylistPlayer(post.playlist);
