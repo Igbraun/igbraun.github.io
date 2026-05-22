@@ -1,19 +1,19 @@
 /** Безопасный вывод текста поста со ссылками (редактор → content.json) */
 (function (global) {
+  var AP = global.AttachmentPath;
+
   function isFileAttachmentPath(href) {
-    var p = String(href || "")
-      .trim()
-      .replace(/^\/+/, "")
-      .replace(/\\/g, "/");
-    if (!p || /\.\./.test(p)) return false;
-    return /^downloads\//i.test(p) || /^files\//i.test(p);
+    return AP ? AP.isFileAttachmentPath(href) : false;
   }
 
   function normalizeTextLinkHref(href) {
     var u = (href || "").trim();
     if (!u) return "";
+    if (AP && AP.isFileAttachmentPath(u)) return AP.attachmentPublicHref(u);
     var rel = u.replace(/^\/+/, "").replace(/\\/g, "/");
-    if (isFileAttachmentPath(rel)) return rel;
+    if (/^downloads\//i.test(rel) || /^files\//i.test(rel)) {
+      return AP ? AP.attachmentPublicHref(rel) : "/" + rel;
+    }
     if (!/^https?:\/\//i.test(u)) u = "https://" + u;
     try {
       var parsed = new URL(u);
