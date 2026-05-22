@@ -284,11 +284,20 @@
         id: String(item.id || "").trim(),
       };
       if (!vid.id) return null;
+      var aw = parseInt(item.aspectW, 10);
+      var ah = parseInt(item.aspectH, 10);
+      if (!(aw > 0 && ah > 0) && post && post.coverVideo && String(post.coverVideo.id) === vid.id) {
+        aw = parseInt(post.coverVideo.aspectW, 10);
+        ah = parseInt(post.coverVideo.aspectH, 10);
+      }
+      var portrait = aw > 0 && ah > 0 && ah > aw;
       return {
         kind: "video",
-        full: videoEmbedSrc(vid),
+        full: videoEmbedSrc(vid, { responsive: portrait }),
         thumb: item.thumb || "",
         video: vid,
+        aspectW: aw > 0 ? aw : null,
+        aspectH: ah > 0 ? ah : null,
       };
     }
     if (item && item.full) {
@@ -440,6 +449,17 @@
     return html;
   }
 
+  function galleryVideoAspectAttrs(it) {
+    if (!it || it.kind !== "video" || !it.aspectW || !it.aspectH) return "";
+    return (
+      ' data-aspect-w="' +
+      it.aspectW +
+      '" data-aspect-h="' +
+      it.aspectH +
+      '"'
+    );
+  }
+
   function renderGallery(items, columns, animated, post) {
     if (!items || !items.length) return "";
     var cols = columns;
@@ -457,13 +477,16 @@
         var poster = mediaBust(safeUrl(it.thumb), post);
         full = mediaBust(full, post);
         if (!full) continue;
+        var aspectAttrs = galleryVideoAspectAttrs(it);
         if (!poster) {
           html +=
             '<button type="button" class="gallery-cell gallery-cell--video gallery-cell--video-noposter video-open" data-index="' +
             i +
             '" data-src="' +
             full +
-            '" aria-label="Открыть видео ' +
+            '"' +
+            aspectAttrs +
+            ' aria-label="Открыть видео ' +
             (i + 1) +
             " из " +
             items.length +
@@ -475,7 +498,9 @@
           i +
           '" data-src="' +
           full +
-          '" aria-label="Открыть видео ' +
+          '"' +
+          aspectAttrs +
+          ' aria-label="Открыть видео ' +
           (i + 1) +
           " из " +
           items.length +

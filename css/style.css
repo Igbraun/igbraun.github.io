@@ -831,11 +831,18 @@ main {
 
 .lightbox__video {
   width: min(960px, 100%);
-  max-height: 100%;
+  max-width: 100%;
+  max-height: calc(100vh - 8rem);
+  max-height: calc(100dvh - 8rem);
   aspect-ratio: 16 / 9;
   height: auto;
   border: 0;
   background: #000;
+}
+
+.lightbox__video--portrait {
+  max-height: calc(100vh - 6rem);
+  max-height: calc(100dvh - 6rem);
 }
 
 .lightbox__controls {

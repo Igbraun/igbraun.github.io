@@ -68,6 +68,7 @@
     counterEl,
     controlsEl,
     sources = [],
+    videoAspects = [],
     index = 0,
     mode = "image",
     bound = false,
@@ -83,6 +84,32 @@
       list.push(cells[i].getAttribute(attr));
     }
     return list;
+  }
+
+  function collectVideosFromGrid(grid) {
+    var cells = grid.querySelectorAll(".video-open");
+    var srcs = [];
+    var aspects = [];
+    for (var i = 0; i < cells.length; i++) {
+      srcs.push(cells[i].getAttribute("data-src"));
+      var aw = parseInt(cells[i].getAttribute("data-aspect-w"), 10);
+      var ah = parseInt(cells[i].getAttribute("data-aspect-h"), 10);
+      aspects.push(aw > 0 && ah > 0 ? { w: aw, h: ah } : null);
+    }
+    return { srcs: srcs, aspects: aspects };
+  }
+
+  function applyLightboxVideoAspect(aspect) {
+    if (!video) return;
+    if (aspect && aspect.w > 0 && aspect.h > 0) {
+      video.style.aspectRatio = aspect.w + " / " + aspect.h;
+      video.classList.toggle("lightbox__video--portrait", aspect.h > aspect.w);
+      video.style.width = aspect.h > aspect.w ? "min(420px, 92vw)" : "min(960px, 100%)";
+    } else {
+      video.style.aspectRatio = "16 / 9";
+      video.classList.remove("lightbox__video--portrait");
+      video.style.width = "min(960px, 100%)";
+    }
   }
 
   function setMode(nextMode) {
@@ -120,6 +147,7 @@
     setImageLoading(false);
     if (img) img.hidden = true;
     video.hidden = false;
+    applyLightboxVideoAspect(videoAspects[index]);
     video.src = sources[index];
     updateCounter();
   }
@@ -185,6 +213,7 @@
       img.removeAttribute("src");
     }
     clearVideo();
+    videoAspects = [];
     setMode("image");
     drag.active = false;
     if (stage) stage.classList.remove("is-dragging");
@@ -286,7 +315,9 @@
         if (galleryBlock) videoGrid = galleryBlock.querySelector(".gallery-grid");
       }
       if (!videoGrid) return;
-      sources = collectFromGrid(videoGrid, ".video-open", "data-src");
+      var collected = collectVideosFromGrid(videoGrid);
+      sources = collected.srcs;
+      videoAspects = collected.aspects;
       index = parseInt(videoOpener.getAttribute("data-index"), 10) || 0;
       setMode("video");
       show();

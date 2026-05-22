@@ -32,13 +32,19 @@
           "type": "video",
           "provider": "vimeo",
           "id": "1194684715",
-          "thumb": "images/galleries/2026-05-25-гифки-подборкаmiiojio/thumbs/cell-1-poster.jpg"
+          "thumb": "images/galleries/2026-05-25-гифки-подборкаmiiojio/thumbs/cell-1-poster.jpg",
+          "aspectW": 9,
+          "aspectH": 16,
+          "videoWidth": 240,
+          "videoHeight": 426
         },
         {
           "type": "video",
           "provider": "vimeo",
           "id": "1194679041",
-          "thumb": ""
+          "thumb": "",
+          "aspectW": 9,
+          "aspectH": 16
         },
         "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-3.jpg",
         "images/galleries/2026-05-25-гифки-подборкаmiiojio/cell-4.jpg",
