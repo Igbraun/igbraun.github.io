@@ -71,7 +71,27 @@
     }
   }
 
+  /** Встроенное видео без постера — при переносе карточки iframe перезагружается */
+  function feedHasBareCoverVideo(feedEl) {
+    return !!(feedEl && feedEl.querySelector(".post-cover--bare"));
+  }
+
+  function wireBareCoverIframes(root) {
+    var nodes = (root || document).querySelectorAll(
+      ".post-cover--bare .post-cover__iframe[data-embed]"
+    );
+    for (var i = 0; i < nodes.length; i++) {
+      var iframe = nodes[i];
+      if (iframe.dataset.wired === "1") continue;
+      var embed = iframe.getAttribute("data-embed");
+      if (!embed) continue;
+      iframe.dataset.wired = "1";
+      iframe.src = embed;
+    }
+  }
+
   function relayoutMasonry(feedEl) {
+    if (feedHasBareCoverVideo(feedEl)) return;
     var cols = feedEl.querySelectorAll(".feed-col");
     if (cols.length !== 2) return;
 
@@ -144,6 +164,16 @@
       for (var j = 0; j < cards.length; j++) {
         feedEl.appendChild(cards[j]);
       }
+      wireBareCoverIframes(feedEl);
+      return;
+    }
+
+    if (
+      feedHasBareCoverVideo(feedEl) &&
+      feedEl.classList.contains("feed--masonry") &&
+      feedEl.querySelectorAll(".feed-col").length === 2
+    ) {
+      wireBareCoverIframes(feedEl);
       return;
     }
 
@@ -159,7 +189,10 @@
     for (var k = 0; k < cards.length; k++) {
       pickMasonryColumn(cols, k).appendChild(cards[k]);
     }
-    queueMasonryRelayout();
+    wireBareCoverIframes(feedEl);
+    if (!feedHasBareCoverVideo(feedEl)) {
+      queueMasonryRelayout();
+    }
   }
 
   function stashAudioBeforeRemount() {
@@ -217,6 +250,7 @@
           return renderPost(post, i + 1);
         })
         .join("");
+      wireBareCoverIframes(feedEl);
       return;
     }
 
@@ -225,7 +259,10 @@
     var cols = feedEl.querySelectorAll(".feed-col");
     mountMasonryColumns(cols, sorted, document.createElement("div"));
     bindMasonryRelayout(feedEl);
-    queueMasonryRelayout();
+    wireBareCoverIframes(feedEl);
+    if (!feedHasBareCoverVideo(feedEl)) {
+      queueMasonryRelayout();
+    }
   }
 
   function isAnimatedMediaPath(path) {
@@ -521,7 +558,7 @@
       return (
         '<div class="post-cover post-cover--inline-video post-cover--bare">' +
         '<div class="post-cover__frame">' +
-        '<iframe class="post-cover__iframe" src="' +
+        '<iframe class="post-cover__iframe" data-embed="' +
         embed +
         '" title="' +
         title +
