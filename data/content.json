@@ -13,6 +13,8 @@
     {
       "title": "Гифки — подборкаmiiojio",
       "date": "2026-05-25",
+      "showFeedLabel": false,
+      "feedLabel": "",
       "sections": [
         {
           "type": "text",
@@ -146,6 +148,8 @@
     {
       "title": "Плейлист — вечер",
       "date": "2026-05-24",
+      "showFeedLabel": true,
+      "feedLabel": "2026-05-24",
       "sections": [
         {
           "type": "text",
@@ -189,6 +193,8 @@
     {
       "title": "Короткая заметка",
       "date": "2026-05-23",
+      "showFeedLabel": true,
+      "feedLabel": "2026-05-23",
       "sections": [
         {
           "type": "text",
@@ -199,6 +205,8 @@
     {
       "title": "Стержень света",
       "date": "2026-05-22",
+      "showFeedLabel": true,
+      "feedLabel": "2026-05-22",
       "sections": [
         {
           "type": "text",
@@ -209,6 +217,8 @@
     {
       "title": "Facundo Cabral — en vivo",
       "date": "2026-05-21",
+      "showFeedLabel": true,
+      "feedLabel": "2026-05-21",
       "sections": [
         {
           "type": "text",
@@ -224,6 +234,8 @@
     {
       "title": "Видео — подборка",
       "date": "2026-05-18",
+      "showFeedLabel": true,
+      "feedLabel": "2026-05-18",
       "sections": [
         {
           "type": "text",
@@ -268,6 +280,8 @@
     {
       "title": "Интерьер и дом на продажу",
       "date": "2026-05-01",
+      "showFeedLabel": true,
+      "feedLabel": "2026-05-01",
       "sections": [
         {
           "type": "text",
@@ -510,6 +524,8 @@
     {
       "title": "Интерьер — объект 4",
       "date": "2026-04-15",
+      "showFeedLabel": true,
+      "feedLabel": "2026-04-15",
       "sections": [
         {
           "type": "text",
@@ -629,6 +645,8 @@
     {
       "title": "Интерьер — объект 3",
       "date": "2026-03-18",
+      "showFeedLabel": true,
+      "feedLabel": "2026-03-18",
       "sections": [
         {
           "type": "text",
@@ -776,6 +794,8 @@
     {
       "title": "Интерьер — объект 2",
       "date": "2026-03-12",
+      "showFeedLabel": true,
+      "feedLabel": "2026-03-12",
       "sections": [
         {
           "type": "text",
