@@ -512,8 +512,28 @@
   function renderCoverVideo(coverVideo, post) {
     if (!coverVideo || !coverVideo.id) return "";
     var embed = safeUrl(videoEmbedSrc({ provider: coverVideo.provider, id: coverVideo.id }));
+    if (!embed) return "";
+    var title = esc(post.title || "Видео");
+    var iframeAllow =
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen";
+
+    if (coverVideo.bare) {
+      return (
+        '<div class="post-cover post-cover--inline-video post-cover--bare">' +
+        '<div class="post-cover__frame">' +
+        '<iframe class="post-cover__iframe" src="' +
+        embed +
+        '" title="' +
+        title +
+        '" allow="' +
+        iframeAllow +
+        '" allowfullscreen></iframe>' +
+        "</div></div>"
+      );
+    }
+
     var poster = mediaBust(safeUrl(coverVideo.thumb || post.coverImage), post);
-    if (!embed || !poster) return "";
+    if (!poster) return "";
     return (
       '<div class="post-cover post-cover--inline-video" data-cover-video>' +
       '<div class="post-cover__frame">' +
@@ -525,8 +545,10 @@
       '<iframe class="post-cover__iframe" data-embed="' +
       embed +
       '" title="' +
-      esc(post.title || "Видео") +
-      '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen hidden></iframe>' +
+      title +
+      '" allow="' +
+      iframeAllow +
+      '" allowfullscreen hidden></iframe>' +
       "</div></div>"
     );
   }

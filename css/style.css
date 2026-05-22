@@ -626,6 +626,11 @@ main {
   display: none;
 }
 
+.post-cover--bare .post-cover__iframe {
+  display: block;
+  position: relative;
+}
+
 .gallery-cell {
   margin: 0;
   padding: 0;
