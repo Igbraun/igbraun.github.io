@@ -150,6 +150,91 @@
       ]
     },
     {
+      "title": "Фото блюд для меню ресторана",
+      "date": "2024-10-02",
+      "showFeedLabel": true,
+      "feedLabel": "10.02.2024",
+      "sections": [
+        {
+          "type": "text",
+          "text": "<p>Всего было сделано фотографий около 75 - на каждое блюдо.</p>"
+        },
+        {
+          "type": "gallery",
+          "galleryColumns": 4,
+          "gallery": [
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-1.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-1.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-2.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-2.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-3.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-3.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-4.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-4.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-5.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-5.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-6.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-6.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-9.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-9.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-10.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-10.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-12.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-12.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-13.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-13.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-14.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-14.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-15.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-15.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-16.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-16.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-17.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-17.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-18.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-18.jpg"
+            },
+            {
+              "full": "images/galleries/post-меню-для-ресторана/cell-19.jpg",
+              "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-19.jpg"
+            }
+          ],
+          "mediaStamp": "1779651784295",
+          "galleryCellAspectW": 4,
+          "galleryCellAspectH": 3
+        }
+      ]
+    },
+    {
       "title": "Загородный дом",
       "date": "",
       "showFeedLabel": true,
