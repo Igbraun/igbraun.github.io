@@ -18,10 +18,6 @@
       "order": "1",
       "sections": [
         {
-          "type": "text",
-          "text": "<p>Жалко, простыни разгладить не успели</p>"
-        },
-        {
           "type": "gallery",
           "galleryColumns": 4,
           "gallery": [
