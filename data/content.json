@@ -94,7 +94,7 @@
       ]
     },
     {
-      "title": "Квартира №4",
+      "title": "Небольшая уютная квартира",
       "date": "",
       "showFeedLabel": true,
       "feedLabel": "Зима 2026",
@@ -102,7 +102,7 @@
       "sections": [
         {
           "type": "text",
-          "text": "Небольшая уютная квартира"
+          "text": "<p><br></p>"
         },
         {
           "type": "gallery",
