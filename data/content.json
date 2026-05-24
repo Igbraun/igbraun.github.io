@@ -228,12 +228,18 @@
               "thumb": "images/galleries/post-меню-для-ресторана/thumbs/cell-19.jpg"
             }
           ],
-          "mediaStamp": "1779652968362",
+          "mediaStamp": "1779662150560",
           "galleryCellAspectW": 4,
           "galleryCellAspectH": 3,
           "coverImage": "images/galleries/2024-10-02-фото-блюд-для-меню-ресторана/cover.jpg"
         }
       ]
+    },
+    {
+      "title": "Фотосет для красивой женщины",
+      "date": "",
+      "showFeedLabel": false,
+      "feedLabel": ""
     },
     {
       "title": "Загородный дом",
