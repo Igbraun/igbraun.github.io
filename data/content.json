@@ -101,10 +101,6 @@
       "order": "1",
       "sections": [
         {
-          "type": "text",
-          "text": "<p><br></p>"
-        },
-        {
           "type": "gallery",
           "galleryColumns": 3,
           "gallery": [
