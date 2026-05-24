@@ -152,6 +152,108 @@
           "coverImage": "images/galleries/post-квартирка-4/cover.jpg"
         }
       ]
+    },
+    {
+      "title": "Загородный дом",
+      "date": "",
+      "showFeedLabel": true,
+      "feedLabel": "Лето 2025",
+      "sections": [
+        {
+          "type": "text",
+          "text": "<p>Это был только что построенный дом. Фотографии делались для агента по недвижимости. Половину рабочего времени мы с агентом убирались, а остальное время уже делали кадры. Отдал около 70-ти обработанных фоток, а здесь - только некоторые - повторяющиеся, но с разным освещением, те, которые не хотелось бы включать в этот презентационный сет и черезчур \"техническо-строительные\" решил из этого сета убрать (оставил всё-таки одну в самом конце сета для примера<strong>😂</strong>). <br>Все фотографии выровнены по геометрии и свету, а лишние детали убраны в Фотошопе.</p>"
+        },
+        {
+          "type": "gallery",
+          "galleryColumns": 5,
+          "gallery": [
+            {
+              "full": "images/galleries/post-загородный-дом/cell-1.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-1.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-2.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-2.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-3.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-3.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-4.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-4.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-5.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-5.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-6.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-6.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-7.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-7.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-8.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-8.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-9.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-9.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-10.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-10.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-11.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-11.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-12.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-12.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-13.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-13.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-14.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-14.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-15.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-15.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-16.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-16.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-17.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-17.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-18.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-18.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-19.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-19.jpg"
+            },
+            {
+              "full": "images/galleries/post-загородный-дом/cell-20.jpg",
+              "thumb": "images/galleries/post-загородный-дом/thumbs/cell-20.jpg"
+            }
+          ],
+          "mediaStamp": "1779645477340",
+          "galleryCellAspectW": 4,
+          "galleryCellAspectH": 3,
+          "coverImage": "images/galleries/post-загородный-дом/cover.jpg"
+        }
+      ]
     }
   ]
 }
