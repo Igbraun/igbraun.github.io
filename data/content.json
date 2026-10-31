@@ -239,7 +239,32 @@
       "title": "Фотосет для красивой женщины",
       "date": "",
       "showFeedLabel": false,
-      "feedLabel": ""
+      "feedLabel": "",
+      "sections": [
+        {
+          "type": "media",
+          "coverImage": "images/galleries/post-фотосет-для-красивой-женщины/media-1.jpg",
+          "mediaStamp": "1793488573406"
+        },
+        {
+          "type": "gallery",
+          "galleryColumns": 4,
+          "gallery": [
+            {
+              "full": "images/galleries/post-фотосет-для-красивой-женщины/cell-1.jpg",
+              "thumb": "images/galleries/post-фотосет-для-красивой-женщины/thumbs/cell-1.jpg"
+            },
+            {
+              "full": "images/galleries/post-фотосет-для-красивой-женщины/cell-2.jpg",
+              "thumb": "images/galleries/post-фотосет-для-красивой-женщины/thumbs/cell-2.jpg"
+            }
+          ],
+          "mediaStamp": "1793488715110",
+          "galleryCellAspectW": 4,
+          "galleryCellAspectH": 3,
+          "coverImage": "images/galleries/post-фотосет-для-красивой-женщины/cover.jpg"
+        }
+      ]
     },
     {
       "title": "Загородный дом",
